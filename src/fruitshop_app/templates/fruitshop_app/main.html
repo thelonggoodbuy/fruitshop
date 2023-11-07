@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <title>My Fruit shop</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="../bootstrap-5.0.2-dist/css/bootstrap.min.css" />
+
+
+</head>
+<body>
+      
+<nav class="navbar navbar-expand-lg" style="background-color:rgb(255, 224, 179);">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#">
+            <img src="../static/cartoon-orange.png" width="50" height="50" class="d-inline-block align-top" alt="">
+            <span class="text-dark display-6">MyFruitShop</span>
+        </a>
+            <form class="d-flex">
+                <input class="form-control me-2" type="text" placeholder="Username" />
+                <input class="form-control me-2" type="password" placeholder="Password" />
+                <button class="btn btn-outline-danger" type="submit" style="background-color:rgb(255, 117, 26); border-radius: 25px; color:black">Login</button>
+            </form>
+        </div>
+    </div>
+</nav>
+<div class="container-fluid border border-3 mx-0 px-3 my-3">  
+    <div class="row">
+        <div class="col-8">
+            <div class="row mx-5">
+                <div class="col-12">
+                    <table class="table table-bordered text-center border border-3">
+
+                        <thead>
+                            <tr>
+                                <th colspan="4">Товарів на складі</th>
+                            </tr>
+                        </thead>
+
+                        <thead>
+                            <tr>
+                                <th scope="col">Назва</th>
+                                <th scope="col">Поточна кількість</th>
+                                <th scope="col">Дія</th>
+                                <th scope="col">Остання операція</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th scope="row">Ананаси</th>
+                                <td>200</td>
+                                <td>
+                                    <div class="row align-items-center">
+                                        <div class="col-6">
+                                            <input class="form-control" placeholder="к-ть">
+                                        </div>
+                                        <div class="col-6 d-grid gap-2 d-md-block">
+                                            <button type="button" class="btn btn-outline-secondary" style="background-color:rgb(163, 235, 175); border-radius: 25px; color:black">Купити</button>
+                                            <button type="button" class="btn btn-outline-secondary" style="background-color:rgb(240, 176, 134); border-radius: 25px; color:black">Продати</button>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>04 11 2023 10:23 - було куплено 3 ананасів за 20 usd</td>
+                            </tr>
+                            <tr>
+                            <th scope="row">Яблука</th>
+                                <td>100</td>
+                                <td>
+                                    <div class="row align-items-center">
+                                        <div class="col-6">
+                                            <input class="form-control" placeholder="к-ть">
+                                        </div>
+                                        <div class="col-6 d-grid gap-2 d-md-block">
+                                            <button type="button" class="btn btn-outline-secondary" style="background-color:rgb(163, 235, 175); border-radius: 25px; color:black">Купити</button>
+                                            <button type="button" class="btn btn-outline-secondary" style="background-color:rgb(240, 176, 134); border-radius: 25px; color:black">Продати</button>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>04 11 2023 10:23 - було куплено 3 яблука за 20 usd</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Банани</th>
+                                <td>300</td>
+                                <td>
+                                    <div class="row align-items-center">
+                                        <div class="col-6">
+                                            <input class="form-control" placeholder="к-ть">
+                                        </div>
+                                        <div class="col-6 d-grid gap-2 d-md-block">
+                                            <button type="button" class="btn btn-outline-secondary" style="background-color:rgb(163, 235, 175); border-radius: 25px; color:black">Купити</button>
+                                            <button type="button" class="btn btn-outline-secondary" style="background-color:rgb(240, 176, 134); border-radius: 25px; color:black">Продати</button>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>04 11 2023 10:23 - було куплено 3 банани за 20 usd</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Апельсини</th>
+                                <td>200</td>
+                                <td>
+                                    <div class="row align-items-center">
+                                        <div class="col-6">
+                                            <input class="form-control" placeholder="к-ть">
+                                        </div>
+                                        <div class="col-6 d-grid gap-2 d-md-block">
+                                            <button type="button" class="btn btn-outline-secondary" style="background-color:rgb(163, 235, 175); border-radius: 25px; color:black">Купити</button>
+                                            <button type="button" class="btn btn-outline-secondary" style="background-color:rgb(240, 176, 134); border-radius: 25px; color:black">Продати</button>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>04 11 2023 10:23 - було куплено 3 апельсини за 20 usd</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Абрикоси</th>
+                                <td>100</td>
+                                <td>
+                                    <div class="row align-items-center">
+                                        <div class="col-6">
+                                            <input class="form-control" placeholder="к-ть">
+                                        </div>
+                                        <div class="col-6 d-grid gap-2 d-md-block">
+                                            <button type="button" class="btn btn-outline-secondary" style="background-color:rgb(163, 235, 175); border-radius: 25px; color:black">Купити</button>
+                                            <button type="button" class="btn btn-outline-secondary" style="background-color:rgb(240, 176, 134); border-radius: 25px; color:black">Продати</button>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>04 11 2023 10:23 - було куплено 3 абрикоси за 20 usd</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Ківі</th>
+                                <td>30</td>
+                                <td>
+                                    <div class="row align-items-center">
+                                        <div class="col-6">
+                                            <input class="form-control" placeholder="к-ть">
+                                        </div>
+                                        <div class="col-6 d-grid gap-2 d-md-block">
+                                            <button type="button" class="btn btn-outline-secondary" style="background-color:rgb(163, 235, 175); border-radius: 25px; color:black">Купити</button>
+                                            <button type="button" class="btn btn-outline-secondary" style="background-color:rgb(240, 176, 134); border-radius: 25px; color:black">Продати</button>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>04 11 2023 10:23 - було куплено 3 ківі за 20 usd</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="row mx-1">
+                <div class="col-6">
+                    <div class="row mx-5">
+                        <div class="col-12 border border-3">
+                            <div class="overflow-auto" style="height: 25vh; min-height: 25vh;">
+                                <p class="mx-1 my-2 lh-1">11:25 Анатолій: Добрий день!</p>
+                                <p class="mx-1 my-2 lh-1">11:25 Світлана: Слухаю Вас!</p>
+                                <p class="mx-1 my-2 lh-1">11:25 Анатолій: Добрий день!</p>
+                                <p class="mx-1 my-2 lh-1">11:25 Світлана: Слухаю Вас!</p>
+                                <p class="mx-1 my-2 lh-1">11:25 Світлана: Слухаю Вас!</p>
+                                <p class="mx-1 my-2 lh-1">11:25 Анатолій: Добрий день!</p>
+                                <p class="mx-1 my-2 lh-1">11:25 Світлана: Слухаю Вас!</p>
+                                <p class="mx-1 my-2 lh-1">11:25 Анатолій: Добрий день!</p>
+                                <p class="mx-1 my-2 lh-1">11:25 Світлана: Слухаю Вас!</p>
+                                <p class="mx-1 my-2 lh-1">11:25 Анатолій: Добрий день!</p>
+                                <p class="mx-1 my-2 lh-1">11:25 Світлана: Слухаю Вас!</p>
+                                <p class="mx-1 my-2 lh-1">11:25 Світлана: Слухаю Вас!</p>
+                                <p class="mx-1 my-2 lh-1">11:25 Анатолій: Добрий день!</p>
+                                <p class="mx-1 my-2 lh-1">11:25 Світлана: Слухаю Вас!</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mx-5 my-3">
+                        <div class="col-8">
+                            <input class="form-control" placeholder="Текст сообщения">
+                        </div>
+                        <div class="col-4">
+                            <button class="btn btn-outline-danger" type="submit" style="background-color:rgb(255, 117, 26); border-radius: 25px; color:black">Отправить</button>
+                        </div>
+                    </div>
+                </div>  
+                <div class="col-6">
+                    <div class="row">
+                        <p class="text-center">БАНК</p>
+                    </div>
+                    <div class="row align-items-center">
+                        <div class="col-6">
+                            <p class="text-center">Банківський рахунок</p>
+                        </div>
+                        <div class="col-6">
+                            <p class="text-center fs-5 text-warning fw-bold">245</p>
+                        </div>
+                    </div>
+                    <div class="row align-items-center">
+                        <div class="col-4">
+                            <button type="button" class="btn btn-primary" style="background-color:rgb(196, 118, 170); border-radius: 25px; color:black"><p class="lh-1 my-1">Провести бухгалтерский</p><p class="lh-1 my-1">аудит</p></button>
+                        </div>
+                        <div class="col-8">
+                            <div class="progress progress-sm active">
+                                <div class="progress-bar bg-danger progress-bar-striped" role="progressbar"
+                                    aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 75%">
+                                  <span class="sr-only">75% Complete</span>
+                                </div>
+                              </div>
+                        </div>
+                    </div>
+                    <div class="row align-items-center mt-3">
+                        <div class="col-6">
+                            <input class="form-control" placeholder="Сумма">
+                        </div>
+                        <div class="col-6">
+                            <div class="row">
+                                <div class="col-12 d-grid gap-2 d-md-block">
+                                    <button type="button" class="btn btn-outline-secondary" style="background-color:rgb(163, 235, 175); border-radius: 25px; color:black">Поповнити</button>
+                                    <button type="button" class="btn btn-outline-secondary" style="background-color:rgb(240, 176, 134); border-radius: 25px; color:black">Вивести</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row align-items-center mt-3">
+                        <div class="col-6 align-items-center">
+                            <button type="button" class="btn btn-outline-secondary" style="background-color:rgb(163, 178, 226); border-radius: 25px; color:black">Завантажити декларацію</button>
+                        </div>
+                        <div class="col-6 align-items-center">
+                            <p>Сьогодні завантажено: 2 шт.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="col-4">
+            <!-- <p>Колонка для сообщений по банку</p> -->
+                <div class="row mx-5">
+                    <div class="col-12 border border-3">
+                        <div class="overflow-auto" style="height: 80vh;">
+                    
+                            <p class="text-success">04.11.2023 10:30 - SUCCESS: Постачальник привіз 5 яблук. З рахунку списано 15 usd. Покупка завершена.</p>
+                            <p class="text-danger">04.11.2023 10:35 - ERROR: Постачальник привіз 5 ананасів. Недостатньо коштів на рахунку. Покупка відмінена.</p>
+                            <p class="text-success">04.11.2023 10:30 - SUCCESS: Постачальник привіз 5 яблук. З рахунку списано 15 usd. Покупка завершена.</p>
+                            <p class="text-danger">04.11.2023 10:35 - ERROR: Постачальник привіз 5 ананасів. Недостатньо коштів на рахунку. Покупка відмінена.</p>
+                            <p class="text-success">04.11.2023 10:30 - SUCCESS: Постачальник привіз 5 яблук. З рахунку списано 15 usd. Покупка завершена.</p>
+                            <p class="text-danger">04.11.2023 10:35 - ERROR: Постачальник привіз 5 ананасів. Недостатньо коштів на рахунку. Покупка відмінена.</p>
+                            <p class="text-success">04.11.2023 10:30 - SUCCESS: Постачальник привіз 5 яблук. З рахунку списано 15 usd. Покупка завершена.</p>
+                            <p class="text-danger">04.11.2023 10:35 - ERROR: Постачальник привіз 5 ананасів. Недостатньо коштів на рахунку. Покупка відмінена.</p>
+                            <p class="text-success">04.11.2023 10:30 - SUCCESS: Постачальник привіз 5 яблук. З рахунку списано 15 usd. Покупка завершена.</p>
+                            <p class="text-danger">04.11.2023 10:35 - ERROR: Постачальник привіз 5 ананасів. Недостатньо коштів на рахунку. Покупка відмінена.</p>
+                            <p class="text-success">04.11.2023 10:30 - SUCCESS: Постачальник привіз 5 яблук. З рахунку списано 15 usd. Покупка завершена.</p>
+                            <p class="text-danger">04.11.2023 10:35 - ERROR: Постачальник привіз 5 ананасів. Недостатньо коштів на рахунку. Покупка відмінена.</p>
+                            <p class="text-success">04.11.2023 10:30 - SUCCESS: Постачальник привіз 5 яблук. З рахунку списано 15 usd. Покупка завершена.</p>
+                            <p class="text-danger">04.11.2023 10:35 - ERROR: Постачальник привіз 5 ананасів. Недостатньо коштів на рахунку. Покупка відмінена.</p>
+                            <p class="text-success">04.11.2023 10:30 - SUCCESS: Постачальник привіз 5 яблук. З рахунку списано 15 usd. Покупка завершена.</p>
+                            <p class="text-danger">04.11.2023 10:35 - ERROR: Постачальник привіз 5 ананасів. Недостатньо коштів на рахунку. Покупка відмінена.</p>
+                            <p class="text-success">04.11.2023 10:30 - SUCCESS: Постачальник привіз 5 яблук. З рахунку списано 15 usd. Покупка завершена.</p>
+                            <p class="text-danger">04.11.2023 10:35 - ERROR: Постачальник привіз 5 ананасів. Недостатньо коштів на рахунку. Покупка відмінена.</p>
+                            <p class="text-success">04.11.2023 10:30 - SUCCESS: Постачальник привіз 5 яблук. З рахунку списано 15 usd. Покупка завершена.</p>
+                            <p class="text-danger">04.11.2023 10:35 - ERROR: Постачальник привіз 5 ананасів. Недостатньо коштів на рахунку. Покупка відмінена.</p>
+                            <p class="text-success">04.11.2023 10:30 - SUCCESS: Постачальник привіз 5 яблук. З рахунку списано 15 usd. Покупка завершена.</p>
+                            <p class="text-danger">04.11.2023 10:35 - ERROR: Постачальник привіз 5 ананасів. Недостатньо коштів на рахунку. Покупка відмінена.</p>
+                            <p class="text-success">04.11.2023 10:30 - SUCCESS: Постачальник привіз 5 яблук. З рахунку списано 15 usd. Покупка завершена.</p>
+                            <p class="text-danger">04.11.2023 10:35 - ERROR: Постачальник привіз 5 ананасів. Недостатньо коштів на рахунку. Покупка відмінена.</p>
+                            <p class="text-success">04.11.2023 10:30 - SUCCESS: Постачальник привіз 5 яблук. З рахунку списано 15 usd. Покупка завершена.</p>
+                            <p class="text-danger">04.11.2023 10:35 - ERROR: Постачальник привіз 5 ананасів. Недостатньо коштів на рахунку. Покупка відмінена.</p>
+                            <p class="text-success">04.11.2023 10:30 - SUCCESS: Постачальник привіз 5 яблук. З рахунку списано 15 usd. Покупка завершена.</p>
+                            <p class="text-danger">04.11.2023 10:35 - ERROR: Постачальник привіз 5 ананасів. Недостатньо коштів на рахунку. Покупка відмінена.</p>
+                            <p class="text-success">04.11.2023 10:30 - SUCCESS: Постачальник привіз 5 яблук. З рахунку списано 15 usd. Покупка завершена.</p>
+                            <p class="text-danger">04.11.2023 10:35 - ERROR: Постачальник привіз 5 ананасів. Недостатньо коштів на рахунку. Покупка відмінена.</p>
+                            <p class="text-success">04.11.2023 10:30 - SUCCESS: Постачальник привіз 5 яблук. З рахунку списано 15 usd. Покупка завершена.</p>
+                            <p class="text-danger">04.11.2023 10:35 - ERROR: Постачальник привіз 5 ананасів. Недостатньо коштів на рахунку. Покупка відмінена.</p>
+                            <p class="text-success">04.11.2023 10:30 - SUCCESS: Постачальник привіз 5 яблук. З рахунку списано 15 usd. Покупка завершена.</p>
+                            <p class="text-danger">04.11.2023 10:35 - ERROR: Постачальник привіз 5 ананасів. Недостатньо коштів на рахунку. Покупка відмінена.</p>
+                            <p class="text-success">04.11.2023 10:30 - SUCCESS: Постачальник привіз 5 яблук. З рахунку списано 15 usd. Покупка завершена.</p>
+                            <p class="text-danger">04.11.2023 10:35 - ERROR: Постачальник привіз 5 ананасів. Недостатньо коштів на рахунку. Покупка відмінена.</p>
+                            <p class="text-success">04.11.2023 10:30 - SUCCESS: Постачальник привіз 5 яблук. З рахунку списано 15 usd. Покупка завершена.</p>
+                            <p class="text-danger">04.11.2023 10:35 - ERROR: Постачальник привіз 5 ананасів. Недостатньо коштів на рахунку. Покупка відмінена.</p>
+                            <p class="text-success">04.11.2023 10:30 - SUCCESS: Постачальник привіз 5 яблук. З рахунку списано 15 usd. Покупка завершена.</p>
+                            <p class="text-danger">04.11.2023 10:35 - ERROR: Постачальник привіз 5 ананасів. Недостатньо коштів на рахунку. Покупка відмінена.</p>
+                            <p class="text-success">04.11.2023 10:30 - SUCCESS: Постачальник привіз 5 яблук. З рахунку списано 15 usd. Покупка завершена.</p>
+                            <p class="text-danger">04.11.2023 10:35 - ERROR: Постачальник привіз 5 ананасів. Недостатньо коштів на рахунку. Покупка відмінена.</p>
+                            <p class="text-success">04.11.2023 10:30 - SUCCESS: Постачальник привіз 5 яблук. З рахунку списано 15 usd. Покупка завершена.</p>
+                            <p class="text-danger">04.11.2023 10:35 - ERROR: Постачальник привіз 5 ананасів. Недостатньо коштів на рахунку. Покупка відмінена.</p>
+                            <p class="text-success">04.11.2023 10:30 - SUCCESS: Постачальник привіз 5 яблук. З рахунку списано 15 usd. Покупка завершена.</p>
+                            <p class="text-danger">04.11.2023 10:35 - ERROR: Постачальник привіз 5 ананасів. Недостатньо коштів на рахунку. Покупка відмінена.</p>
+                            <p class="text-success">04.11.2023 10:30 - SUCCESS: Постачальник привіз 5 яблук. З рахунку списано 15 usd. Покупка завершена.</p>
+                            <p class="text-danger">04.11.2023 10:35 - ERROR: Постачальник привіз 5 ананасів. Недостатньо коштів на рахунку. Покупка відмінена.</p>
+                            <p class="text-success">04.11.2023 10:30 - SUCCESS: Постачальник привіз 5 яблук. З рахунку списано 15 usd. Покупка завершена.</p>
+                            <p class="text-danger">04.11.2023 10:35 - ERROR: Постачальник привіз 5 ананасів. Недостатньо коштів на рахунку. Покупка відмінена.</p>
+                            <p class="text-success">04.11.2023 10:30 - SUCCESS: Постачальник привіз 5 яблук. З рахунку списано 15 usd. Покупка завершена.</p>
+                            <p class="text-danger">04.11.2023 10:35 - ERROR: Постачальник привіз 5 ананасів. Недостатньо коштів на рахунку. Покупка відмінена.</p>
+                            <p class="text-success">04.11.2023 10:30 - SUCCESS: Постачальник привіз 5 яблук. З рахунку списано 15 usd. Покупка завершена.</p>
+                            <p class="text-danger">04.11.2023 10:35 - ERROR: Постачальник привіз 5 ананасів. Недостатньо коштів на рахунку. Покупка відмінена.</p>
+                            <p class="text-success">04.11.2023 10:30 - SUCCESS: Постачальник привіз 5 яблук. З рахунку списано 15 usd. Покупка завершена.</p>
+                            <p class="text-danger">04.11.2023 10:35 - ERROR: Постачальник привіз 5 ананасів. Недостатньо коштів на рахунку. Покупка відмінена.</p>
+                            <p class="text-success">04.11.2023 10:30 - SUCCESS: Постачальник привіз 5 яблук. З рахунку списано 15 usd. Покупка завершена.</p>
+                            <p class="text-danger">04.11.2023 10:35 - ERROR: Постачальник привіз 5 ананасів. Недостатньо коштів на рахунку. Покупка відмінена.</p>
+                            <p class="text-success">04.11.2023 10:30 - SUCCESS: Постачальник привіз 5 яблук. З рахунку списано 15 usd. Покупка завершена.</p>
+                            <p class="text-danger">04.11.2023 10:35 - ERROR: Постачальник привіз 5 ананасів. Недостатньо коштів на рахунку. Покупка відмінена.</p>
+                            <p class="text-success">04.11.2023 10:30 - SUCCESS: Постачальник привіз 5 яблук. З рахунку списано 15 usd. Покупка завершена.</p>
+                            <p class="text-danger">04.11.2023 10:35 - ERROR: Постачальник привіз 5 ананасів. Недостатньо коштів на рахунку. Покупка відмінена.</p>
+                            <p class="text-success">04.11.2023 10:30 - SUCCESS: Постачальник привіз 5 яблук. З рахунку списано 15 usd. Покупка завершена.</p>
+                            <p class="text-danger">04.11.2023 10:35 - ERROR: Постачальник привіз 5 ананасів. Недостатньо коштів на рахунку. Покупка відмінена.</p>
+                            <p class="text-success">04.11.2023 10:30 - SUCCESS: Постачальник привіз 5 яблук. З рахунку списано 15 usd. Покупка завершена.</p>
+                            <p class="text-danger">04.11.2023 10:35 - ERROR: Постачальник привіз 5 ананасів. Недостатньо коштів на рахунку. Покупка відмінена.</p>
+                            <p class="text-success">04.11.2023 10:30 - SUCCESS: Постачальник привіз 5 яблук. З рахунку списано 15 usd. Покупка завершена.</p>
+                            <p class="text-danger">04.11.2023 10:35 - ERROR: Постачальник привіз 5 ананасів. Недостатньо коштів на рахунку. Покупка відмінена.</p>
+                            <p class="text-success">04.11.2023 10:30 - SUCCESS: Постачальник привіз 5 яблук. З рахунку списано 15 usd. Покупка завершена.</p>
+                            <p class="text-danger">04.11.2023 10:35 - ERROR: Постачальник привіз 5 ананасів. Недостатньо коштів на рахунку. Покупка відмінена.</p>
+                            <p class="text-success">04.11.2023 10:30 - SUCCESS: Постачальник привіз 5 яблук. З рахунку списано 15 usd. Покупка завершена.</p>
+                            <p class="text-danger">04.11.2023 10:35 - ERROR: Постачальник привіз 5 ананасів. Недостатньо коштів на рахунку. Покупка відмінена.</p>
+                            <p class="text-success">04.11.2023 10:30 - SUCCESS: Постачальник привіз 5 яблук. З рахунку списано 15 usd. Покупка завершена.</p>
+                            <p class="text-danger">04.11.2023 10:35 - ERROR: Постачальник привіз 5 ананасів. Недостатньо коштів на рахунку. Покупка відмінена.</p>
+                            <p class="text-success">04.11.2023 10:30 - SUCCESS: Постачальник привіз 5 яблук. З рахунку списано 15 usd. Покупка завершена.</p>
+                            <p class="text-danger">04.11.2023 10:35 - ERROR: Постачальник привіз 5 ананасів. Недостатньо коштів на рахунку. Покупка відмінена.</p>
+                            <p class="text-success">04.11.2023 10:30 - SUCCESS: Постачальник привіз 5 яблук. З рахунку списано 15 usd. Покупка завершена.</p>
+                            <p class="text-danger">04.11.2023 10:35 - ERROR: Постачальник привіз 5 ананасів. Недостатньо коштів на рахунку. Покупка відмінена.</p>
+                            <p class="text-success">04.11.2023 10:30 - SUCCESS: Постачальник привіз 5 яблук. З рахунку списано 15 usd. Покупка завершена.</p>
+                            <p class="text-danger">04.11.2023 10:35 - ERROR: Постачальник привіз 5 ананасів. Недостатньо коштів на рахунку. Покупка відмінена.</p>
+                            <p class="text-success">04.11.2023 10:30 - SUCCESS: Постачальник привіз 5 яблук. З рахунку списано 15 usd. Покупка завершена.</p>
+                            <p class="text-danger">04.11.2023 10:35 - ERROR: Постачальник привіз 5 ананасів. Недостатньо коштів на рахунку. Покупка відмінена.</p>
+                            <p class="text-success">04.11.2023 10:30 - SUCCESS: Постачальник привіз 5 яблук. З рахунку списано 15 usd. Покупка завершена.</p>
+                            <p class="text-danger">04.11.2023 10:35 - ERROR: Постачальник привіз 5 ананасів. Недостатньо коштів на рахунку. Покупка відмінена.</p>
+                            <p class="text-success">04.11.2023 10:30 - SUCCESS: Постачальник привіз 5 яблук. З рахунку списано 15 usd. Покупка завершена.</p>
+                            <p class="text-danger">04.11.2023 10:35 - ERROR: Постачальник привіз 5 ананасів. Недостатньо коштів на рахунку. Покупка відмінена.</p>
+                            <p class="text-success">04.11.2023 10:30 - SUCCESS: Постачальник привіз 5 яблук. З рахунку списано 15 usd. Покупка завершена.</p>
+                            <p class="text-danger">04.11.2023 10:35 - ERROR: Постачальник привіз 5 ананасів. Недостатньо коштів на рахунку. Покупка відмінена.</p>
+                            <p class="text-success">04.11.2023 10:30 - SUCCESS: Постачальник привіз 5 яблук. З рахунку списано 15 usd. Покупка завершена.</p>
+                            <p class="text-danger">04.11.2023 10:35 - ERROR: Постачальник привіз 5 ананасів. Недостатньо коштів на рахунку. Покупка відмінена.</p>
+                            <p class="text-success">04.11.2023 10:30 - SUCCESS: Постачальник привіз 5 яблук. З рахунку списано 15 usd. Покупка завершена.</p>
+                            <p class="text-danger">04.11.2023 10:35 - ERROR: Постачальник привіз 5 ананасів. Недостатньо коштів на рахунку. Покупка відмінена.</p>
+                            <p class="text-success">04.11.2023 10:30 - SUCCESS: Постачальник привіз 5 яблук. З рахунку списано 15 usd. Покупка завершена.</p>
+                            <p class="text-danger">04.11.2023 10:35 - ERROR: Постачальник привіз 5 ананасів. Недостатньо коштів на рахунку. Покупка відмінена.</p>
+                            <p class="text-success">04.11.2023 10:30 - SUCCESS: Постачальник привіз 5 яблук. З рахунку списано 15 usd. Покупка завершена.</p>
+                            <p class="text-danger">04.11.2023 10:35 - ERROR: Постачальник привіз 5 ананасів. Недостатньо коштів на рахунку. Покупка відмінена.</p>
+                            <p class="text-success">04.11.2023 10:30 - SUCCESS: Постачальник привіз 5 яблук. З рахунку списано 15 usd. Покупка завершена.</p>
+                            <p class="text-danger">04.11.2023 10:35 - ERROR: Постачальник привіз 5 ананасів. Недостатньо коштів на рахунку. Покупка відмінена.</p>
+                            <p class="text-success">04.11.2023 10:30 - SUCCESS: Постачальник привіз 5 яблук. З рахунку списано 15 usd. Покупка завершена.</p>
+                            <p class="text-danger">04.11.2023 10:35 - ERROR: Постачальник привіз 5 ананасів. Недостатньо коштів на рахунку. Покупка відмінена.</p>
+                            <p class="text-success">04.11.2023 10:30 - SUCCESS: Постачальник привіз 5 яблук. З рахунку списано 15 usd. Покупка завершена.</p>
+                            <p class="text-danger">04.11.2023 10:35 - ERROR: Постачальник привіз 5 ананасів. Недостатньо коштів на рахунку. Покупка відмінена.</p>
+                            <p class="text-success">04.11.2023 10:30 - SUCCESS: Постачальник привіз 5 яблук. З рахунку списано 15 usd. Покупка завершена.</p>
+                            <p class="text-danger">04.11.2023 10:35 - ERROR: Постачальник привіз 5 ананасів. Недостатньо коштів на рахунку. Покупка відмінена.</p>
+                            <p class="text-success">04.11.2023 10:30 - SUCCESS: Постачальник привіз 5 яблук. З рахунку списано 15 usd. Покупка завершена.</p>
+                            <p class="text-danger">04.11.2023 10:35 - ERROR: Постачальник привіз 5 ананасів. Недостатньо коштів на рахунку. Покупка відмінена.</p>
+                            <p class="text-success">04.11.2023 10:30 - SUCCESS: Постачальник привіз 5 яблук. З рахунку списано 15 usd. Покупка завершена.</p>
+                            <p class="text-danger">04.11.2023 10:35 - ERROR: Постачальник привіз 5 ананасів. Недостатньо коштів на рахунку. Покупка відмінена.</p>
+                            <p class="text-success">04.11.2023 10:30 - SUCCESS: Постачальник привіз 5 яблук. З рахунку списано 15 usd. Покупка завершена.</p>
+                            <p class="text-danger">04.11.2023 10:35 - ERROR: Постачальник привіз 5 ананасів. Недостатньо коштів на рахунку. Покупка відмінена.</p>
+                            <p class="text-success">04.11.2023 10:30 - SUCCESS: Постачальник привіз 5 яблук. З рахунку списано 15 usd. Покупка завершена.</p>
+                            <p class="text-danger">04.11.2023 10:35 - ERROR: Постачальник привіз 5 ананасів. Недостатньо коштів на рахунку. Покупка відмінена.</p>
+                            <p class="text-success">04.11.2023 10:30 - SUCCESS: Постачальник привіз 5 яблук. З рахунку списано 15 usd. Покупка завершена.</p>
+                            <p class="text-danger">04.11.2023 10:35 - ERROR: Постачальник привіз 5 ананасів. Недостатньо коштів на рахунку. Покупка відмінена.</p>
+                            <p class="text-success">04.11.2023 10:30 - SUCCESS: Постачальник привіз 5 яблук. З рахунку списано 15 usd. Покупка завершена.</p>
+                            <p class="text-danger">04.11.2023 10:35 - ERROR: Постачальник привіз 5 ананасів. Недостатньо коштів на рахунку. Покупка відмінена.</p>
+                            <p class="text-success">04.11.2023 10:30 - SUCCESS: Постачальник привіз 5 яблук. З рахунку списано 15 usd. Покупка завершена.</p>
+                            <p class="text-danger">04.11.2023 10:35 - ERROR: Постачальник привіз 5 ананасів. Недостатньо коштів на рахунку. Покупка відмінена.</p>
+                            <p class="text-success">04.11.2023 10:30 - SUCCESS: Постачальник привіз 5 яблук. З рахунку списано 15 usd. Покупка завершена.</p>
+                            <p class="text-danger">04.11.2023 10:35 - ERROR: Постачальник привіз 5 ананасів. Недостатньо коштів на рахунку. Покупка відмінена.</p>
+                            <p class="text-success">04.11.2023 10:30 - SUCCESS: Постачальник привіз 5 яблук. З рахунку списано 15 usd. Покупка завершена.</p>
+                            <p class="text-danger">04.11.2023 10:35 - ERROR: Постачальник привіз 5 ананасів. Недостатньо коштів на рахунку. Покупка відмінена.</p>
+                            <p class="text-success">04.11.2023 10:30 - SUCCESS: Постачальник привіз 5 яблук. З рахунку списано 15 usd. Покупка завершена.</p>
+                            <p class="text-danger">04.11.2023 10:35 - ERROR: Постачальник привіз 5 ананасів. Недостатньо коштів на рахунку. Покупка відмінена.</p>
+                            <p class="text-success">04.11.2023 10:30 - SUCCESS: Постачальник привіз 5 яблук. З рахунку списано 15 usd. Покупка завершена.</p>
+                            <p class="text-danger">04.11.2023 10:35 - ERROR: Постачальник привіз 5 ананасів. Недостатньо коштів на рахунку. Покупка відмінена.</p>
+                            <p class="text-success">04.11.2023 10:30 - SUCCESS: Постачальник привіз 5 яблук. З рахунку списано 15 usd. Покупка завершена.</p>
+                            <p class="text-danger">04.11.2023 10:35 - ERROR: Постачальник привіз 5 ананасів. Недостатньо коштів на рахунку. Покупка відмінена.</p>
+                        </div>
+                    </div>
+                </div>
+        </div>      
+    </div>
+</div>
+
+
+    <script src="../bootstrap-5.0.2-dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
