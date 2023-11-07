@@ -12,6 +12,7 @@ channels = {extras = ["daphne"], version = "^4.0.0"}
 gunicorn = "^21.2.0"
 psycopg2-binary = "^2.9.9"
 django-environ = "^0.11.2"
+celery = {extras = ["redis"], version = "^5.3.4"}
 
 
 [build-system]
