@@ -1,12 +1,14 @@
 <!DOCTYPE html>
+{% load static %}
+
 <html lang="en">
 <head>
 
     <title>My Fruit shop</title>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="../bootstrap-5.0.2-dist/css/bootstrap.min.css" />
+
+    <link rel="stylesheet" href="{% static 'fruitshop_app/plugins/bootstrap-5.0.2-dist/css/bootstrap.min.css' %}" />
 
 
 </head>
@@ -15,7 +17,8 @@
 <nav class="navbar navbar-expand-lg" style="background-color:rgb(255, 224, 179);">
     <div class="container-fluid">
         <a class="navbar-brand" href="#">
-            <img src="../static/cartoon-orange.png" width="50" height="50" class="d-inline-block align-top" alt="">
+            <!-- <img src="../static/cartoon-orange.png" width="50" height="50" class="d-inline-block align-top" alt=""> -->
+            <img src="{% static 'fruitshop_app/img/cartoon-orange.png' %}" width="50" height="50" class="d-inline-block align-top" alt="">
             <span class="text-dark display-6">MyFruitShop</span>
         </a>
             <form class="d-flex">
@@ -50,7 +53,7 @@
                         <tbody>
                             <tr>
                                 <th scope="row">Ананаси</th>
-                                <td>200</td>
+                                <td id="pineapple_quantity">200</td>
                                 <td>
                                     <div class="row align-items-center">
                                         <div class="col-6">
@@ -371,6 +374,13 @@
 </div>
 
 
-    <script src="../bootstrap-5.0.2-dist/js/bootstrap.bundle.min.js"></script>
+    <!-- <script src="../bootstrap-5.0.2-dist/js/bootstrap.bundle.min.js"></script> -->
+    <script src="{% static 'fruitshop_app/plugins/bootstrap-5.0.2-dist/js/bootstrap.bundle.min.js' %}"></script>
+    <script>
+        const FruitShopSocket = new WebSocket(
+            'ws://'
+            + '/ws/fruitshop_app/'
+        );
+    </script>
 </body>
 </html>
