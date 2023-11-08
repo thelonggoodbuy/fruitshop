@@ -129,27 +129,30 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
+
 CELERY_BROKER_URL = "redis://localhost:6379/0"
 CELERY_RESULT_BACKEND = "redis://localhost:6379/1"
 
 
+from src.fruitshop_app import tasks
+
 
 from celery.schedules import crontab
-from datetime import datetime
-CELERY_BEAT_SCHEDULE = { # scheduler configuration 
-    'Task_one_schedule' : {  # whatever the name you want 
-        'task': 'config.tasks.task_one', # name of task with path
-        'schedule': crontab(), # crontab() runs the tasks every minute
+
+CELERY_BEAT_SCHEDULE = {
+    "task_one": {
+        "task": "src.fruitshop_app.tasks.task_one",
+        "schedule": crontab(minute="*/2"),
     },
-    'Task_two_schedule' : {  # whatever the name you want 
-        'task': 'config.tasks.task_two', # name of task with path
-        'schedule': 30, # 30 runs this task every 30 seconds
-        'args' : {datetime.now()} # arguments for the task
+    "task_two": {
+        "task": "src.fruitshop_app.tasks.task_two",
+        "schedule": crontab(minute="*/1"),
     },
 }
