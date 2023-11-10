@@ -32,7 +32,7 @@
 <div class="container-fluid border border-3 mx-0 px-3 my-3">  
     <div class="row">
         <div class="col-8">
-            <div class="row mx-5">
+            <div class="row">
                 <div class="col-12">
                     <table class="table table-bordered text-center border border-3">
 
@@ -60,7 +60,7 @@
                                             <input class="form-control" placeholder="к-ть">
                                         </div>
                                         <div class="col-6 d-grid gap-2 d-md-block">
-                                            <button type="button" class="btn btn-outline-secondary" style="background-color:rgb(163, 235, 175); border-radius: 25px; color:black">Купити</button>
+                                            <button id="buy_pineaple" type="button" class="btn btn-outline-secondary" style="background-color:rgb(163, 235, 175); border-radius: 25px; color:black">Купити</button>
                                             <button type="button" class="btn btn-outline-secondary" style="background-color:rgb(240, 176, 134); border-radius: 25px; color:black">Продати</button>
                                         </div>
                                     </div>
@@ -234,7 +234,7 @@
         </div>
         <div class="col-4">
             <!-- <p>Колонка для сообщений по банку</p> -->
-                <div class="row mx-5">
+                <div class="row">
                     <div class="col-12 border border-3">
                         <div class="overflow-auto" style="height: 80vh;">
                     
@@ -377,10 +377,50 @@
     <!-- <script src="../bootstrap-5.0.2-dist/js/bootstrap.bundle.min.js"></script> -->
     <script src="{% static 'fruitshop_app/plugins/bootstrap-5.0.2-dist/js/bootstrap.bundle.min.js' %}"></script>
     <script>
-        const FruitShopSocket = new WebSocket(
+
+        const roomName = 'fruit_shop_room'
+
+        const fruitShopSocket = new WebSocket(
             'ws://'
+            + window.location.host
             + '/ws/fruitshop_app/'
         );
+
+        fruitShopSocket.onmessage = function(e){
+            const data = JSON.parse(e.data)
+            // const fruit_quantity_input = document.querySelector('#pineapple_quantity');         
+
+            console.log('*******New message*******')
+            console.log(data)
+            console.log('*************************')
+            document.querySelector('#pineapple_quantity').innerHTML = data.message
+            // document.querySelector('#pineapple_quantity').value = (data.message);
+        }
+
+        fruitShopSocket.onclose = function(e){
+            console.error('Chat socket closed unexpectably');
+        };
+
+        // document.querySelector('#pineapple_quantity').focus();
+
+        // document.querySelector('#pineapple_quantity').onkeyup = function(e){
+            
+        // }
+
+        document.querySelector('#buy_pineaple').onclick = function(e){
+            const fruit_quantity_input = document.querySelector('#pineapple_quantity');
+            const quantity = fruit_quantity_input.textContent;
+            // console.log('------------------------------')
+            // console.log(fruit_quantity_input)
+            // console.log(quantity)
+            // console.log('------------------------------')
+            fruitShopSocket.send(JSON.stringify({
+                'message': quantity
+            }));
+
+        }
+        
+
     </script>
 </body>
 </html>
