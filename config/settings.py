@@ -167,12 +167,20 @@ CELERY_RESULT_BACKEND = "redis://localhost:6379/1"
 
 
 CELERY_BEAT_SCHEDULE = {
-    "task_one": {
-        "task": "src.fruitshop_app.tasks.task_one",
+    "task_buy_pineapple": {
+        "task": "src.fruitshop_app.tasks.task_buy_pineapple",
         "schedule": timedelta(seconds=6),
     },
     "task_two": {
         "task": "src.fruitshop_app.tasks.task_two",
         "schedule": timedelta(seconds=9),
     },
+}
+
+
+CACHES = {
+    "default": {
+        "BACKEND": "django.core.cache.backends.redis.RedisCache",
+        "LOCATION": "redis://127.0.0.1:6379",
+    }
 }

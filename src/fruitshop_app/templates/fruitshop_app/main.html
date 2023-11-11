@@ -57,7 +57,7 @@
                                 <td>
                                     <div class="row align-items-center">
                                         <div class="col-6">
-                                            <input class="form-control" placeholder="к-ть">
+                                            <input class="form-control" placeholder="к-ть" id="pineapple_input">
                                         </div>
                                         <div class="col-6 d-grid gap-2 d-md-block">
                                             <button id="buy_pineaple" type="button" class="btn btn-outline-secondary" style="background-color:rgb(163, 235, 175); border-radius: 25px; color:black">Купити</button>
@@ -408,8 +408,8 @@
         // }
 
         document.querySelector('#buy_pineaple').onclick = function(e){
-            const fruit_quantity_input = document.querySelector('#pineapple_quantity');
-            const quantity = fruit_quantity_input.textContent;
+            const fruit_quantity_input = document.querySelector('#pineapple_input');
+            const quantity = fruit_quantity_input.value;
             // console.log('------------------------------')
             // console.log(fruit_quantity_input)
             // console.log(quantity)
