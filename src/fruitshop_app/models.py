@@ -1,10 +1,14 @@
+# import django
+# django.setup()
+
 from django.db import models
 from django.contrib.auth.models import User
 
 
 
-class CustomUser(User):
-    pass
+# class CustomUser(User):
+#     email = models.EmailField()
+
 
 
 class Message(models.Model):
@@ -15,6 +19,7 @@ class Message(models.Model):
 
 
 class Commodity(models.Model):
+    raw_title = models.CharField(max_length=200)
     title = models.CharField(max_length=200)
     quantity = models.IntegerField()
 
@@ -30,3 +35,6 @@ class TradeOperations(models.Model):
     commodity = models.ForeignKey(Commodity, on_delete=models.CASCADE)
     operation_type = models.CharField(choices=OPERATION_TYPES_CORT)
     status = models.CharField(choices=TRADE_STATUS_CORT)
+
+class Account(models.Model):
+    total_debt = models.DecimalField(max_digits=12, decimal_places=2)

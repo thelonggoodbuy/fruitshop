@@ -51,102 +51,24 @@
                             </tr>
                         </thead>
                         <tbody>
+                            {% for commodity in commodity_data %}
                             <tr>
-                                <th scope="row">Ананаси</th>
-                                <td id="pineapple_quantity">200</td>
+                                <th scope="row">{{commodity.title}}</th>
+                                <td id="quantity_{{ commodity.raw_title }}">{{commodity.quantity}}</td>
                                 <td>
                                     <div class="row align-items-center">
                                         <div class="col-6">
-                                            <input class="form-control" placeholder="к-ть" id="pineapple_input">
+                                            <input class="form-control" placeholder="к-ть" id="input_{{ commodity.raw_title }}">
                                         </div>
                                         <div class="col-6 d-grid gap-2 d-md-block">
-                                            <button id="buy_pineaple" type="button" class="btn btn-outline-secondary" style="background-color:rgb(163, 235, 175); border-radius: 25px; color:black">Купити</button>
-                                            <button type="button" class="btn btn-outline-secondary" style="background-color:rgb(240, 176, 134); border-radius: 25px; color:black">Продати</button>
+                                            <button id="buy_{{ commodity.raw_title }}" type="button" class="btn btn-outline-secondary" style="background-color:rgb(163, 235, 175); border-radius: 25px; color:black">Купити</button>
+                                            <button type="sell_{{commodity.raw_title}}" class="btn btn-outline-secondary" style="background-color:rgb(240, 176, 134); border-radius: 25px; color:black">Продати</button>
                                         </div>
                                     </div>
                                 </td>
                                 <td>04 11 2023 10:23 - було куплено 3 ананасів за 20 usd</td>
                             </tr>
-                            <tr>
-                            <th scope="row">Яблука</th>
-                                <td>100</td>
-                                <td>
-                                    <div class="row align-items-center">
-                                        <div class="col-6">
-                                            <input class="form-control" placeholder="к-ть">
-                                        </div>
-                                        <div class="col-6 d-grid gap-2 d-md-block">
-                                            <button type="button" class="btn btn-outline-secondary" style="background-color:rgb(163, 235, 175); border-radius: 25px; color:black">Купити</button>
-                                            <button type="button" class="btn btn-outline-secondary" style="background-color:rgb(240, 176, 134); border-radius: 25px; color:black">Продати</button>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td>04 11 2023 10:23 - було куплено 3 яблука за 20 usd</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">Банани</th>
-                                <td>300</td>
-                                <td>
-                                    <div class="row align-items-center">
-                                        <div class="col-6">
-                                            <input class="form-control" placeholder="к-ть">
-                                        </div>
-                                        <div class="col-6 d-grid gap-2 d-md-block">
-                                            <button type="button" class="btn btn-outline-secondary" style="background-color:rgb(163, 235, 175); border-radius: 25px; color:black">Купити</button>
-                                            <button type="button" class="btn btn-outline-secondary" style="background-color:rgb(240, 176, 134); border-radius: 25px; color:black">Продати</button>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td>04 11 2023 10:23 - було куплено 3 банани за 20 usd</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">Апельсини</th>
-                                <td>200</td>
-                                <td>
-                                    <div class="row align-items-center">
-                                        <div class="col-6">
-                                            <input class="form-control" placeholder="к-ть">
-                                        </div>
-                                        <div class="col-6 d-grid gap-2 d-md-block">
-                                            <button type="button" class="btn btn-outline-secondary" style="background-color:rgb(163, 235, 175); border-radius: 25px; color:black">Купити</button>
-                                            <button type="button" class="btn btn-outline-secondary" style="background-color:rgb(240, 176, 134); border-radius: 25px; color:black">Продати</button>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td>04 11 2023 10:23 - було куплено 3 апельсини за 20 usd</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">Абрикоси</th>
-                                <td>100</td>
-                                <td>
-                                    <div class="row align-items-center">
-                                        <div class="col-6">
-                                            <input class="form-control" placeholder="к-ть">
-                                        </div>
-                                        <div class="col-6 d-grid gap-2 d-md-block">
-                                            <button type="button" class="btn btn-outline-secondary" style="background-color:rgb(163, 235, 175); border-radius: 25px; color:black">Купити</button>
-                                            <button type="button" class="btn btn-outline-secondary" style="background-color:rgb(240, 176, 134); border-radius: 25px; color:black">Продати</button>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td>04 11 2023 10:23 - було куплено 3 абрикоси за 20 usd</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">Ківі</th>
-                                <td>30</td>
-                                <td>
-                                    <div class="row align-items-center">
-                                        <div class="col-6">
-                                            <input class="form-control" placeholder="к-ть">
-                                        </div>
-                                        <div class="col-6 d-grid gap-2 d-md-block">
-                                            <button type="button" class="btn btn-outline-secondary" style="background-color:rgb(163, 235, 175); border-radius: 25px; color:black">Купити</button>
-                                            <button type="button" class="btn btn-outline-secondary" style="background-color:rgb(240, 176, 134); border-radius: 25px; color:black">Продати</button>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td>04 11 2023 10:23 - було куплено 3 ківі за 20 usd</td>
-                            </tr>
+                            {% endfor %}
                         </tbody>
                     </table>
                 </div>
@@ -374,7 +296,7 @@
 </div>
 
 
-    <!-- <script src="../bootstrap-5.0.2-dist/js/bootstrap.bundle.min.js"></script> -->
+
     <script src="{% static 'fruitshop_app/plugins/bootstrap-5.0.2-dist/js/bootstrap.bundle.min.js' %}"></script>
     <script>
 
@@ -386,41 +308,33 @@
             + '/ws/fruitshop_app/'
         );
 
+
+        //receiver function for socket data 
         fruitShopSocket.onmessage = function(e){
             const data = JSON.parse(e.data)
-            // const fruit_quantity_input = document.querySelector('#pineapple_quantity');         
 
             console.log('*******New message*******')
             console.log(data)
             console.log('*************************')
-            document.querySelector('#pineapple_quantity').innerHTML = data.message
-            // document.querySelector('#pineapple_quantity').value = (data.message);
+            // document.querySelector('#pineapple_quantity').innerHTML = data.message
+            
+
         }
 
         fruitShopSocket.onclose = function(e){
             console.error('Chat socket closed unexpectably');
         };
 
-        // document.querySelector('#pineapple_quantity').focus();
 
-        // document.querySelector('#pineapple_quantity').onkeyup = function(e){
-            
+        // document.querySelector('#buy_pineaple').onclick = function(e){
+        //     const fruit_quantity_input = document.querySelector('#pineapple_input');
+        //     const quantity = fruit_quantity_input.value;
+        //     fruitShopSocket.send(JSON.stringify({
+        //         'message': quantity
+        //     }));
+
         // }
-
-        document.querySelector('#buy_pineaple').onclick = function(e){
-            const fruit_quantity_input = document.querySelector('#pineapple_input');
-            const quantity = fruit_quantity_input.value;
-            // console.log('------------------------------')
-            // console.log(fruit_quantity_input)
-            // console.log(quantity)
-            // console.log('------------------------------')
-            fruitShopSocket.send(JSON.stringify({
-                'message': quantity
-            }));
-
-        }
         
-
     </script>
 </body>
 </html>

@@ -1,8 +1,8 @@
 from django.urls import path
 
-from . import views
+from .views import FruitDataListView
 
 
 urlpatterns = [
-    path("", views.main_page, name="main_page"),
+    path("", FruitDataListView.as_view(), name="main_page"),
 ]

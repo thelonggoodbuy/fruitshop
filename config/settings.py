@@ -1,3 +1,6 @@
+
+
+
 from pathlib import Path
 import environ
 import os, sys
@@ -37,6 +40,7 @@ sys.path.insert(0, os.path.join(BASE_DIR, 'src'))
 # Application definition
 
 INSTALLED_APPS = [
+    'fruitshop_app.apps.FruitShopAppConfig',
     'daphne',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -44,11 +48,12 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-
-    "fruitshop_app.apps.FruitShopAppConfig"
+    "debug_toolbar",
+    # "django_celery_beat",
 ]
 
 MIDDLEWARE = [
+    "debug_toolbar.middleware.DebugToolbarMiddleware",
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -77,6 +82,11 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'config.wsgi.application'
+
+
+INTERNAL_IPS = [
+    "127.0.0.1",
+]
 
 
 # Database
