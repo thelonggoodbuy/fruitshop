@@ -15,6 +15,5 @@ class FruitDataListView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        print('-----CUSTOM---DATA-------->>>>>>')
         context["commodity_data"] = Commodity.objects.all().order_by('id')
         return context

@@ -66,7 +66,7 @@
                                         </div>
                                     </div>
                                 </td>
-                                <td>04 11 2023 10:23 - було куплено 3 ананасів за 20 usd</td>
+                                <td id="last_transaction_{{ commodity.raw_title }}">04 11 2023 10:23 - було куплено 3 ананасів за 20 usd</td>
                             </tr>
                             {% endfor %}
                         </tbody>
@@ -113,7 +113,7 @@
                             <p class="text-center">Банківський рахунок</p>
                         </div>
                         <div class="col-6">
-                            <p class="text-center fs-5 text-warning fw-bold">245</p>
+                            <p class="text-center fs-5 text-warning fw-bold" id="total_money_in_accout">245</p>
                         </div>
                     </div>
                     <div class="row align-items-center">
@@ -223,6 +223,32 @@
         );
 
 
+        
+
+        function show_operation_message(status, text){
+            const operation_message_container = document.getElementById("operation_message_container");
+            var message_quantity = operation_message_container.children.length
+            while (message_quantity >= 40){
+                operation_message_container.removeChild(operation_message_container.getElementsByTagName('p')[0]);               
+                var message_quantity = operation_message_container.children.length;
+                // console.log(message_quantity);
+            }
+            var new_message = document.createElement("p");
+            var date = moment();
+            var currentDate = date.format('D.MM.YYYY HH:mm');
+            new_message.textContent = currentDate + ' - ' + status + ': ' + text
+            if (status=="SUCCESS"){
+                new_message.style.color = 'green'
+            } else {
+                new_message.style.color = 'red'
+            }
+            operation_message_container.appendChild(new_message)
+            new_message_position = new_message.offsetTop
+            operation_message_container.scrollTop = new_message_position
+            
+        }
+
+
         //SUCCESS DATA
         // {
         // "change_store": {
@@ -247,46 +273,37 @@
         // }
         // }
 
-        function show_operation_message(status, text){
-
-            const operation_message_container = document.getElementById("operation_message_container");
-            var message_quantity = operation_message_container.children.length
-            while (message_quantity >= 40){
-                operation_message_container.removeChild(operation_message_container.getElementsByTagName('p')[0]);               
-                var message_quantity = operation_message_container.children.length;
-                console.log(message_quantity);
-            }
-            var new_message = document.createElement("p");
-            var date = moment();
-            var currentDate = date.format('D.MM.YYYY HH:mm');
-            new_message.textContent = currentDate + ' - ' + status + ': ' + text
-            if (status=="SUCCESS"){
-                new_message.style.color = 'green'
-            } else {
-                new_message.style.color = 'red'
-            }
-            operation_message_container.appendChild(new_message)
-            new_message_position = new_message.offsetTop
-            operation_message_container.scrollTop = new_message_position
-            
-        }
-
 
         //receiver function for socket data 
         fruitShopSocket.onmessage = function(e){
             const data = JSON.parse(e.data)
-            const message_status = data["data"]["message"]["status"]
-            const message_text = data["data"]["message"]["text"]
-        
+            var message_status = data["data"]["message"]["status"]
+            var message_text = data["data"]["message"]["text"]
 
+            
             if(message_status == "SUCCESS"){
-                console.log("--------->SUCCESS<-----------------")
-                fruit_type = data["data"]["change_store"]
+                // console.log("--------->SUCCESS<-----------------")
+                var fruit_type = Object.keys(data["data"]["change_store"])[0];
+                var new_fruit_value = data["data"]["change_store"][fruit_type]
+                var fruit_remain_data = document.getElementById('quantity_' + fruit_type)
+                fruit_remain_data.innerHTML = new_fruit_value
 
-            } else {
-                console.log("--------->ERROR<-----------------")
+                var last_transaction_elem = document.getElementById('last_transaction_' + fruit_type)
+                if (data["data"]["deal_type"] == 'buying'){
+                    var date = moment();
+                    var last_operation = date.format('D MM YYYY HH:mm') + ' - було куплено ' + data["data"]["changed_fruit_quantity"] + ' ' + data["data"]["fruit_title"] + ' за ' + data["data"]["fruit_cost"]
+                    last_transaction_elem.innerHTML = last_operation
+                } else{
+                    var date = moment();
+                    var last_operation = date.format('D MM YYYY HH:mm') + ' - було продано ' + data["data"]["changed_fruit_quantity"] + ' ' + data["data"]["fruit_title"] + ' за ' + data["data"]["fruit_cost"]
+                    last_transaction_elem.innerHTML = last_operation
+                }
+
+                
+                
             }
             show_operation_message(message_status, message_text)
+
             // console.log('*******New message*******')
             // console.log(data)
             // console.log('*************************')

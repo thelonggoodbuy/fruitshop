@@ -38,6 +38,10 @@ def task_buy_apple():
 
         output_data = {'change_store': {'apple': apple_obj.quantity},
                         'change_account': str(account_obj.total_debt),
+                        'deal_type': 'buying',
+                        'fruit_title': apple_obj.title,
+                        'fruit_cost': apple_cost,
+                        'changed_fruit_quantity': apple_quantity,
                         'message': {'status': 'SUCCESS', 'text':
                             f'Постачальник привіз {apple_quantity} яблук. З рахунку списано {apple_cost}usd. Покупка завершена.'}}
     else:
@@ -87,6 +91,10 @@ def task_sell_apple():
 
         output_data = {'change_store': {'apple': apple_obj.quantity},
                         'change_account': str(account_obj.total_debt),
+                        'deal_type': 'selling',
+                        'fruit_title': apple_obj.title,
+                        'fruit_cost': apple_cost,
+                        'changed_fruit_quantity':apple_quantity,
                         'message': {'status': 'SUCCESS', 'text':
                             f'Покупець придбав {apple_quantity} яблук. На рахунок зараховано {apple_cost}'}}
     else:
@@ -133,6 +141,10 @@ def task_buy_banana():
 
         output_data = {'change_store': {'apple': banana_obj.quantity},
                     'change_account': str(account_obj.total_debt),
+                    'deal_type': 'buying',
+                    'fruit_title': banana_obj.title,
+                    'fruit_cost': banana_cost,
+                    'changed_fruit_quantity':banana_quantity,
                     'message': {'status': 'SUCCESS', 'text':
                             f'Постачальник привіз {banana_quantity} бананів. З рахунку списано {banana_cost}usd. Покупка завершена.'}}
     else:
@@ -184,6 +196,10 @@ def task_sell_banana():
 
         output_data = {'change_store': {'banana': banana_obj.quantity},
                     'change_account': str(account_obj.total_debt),
+                    'deal_type': 'selling',
+                    'fruit_title': banana_obj.title,
+                    'fruit_cost': banana_cost,
+                    'changed_fruit_quantity':banana_quantity,
                     'message': {'status': 'SUCCESS', 'text':
                             f'Покупець придбав {banana_quantity} яблук. На рахунок зараховано {banana_cost}'}}
     else:
@@ -230,6 +246,10 @@ def task_buy_pineapple():
 
         output_data = {'change_store': {'pineapple': pineapple_obj.quantity},
                         'change_account': str(account_obj.total_debt),
+                        'deal_type': 'buying',
+                        'fruit_title': pineapple_obj.title,
+                        'fruit_cost': pineapple_cost,
+                        'changed_fruit_quantity':pineapple_quantity,
                         'message': {'status': 'SUCCESS', 'text':
                             f'Постачальник привіз {pineapple_quantity} ананасів. З рахунку списано {pineapple_cost}usd. Покупка завершена.'}}
     else:
@@ -279,6 +299,10 @@ def task_sell_pineapple():
 
         output_data = {'change_store': {'pineapple': pineapple_obj.quantity},
                         'change_account': str(account_obj.total_debt),
+                        'deal_type': 'selling',
+                        'fruit_title': pineapple_obj.title,
+                        'fruit_cost': pineapple_cost,
+                        'changed_fruit_quantity':pineapple_quantity,
                         'message': {'status': 'SUCCESS', 'text':
                             f'Покупець придбав {pineapple_quantity} ананасів. На рахунок зараховано {pineapple_cost}'}}
     else:
@@ -325,7 +349,11 @@ def task_buy_peach():
         account_obj.save()
 
         output_data = {'change_store': {'peach': peach_obj.quantity},
-                    'change_account': str(account_obj.total_debt),
+                        'change_account': str(account_obj.total_debt),
+                        'deal_type': 'buying',
+                        'fruit_title': peach_obj.title,
+                        'fruit_cost': peach_cost,
+                        'changed_fruit_quantity':peach_quantity,
                         'message': {'status': 'SUCCESS', 'text':
                             f'Постачальник привіз {peach_quantity} персиків. З рахунку списано {peach_cost}usd. Покупка завершена.'}}
     else:
@@ -374,7 +402,11 @@ def task_sell_peach():
         account_obj.save()
 
         output_data = {'change_store': {'peach': peach_obj.quantity},
-                    'change_account': str(account_obj.total_debt),
+                        'change_account': str(account_obj.total_debt),
+                        'deal_type': 'selling',
+                        'fruit_title': peach_obj.title,
+                        'fruit_cost': peach_cost,
+                        'changed_fruit_quantity':peach_quantity,
                         'message': {'status': 'SUCCESS', 'text':
                             f'Покупець придбав {peach_quantity} персиків. На рахунок зараховано {peach_cost}'}}
     else:
