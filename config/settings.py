@@ -177,13 +177,39 @@ CELERY_RESULT_BACKEND = "redis://localhost:6379/1"
 
 
 CELERY_BEAT_SCHEDULE = {
-    "task_buy_pineapple": {
-        "task": "src.fruitshop_app.tasks.task_buy_pineapple",
+    "task_buy_apple": {
+        "task": "src.fruitshop_app.tasks.task_buy_apple",
         "schedule": timedelta(seconds=6),
     },
-    "task_two": {
-        "task": "src.fruitshop_app.tasks.task_two",
+    "task_buy_banana": {
+        "task": "src.fruitshop_app.tasks.task_buy_banana",
         "schedule": timedelta(seconds=9),
+    },
+    "task_buy_pineapple": {
+        "task": "src.fruitshop_app.tasks.task_buy_pineapple",
+        "schedule": timedelta(seconds=12),
+    },
+    "task_buy_peach": {
+        "task": "src.fruitshop_app.tasks.task_buy_peach",
+        "schedule": timedelta(seconds=15),
+    },
+
+
+    "task_sell_apple": {
+        "task": "src.fruitshop_app.tasks.task_sell_apple",
+        "schedule": timedelta(seconds=15),
+    },
+    "task_sell_banana": {
+        "task": "src.fruitshop_app.tasks.task_sell_banana",
+        "schedule": timedelta(seconds=12),
+    },
+    "task_sell_pineapple": {
+        "task": "src.fruitshop_app.tasks.task_sell_pineapple",
+        "schedule": timedelta(seconds=9),
+    },
+    "task_sell_peach": {
+        "task": "src.fruitshop_app.tasks.task_sell_peach",
+        "schedule": timedelta(seconds=6),
     },
 }
 

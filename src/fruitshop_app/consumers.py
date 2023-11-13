@@ -45,7 +45,7 @@ class BuyingConsumer(WebsocketConsumer):
         # )
 
 
-    def chat_message(self, event):
-        message = event["message"]
+    def send_data(self, event):
+        data = event["event_data"]
         # Send message to WebSocket
-        self.send(text_data=json.dumps({"message": message}))
+        self.send(text_data=json.dumps({"data": data}))
