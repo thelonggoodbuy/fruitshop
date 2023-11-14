@@ -15,6 +15,7 @@ from django.apps import apps
 def task_buy_apple():
     Commodity = apps.get_model(app_label='fruitshop_app', model_name='Commodity')
     Account = apps.get_model(app_label='fruitshop_app', model_name='Account')
+    TradeOperation = apps.get_model(app_label='fruitshop_app', model_name='TradeOperation')
 
     apple_data = cache.get('apple_key')
 
@@ -29,8 +30,8 @@ def task_buy_apple():
     apple_cost = apple_buy_cost*apple_quantity
     # how many money i have?
     account_obj = Account.objects.first()
+    apple_obj = Commodity.objects.get(raw_title='apple')
     if apple_cost <= account_obj.total_debt:
-        apple_obj = Commodity.objects.get(raw_title='apple')
         apple_obj.quantity += apple_quantity
         apple_obj.save()
         account_obj.total_debt -= apple_cost
@@ -44,12 +45,27 @@ def task_buy_apple():
                         'changed_fruit_quantity': apple_quantity,
                         'message': {'status': 'SUCCESS', 'text':
                             f'Постачальник привіз {apple_quantity} яблук. З рахунку списано {apple_cost}usd. Покупка завершена.'}}
+        trade_operation = TradeOperation(
+            quantity=apple_quantity,
+            total_cost=apple_cost,
+            operation_type="buying",
+            status="success",
+        )
+        trade_operation.commodity = apple_obj
+        trade_operation.save()
+
     else:
         output_data = {'change_store': 'null',
                         'change_account': 'null',
                         'message': {'status': 'ERROR', 'text':
                             f'Постачальник привіз {apple_quantity} яблук. Недостатньо коштів на рахунку. Покупка відмінена.'}}
-        
+        trade_operation = TradeOperation(
+            operation_type="buying",
+            status="error",
+        )
+        trade_operation.commodity = apple_obj
+        trade_operation.save()
+
     channel_layer = get_channel_layer()
 
     async_to_sync(channel_layer.group_send)(
@@ -67,6 +83,8 @@ def task_buy_apple():
 def task_sell_apple():
     Commodity = apps.get_model(app_label='fruitshop_app', model_name='Commodity')
     Account = apps.get_model(app_label='fruitshop_app', model_name='Account')
+    TradeOperation = apps.get_model(app_label='fruitshop_app', model_name='TradeOperation')
+
 
     apple_data = cache.get('apple_key')
 
@@ -97,12 +115,29 @@ def task_sell_apple():
                         'changed_fruit_quantity':apple_quantity,
                         'message': {'status': 'SUCCESS', 'text':
                             f'Покупець придбав {apple_quantity} яблук. На рахунок зараховано {apple_cost}'}}
+        
+        trade_operation = TradeOperation(
+            quantity=apple_quantity,
+            total_cost=apple_cost,
+            operation_type="sailing",
+            status="success",
+        )
+        trade_operation.commodity = apple_obj
+        trade_operation.save()
+
     else:
         output_data = {'change_store': 'null',
                         'change_account': 'null',
                         'message': {'status': 'ERROR', 'text':
                             f'Покупець хочу купити {apple_quantity} яблук. Недостатньо товару на складі. Продаж відмінено.'}}
         
+        trade_operation = TradeOperation(
+            operation_type="sailing",
+            status="error",
+        )
+        trade_operation.commodity = apple_obj
+        trade_operation.save()
+
     channel_layer = get_channel_layer()
 
     async_to_sync(channel_layer.group_send)(
@@ -120,6 +155,8 @@ def task_sell_apple():
 def task_buy_banana():
     Commodity = apps.get_model(app_label='fruitshop_app', model_name='Commodity')
     Account = apps.get_model(app_label='fruitshop_app', model_name='Account')
+    TradeOperation = apps.get_model(app_label='fruitshop_app', model_name='TradeOperation')
+
 
     banana_data = cache.get('banana_key')
 
@@ -132,14 +169,14 @@ def task_buy_banana():
     banana_buy_cost = 1
     banana_cost = banana_buy_cost*banana_quantity
     account_obj = Account.objects.first()
+    banana_obj = Commodity.objects.get(raw_title='banana')
     if banana_cost <= account_obj.total_debt:
-        banana_obj = Commodity.objects.get(raw_title='banana')
         banana_obj.quantity += banana_quantity
         banana_obj.save()
         account_obj.total_debt -= banana_cost
         account_obj.save()
 
-        output_data = {'change_store': {'apple': banana_obj.quantity},
+        output_data = {'change_store': {'banana': banana_obj.quantity},
                     'change_account': str(account_obj.total_debt),
                     'deal_type': 'buying',
                     'fruit_title': banana_obj.title,
@@ -147,11 +184,26 @@ def task_buy_banana():
                     'changed_fruit_quantity':banana_quantity,
                     'message': {'status': 'SUCCESS', 'text':
                             f'Постачальник привіз {banana_quantity} бананів. З рахунку списано {banana_cost}usd. Покупка завершена.'}}
+        trade_operation = TradeOperation(
+            quantity=banana_quantity,
+            total_cost=banana_cost,
+            operation_type="buying",
+            status="success",
+        )
+        trade_operation.commodity = banana_obj
+        trade_operation.save()    
+    
     else:
         output_data = {'change_store': 'null',
                         'change_account': 'null',
                         'message': {'status': 'ERROR', 'text':
                             f'Постачальник привіз {banana_quantity} бананів. Недостатньо коштів на рахунку. Покупка відмінена.'}}
+        trade_operation = TradeOperation(
+            operation_type="buying",
+            status="error",
+        )
+        trade_operation.commodity = banana_obj
+        trade_operation.save()
 
 
     channel_layer = get_channel_layer()
@@ -172,6 +224,8 @@ def task_buy_banana():
 def task_sell_banana():
     Commodity = apps.get_model(app_label='fruitshop_app', model_name='Commodity')
     Account = apps.get_model(app_label='fruitshop_app', model_name='Account')
+    TradeOperation = apps.get_model(app_label='fruitshop_app', model_name='TradeOperation')
+
 
     banana_data = cache.get('banana_key')
 
@@ -202,11 +256,26 @@ def task_sell_banana():
                     'changed_fruit_quantity':banana_quantity,
                     'message': {'status': 'SUCCESS', 'text':
                             f'Покупець придбав {banana_quantity} яблук. На рахунок зараховано {banana_cost}'}}
+        trade_operation = TradeOperation(
+            quantity=banana_quantity,
+            total_cost=banana_cost,
+            operation_type="sailing",
+            status="success",
+        )
+        trade_operation.commodity = banana_obj
+        trade_operation.save()
+
     else:
         output_data = {'change_store': 'null',
                         'change_account': 'null',
                         'message': {'status': 'ERROR', 'text':
                             f'Покупець хочу купити {banana_quantity} бананів. Недостатньо товару на складі. Продаж відмінено.'}}
+        trade_operation = TradeOperation(
+            operation_type="sailing",
+            status="error",
+        )
+        trade_operation.commodity = banana_obj
+        trade_operation.save()
         
     channel_layer = get_channel_layer()
 
@@ -225,6 +294,7 @@ def task_sell_banana():
 def task_buy_pineapple():
     Commodity = apps.get_model(app_label='fruitshop_app', model_name='Commodity')
     Account = apps.get_model(app_label='fruitshop_app', model_name='Account')
+    TradeOperation = apps.get_model(app_label='fruitshop_app', model_name='TradeOperation')
 
     pineapple_data = cache.get('pineapple_key')
 
@@ -237,8 +307,9 @@ def task_buy_pineapple():
     pineapple_buy_cost = 3
     pineapple_cost = pineapple_buy_cost*pineapple_quantity
     account_obj = Account.objects.first()
+    pineapple_obj = Commodity.objects.get(raw_title='pineapple')
     if pineapple_cost <= account_obj.total_debt:
-        pineapple_obj = Commodity.objects.get(raw_title='pineapple')
+        
         pineapple_obj.quantity += pineapple_quantity
         pineapple_obj.save()
         account_obj.total_debt -= pineapple_cost
@@ -252,11 +323,26 @@ def task_buy_pineapple():
                         'changed_fruit_quantity':pineapple_quantity,
                         'message': {'status': 'SUCCESS', 'text':
                             f'Постачальник привіз {pineapple_quantity} ананасів. З рахунку списано {pineapple_cost}usd. Покупка завершена.'}}
+        trade_operation = TradeOperation(
+            quantity=pineapple_quantity,
+            total_cost=pineapple_cost,
+            operation_type="buying",
+            status="success",
+        )
+        trade_operation.commodity = pineapple_obj
+        trade_operation.save()
     else:
-         output_data = {'change_store': 'null',
+        output_data = {'change_store': 'null',
                         'change_account': 'null',
                         'message': {'status': 'ERROR', 'text':
                             f'Постачальник привіз {pineapple_quantity} яблук. Недостатньо коштів на рахунку. Покупка відмінена.'}}
+        trade_operation = TradeOperation(
+            operation_type="buying",
+            status="error",
+        )
+        trade_operation.commodity = pineapple_obj
+        trade_operation.save()
+
 
     channel_layer = get_channel_layer()
 
@@ -275,6 +361,8 @@ def task_buy_pineapple():
 def task_sell_pineapple():
     Commodity = apps.get_model(app_label='fruitshop_app', model_name='Commodity')
     Account = apps.get_model(app_label='fruitshop_app', model_name='Account')
+    TradeOperation = apps.get_model(app_label='fruitshop_app', model_name='TradeOperation')
+
 
     pineapple_data = cache.get('pineapple_key')
 
@@ -305,11 +393,20 @@ def task_sell_pineapple():
                         'changed_fruit_quantity':pineapple_quantity,
                         'message': {'status': 'SUCCESS', 'text':
                             f'Покупець придбав {pineapple_quantity} ананасів. На рахунок зараховано {pineapple_cost}'}}
+        trade_operation = TradeOperation(
+            quantity=pineapple_quantity,
+            total_cost=pineapple_cost,
+            operation_type="sailing",
+            status="success",
+        )
+        trade_operation.commodity = pineapple_obj
+        trade_operation.save()
     else:
         output_data = {'change_store': 'null',
                         'change_account': 'null',
                         'message': {'status': 'ERROR', 'text':
                             f'Покупець хочу купити {pineapple_quantity} ананасів. Недостатньо товару на складі. Продаж відмінено.'}}
+        
 
     channel_layer = get_channel_layer()
 
@@ -328,6 +425,7 @@ def task_sell_pineapple():
 def task_buy_peach():
     Commodity = apps.get_model(app_label='fruitshop_app', model_name='Commodity')
     Account = apps.get_model(app_label='fruitshop_app', model_name='Account')
+    TradeOperation = apps.get_model(app_label='fruitshop_app', model_name='TradeOperation')
 
     peach_data = cache.get('peach_key')
 
@@ -340,8 +438,9 @@ def task_buy_peach():
     peach_buy_cost = 2
     peach_cost = peach_buy_cost*peach_quantity
     account_obj = Account.objects.first()
+    peach_obj = Commodity.objects.get(raw_title='peach')
+
     if peach_cost <= account_obj.total_debt:
-        peach_obj = Commodity.objects.get(raw_title='peach')
         peach_obj.quantity += peach_quantity
         peach_obj.save()
         
@@ -356,11 +455,25 @@ def task_buy_peach():
                         'changed_fruit_quantity':peach_quantity,
                         'message': {'status': 'SUCCESS', 'text':
                             f'Постачальник привіз {peach_quantity} персиків. З рахунку списано {peach_cost}usd. Покупка завершена.'}}
+        trade_operation = TradeOperation(
+            quantity=peach_quantity,
+            total_cost=peach_cost,
+            operation_type="buying",
+            status="success",
+        )
+        trade_operation.commodity = peach_obj
+        trade_operation.save()
     else:
         output_data = {'change_store': 'null',
                         'change_account': 'null',
                         'message': {'status': 'ERROR', 'text':
                             f'Постачальник привіз {peach_quantity} персиків. Недостатньо коштів на рахунку. Покупка відмінена.'}}
+        trade_operation = TradeOperation(
+            operation_type="buying",
+            status="error",
+        )
+        trade_operation.commodity = peach_obj
+        trade_operation.save()
 
     channel_layer = get_channel_layer()
 
@@ -379,6 +492,8 @@ def task_buy_peach():
 def task_sell_peach():
     Commodity = apps.get_model(app_label='fruitshop_app', model_name='Commodity')
     Account = apps.get_model(app_label='fruitshop_app', model_name='Account')
+    TradeOperation = apps.get_model(app_label='fruitshop_app', model_name='TradeOperation')
+
 
     peach_data = cache.get('peach_key')
 
@@ -409,12 +524,27 @@ def task_sell_peach():
                         'changed_fruit_quantity':peach_quantity,
                         'message': {'status': 'SUCCESS', 'text':
                             f'Покупець придбав {peach_quantity} персиків. На рахунок зараховано {peach_cost}'}}
+        trade_operation = TradeOperation(
+            quantity=peach_quantity,
+            total_cost=peach_cost,
+            operation_type="sailing",
+            status="success",
+        )
+        trade_operation.commodity = peach_obj
+        trade_operation.save()
+
     else:
         output_data = {'change_store': 'null',
                         'change_account': 'null',
                         'message': {'status': 'ERROR', 'text':
                             f'Покупець хочу купити {peach_quantity} персиків. Недостатньо товару на складі. Продаж відмінено.'}}
 
+        trade_operation = TradeOperation(
+            operation_type="sailing",
+            status="error",
+        )
+        trade_operation.commodity = peach_obj
+        trade_operation.save()
 
     channel_layer = get_channel_layer()
 

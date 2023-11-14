@@ -21,17 +21,17 @@ class Message(models.Model):
 class Commodity(models.Model):
     raw_title = models.CharField(max_length=200)
     title = models.CharField(max_length=200)
-    quantity = models.IntegerField()
+    quantity = models.PositiveIntegerField(blank=True, null=True)
 
 
-class TradeOperations(models.Model):
+class TradeOperation(models.Model):
     OPERATION_TYPES_CORT=(("sailing", "продаж"),
                         ("buying", "покупка"))
     TRADE_STATUS_CORT=(("success", "успіх"),
                        ("error", "помилка"))
-    trade_date_time = models.DateTimeField()
-    quantity = models.IntegerField()
-    total_cost = models.DecimalField(max_digits=8, decimal_places=2)
+    trade_date_time = models.DateTimeField(auto_now_add=True, blank=True)
+    quantity = models.PositiveIntegerField(blank=True, null=True)
+    total_cost = models.DecimalField(max_digits=8, decimal_places=2, blank=True, null=True)
     commodity = models.ForeignKey(Commodity, on_delete=models.CASCADE)
     operation_type = models.CharField(choices=OPERATION_TYPES_CORT)
     status = models.CharField(choices=TRADE_STATUS_CORT)
