@@ -26,6 +26,8 @@ def task_buy_apple():
             cache.set('changes_in_tasks', cache_data)
     except KeyError:
         apple_quantity = random.randint(1, 10)
+    except TypeError:
+        apple_quantity = random.randint(1, 10)
 
     # how many cost?
     apple_buy_cost = 4
@@ -87,15 +89,22 @@ def task_sell_apple():
     Commodity = apps.get_model(app_label='fruitshop_app', model_name='Commodity')
     Account = apps.get_model(app_label='fruitshop_app', model_name='Account')
     TradeOperation = apps.get_model(app_label='fruitshop_app', model_name='TradeOperation')
+    cache_data = cache.get('changes_in_tasks')
 
 
     apple_data = cache.get('apple_key')
 
-    if apple_data:
-        apple_quantity = int(apple_data)
-        cache.delete('apple_key')
-    else:        
+    try:
+        if cache_data['change_task_apple']['operation_type'] == 'sailing' and\
+        cache_data['change_task_apple']['commodity_type'] == 'apple':
+            apple_quantity = int(cache_data['change_task_apple']['quantity'])
+            del cache_data['change_task_apple']
+            cache.set('changes_in_tasks', cache_data)
+    except KeyError:
         apple_quantity = random.randint(1, 10)
+    except TypeError:
+        apple_quantity = random.randint(1, 10)
+
 
     # How many apple I have
     apple_obj = Commodity.objects.get(raw_title='apple')
@@ -161,14 +170,18 @@ def task_buy_banana():
     Account = apps.get_model(app_label='fruitshop_app', model_name='Account')
     TradeOperation = apps.get_model(app_label='fruitshop_app', model_name='TradeOperation')
 
-
-    banana_data = cache.get('banana_key')
-
-    if banana_data:
-        banana_quantity = int(banana_data)
-        cache.delete('banana_key')
-    else:        
+    cache_data = cache.get('changes_in_banana')
+    try:
+        if cache_data['change_task_banana']['operation_type'] == 'buying' and\
+        cache_data['change_task_banana']['commodity_type'] == 'banana':
+            banana_quantity = int(cache_data['change_task_banana']['quantity'])
+            del cache_data['change_task_banana']
+            cache.set('changes_in_tasks', cache_data)
+    except KeyError:
         banana_quantity = random.randint(10, 20)
+    except TypeError:
+        banana_quantity = random.randint(10, 20)
+
 
     banana_buy_cost = 1
     banana_cost = banana_buy_cost*banana_quantity
@@ -231,14 +244,18 @@ def task_sell_banana():
     Account = apps.get_model(app_label='fruitshop_app', model_name='Account')
     TradeOperation = apps.get_model(app_label='fruitshop_app', model_name='TradeOperation')
 
-
-    banana_data = cache.get('banana_key')
-
-    if banana_data:
-        banana_quantity = int(banana_data)
-        cache.delete('banana_key')
-    else:        
+    cache_data = cache.get('changes_in_banana')
+    try:
+        if cache_data['change_task_banana']['operation_type'] == 'sailing' and\
+        cache_data['change_task_banana']['commodity_type'] == 'banana':
+            banana_quantity = int(cache_data['change_task_banana']['quantity'])
+            del cache_data['change_task_banana']
+            cache.set('changes_in_tasks', cache_data)
+    except KeyError:
         banana_quantity = random.randint(1, 30)
+    except TypeError:
+        banana_quantity = random.randint(1, 30)
+
 
     banana_obj = Commodity.objects.get(raw_title='banana')
 
@@ -302,12 +319,17 @@ def task_buy_pineapple():
     Account = apps.get_model(app_label='fruitshop_app', model_name='Account')
     TradeOperation = apps.get_model(app_label='fruitshop_app', model_name='TradeOperation')
 
-    pineapple_data = cache.get('pineapple_key')
+    cache_data = cache.get('changes_in_tasks')
 
-    if pineapple_data:
-        pineapple_quantity = int(pineapple_data)
-        cache.delete('pineapple_key')
-    else:        
+    try:
+        if cache_data['change_task_pineapple']['operation_type'] == 'buying' and\
+        cache_data['change_task_pineapple']['commodity_type'] == 'pineapple':
+            pineapple_quantity = int(cache_data['change_task_pineapple']['quantity'])
+            del cache_data['change_task_pineapple']
+            cache.set('changes_in_tasks', cache_data)
+    except KeyError:
+        pineapple_quantity = random.randint(1, 10)
+    except TypeError:
         pineapple_quantity = random.randint(1, 10)
 
     pineapple_buy_cost = 3
@@ -341,7 +363,7 @@ def task_buy_pineapple():
         output_data = {'change_store': 'null',
                         'change_account': 'null',
                         'message': {'status': 'ERROR', 'text':
-                            f'Постачальник привіз {pineapple_quantity} яблук. Недостатньо коштів на рахунку. Покупка відмінена.'}}
+                            f'Постачальник привіз {pineapple_quantity} ананасів. Недостатньо коштів на рахунку. Покупка відмінена.'}}
         trade_operation = TradeOperation(
             quantity=pineapple_quantity,
             operation_type="buying",
@@ -371,13 +393,18 @@ def task_sell_pineapple():
     TradeOperation = apps.get_model(app_label='fruitshop_app', model_name='TradeOperation')
 
 
-    pineapple_data = cache.get('pineapple_key')
-
-    if pineapple_data:
-        pineapple_quantity = int(pineapple_data)
-        cache.delete('pineapple_key')
-    else:        
+    cache_data = cache.get('changes_in_tasks')
+    try:
+        if cache_data['change_task_pineapple']['operation_type'] == 'sailing' and\
+        cache_data['change_task_pineapple']['commodity_type'] == 'pineapple':
+            pineapple_quantity = int(cache_data['change_task_pineapple']['quantity'])
+            del cache_data['change_task_pineapple']
+            cache.set('changes_in_tasks', cache_data)
+    except KeyError:
         pineapple_quantity = random.randint(1, 10)
+    except TypeError:
+        pineapple_quantity = random.randint(1, 10)
+
 
     pineapple_sell_cost = 4
 
@@ -440,14 +467,19 @@ def task_buy_peach():
     Commodity = apps.get_model(app_label='fruitshop_app', model_name='Commodity')
     Account = apps.get_model(app_label='fruitshop_app', model_name='Account')
     TradeOperation = apps.get_model(app_label='fruitshop_app', model_name='TradeOperation')
+    cache_data = cache.get('changes_in_tasks')
 
-    peach_data = cache.get('peach_key')
-
-    if peach_data:
-        peach_quantity = int(peach_data)
-        cache.delete('peach_key')
-    else:        
+    try:
+        if cache_data['change_task_peach']['operation_type'] == 'buying' and\
+        cache_data['change_task_peach']['commodity_type'] == 'peach':
+            peach_quantity = int(cache_data['change_task_peach']['quantity'])
+            del cache_data['change_task_peach']
+            cache.set('changes_in_tasks', cache_data)
+    except KeyError:
         peach_quantity = random.randint(5, 15)
+    except TypeError:
+        peach_quantity = random.randint(5, 15)
+
 
     peach_buy_cost = 2
     peach_cost = peach_buy_cost*peach_quantity
@@ -502,19 +534,23 @@ def task_buy_peach():
 
 
 
+
 @shared_task
 def task_sell_peach():
     Commodity = apps.get_model(app_label='fruitshop_app', model_name='Commodity')
     Account = apps.get_model(app_label='fruitshop_app', model_name='Account')
     TradeOperation = apps.get_model(app_label='fruitshop_app', model_name='TradeOperation')
+    cache_data = cache.get('changes_in_tasks')
 
-
-    peach_data = cache.get('peach_key')
-
-    if peach_data:
-        peach_quantity = int(peach_data)
-        cache.delete('peach_key')
-    else:        
+    try:
+        if cache_data['change_task_peach']['operation_type'] == 'sailing' and\
+        cache_data['change_task_peach']['commodity_type'] == 'peach':
+            peach_quantity = int(cache_data['change_task_peach']['quantity'])
+            del cache_data['change_task_peach']
+            cache.set('changes_in_tasks', cache_data)
+    except KeyError:
+        peach_quantity = random.randint(1, 20)
+    except TypeError:
         peach_quantity = random.randint(1, 20)
 
 
