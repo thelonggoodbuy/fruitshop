@@ -16,13 +16,15 @@ def task_buy_apple():
     Commodity = apps.get_model(app_label='fruitshop_app', model_name='Commodity')
     Account = apps.get_model(app_label='fruitshop_app', model_name='Account')
     TradeOperation = apps.get_model(app_label='fruitshop_app', model_name='TradeOperation')
+    cache_data = cache.get('changes_in_tasks')
 
-    apple_data = cache.get('apple_key')
-
-    if apple_data:
-        apple_quantity = int(apple_data)
-        cache.delete('apple_key')
-    else:        
+    try:
+        if cache_data['change_task_apple']['operation_type'] == 'buying' and\
+        cache_data['change_task_apple']['commodity_type'] == 'apple':
+            apple_quantity = int(cache_data['change_task_apple']['quantity'])
+            del cache_data['change_task_apple']
+            cache.set('changes_in_tasks', cache_data)
+    except KeyError:
         apple_quantity = random.randint(1, 10)
 
     # how many cost?

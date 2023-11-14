@@ -62,7 +62,7 @@
                                         </div>
                                         <div class="col-6 d-grid gap-2 d-md-block">
                                             <button id="buy_{{ commodity.raw_title }}" type="button" class="btn btn-outline-secondary" style="background-color:rgb(163, 235, 175); border-radius: 25px; color:black">Купити</button>
-                                            <button type="sell_{{commodity.raw_title}}" class="btn btn-outline-secondary" style="background-color:rgb(240, 176, 134); border-radius: 25px; color:black">Продати</button>
+                                            <button id="sell_{{commodity.raw_title}}" type="button" class="btn btn-outline-secondary" style="background-color:rgb(240, 176, 134); border-radius: 25px; color:black">Продати</button>
                                         </div>
                                     </div>
                                 </td>
@@ -159,8 +159,8 @@
                 <div class="row">
                     <div class="col-12 border border-3">
                         <div class="overflow-auto" style="height: 80vh;" id="operation_message_container">
-                            <p class="text-success">04.11.2023 10:30 - SUCCESS: Постачальник привіз 5 яблук. З рахунку списано 15 usd. Покупка завершена.</p>
-                            <p class="text-danger">04.11.2023 10:35 - ERROR: Постачальник привіз 5 ананасів. Недостатньо коштів на рахунку. Покупка відмінена.</p>
+                            <!-- <p class="text-success">04.11.2023 10:30 - SUCCESS: Постачальник привіз 5 яблук. З рахунку списано 15 usd. Покупка завершена.</p>
+                            <p class="text-danger">04.11.2023 10:35 - ERROR: Постачальник привіз 5 ананасів. Недостатньо коштів на рахунку. Покупка відмінена.</p> -->
                             <!-- <p class="text-success">{{ transaction.trade_date_time|date:'d.m.Y H:i' }} - {{ transaction.status|title }}: Постачальник привіз {{ transaction.quantity }} {{ transaction.commodity.title }}. З рахунку списано {{ transaction.total_cost }} usd. Покупка завершена.</p> -->
 
                             {% for transaction in last_transactions %}
@@ -304,13 +304,46 @@
 
 
         // document.querySelector('#buy_pineaple').onclick = function(e){
-        //     const fruit_quantity_input = document.querySelector('#pineapple_input');
-        //     const quantity = fruit_quantity_input.value;
-        //     fruitShopSocket.send(JSON.stringify({
-        //         'message': quantity
-        //     }));
+
+            // const fruit_quantity_input = document.querySelector('#pineapple_input');
+            // const quantity = fruit_quantity_input.value;
+            // fruitShopSocket.send(JSON.stringify({
+            //     'message': quantity
+            // }));
 
         // }
+        // document.querySelector('#buy_pineapple').onclick = function(e){
+
+        var allBuyButtons = document.querySelectorAll('[id^="buy_"], [id^="sell_"]')
+
+        Array.from(allBuyButtons).forEach(change_task_button => {
+            change_task_button.addEventListener('click', function(event){
+
+                var fruitStr = change_task_button.id;
+                if (fruitStr.includes('buy_')){
+                    var fruit = fruitStr.replace('buy_', '');
+                    var operation_type = 'buying'
+                } else {
+                    var fruit = fruitStr.replace('sell_', '');
+                    var operation_type = 'sailing'
+                }
+                var inputId='input_'+ fruit;
+                var fruit_quantity_input = document.querySelector('#' + inputId);
+
+                if (fruit_quantity_input.value.length !== 0){
+                    change_task_title = 'change_task_' + fruit
+                    console.log('-------------------------')
+                    console.log(change_task_title)
+                    fruitShopSocket.send(JSON.stringify({
+                        [change_task_title]: {'operation_type': operation_type,
+                                            'commodity_type': fruit,
+                                            'quantity': fruit_quantity_input.value}
+                    }))
+                }
+                fruit_quantity_input.value = ""
+
+            })
+        })
         
     </script>
 </body>

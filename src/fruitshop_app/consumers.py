@@ -28,10 +28,16 @@ class BuyingConsumer(WebsocketConsumer):
 
     def receive(self, text_data):
 
-        text_data_json = json.loads(text_data)
-        pineapple_value = int(text_data_json['message'])
-        cache.set(key='pineapple_key', value=pineapple_value)
-        print('(((receive work!))))')
+        received_data_json = json.loads(text_data)
+        # received_data = int(text_data_json['message'])
+        # print('---------RECEIVER-------------')
+        # print('------------------------------')
+        # print(received_data_json)
+        # print('------------------------------')
+
+        cache.set(key='changes_in_tasks', value=received_data_json)
+
+        # print('(((receive work!))))')
 
 
         # text_data_json["message"] = str(int(old_value) + 100)
