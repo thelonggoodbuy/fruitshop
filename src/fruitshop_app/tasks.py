@@ -61,6 +61,7 @@ def task_buy_apple():
                             f'Постачальник привіз {apple_quantity} яблук. Недостатньо коштів на рахунку. Покупка відмінена.'}}
         trade_operation = TradeOperation(
             operation_type="buying",
+            quantity=apple_quantity,
             status="error",
         )
         trade_operation.commodity = apple_obj
@@ -132,6 +133,7 @@ def task_sell_apple():
                             f'Покупець хочу купити {apple_quantity} яблук. Недостатньо товару на складі. Продаж відмінено.'}}
         
         trade_operation = TradeOperation(
+            quantity=apple_quantity,
             operation_type="sailing",
             status="error",
         )
@@ -199,6 +201,7 @@ def task_buy_banana():
                         'message': {'status': 'ERROR', 'text':
                             f'Постачальник привіз {banana_quantity} бананів. Недостатньо коштів на рахунку. Покупка відмінена.'}}
         trade_operation = TradeOperation(
+            quantity=banana_quantity,
             operation_type="buying",
             status="error",
         )
@@ -271,6 +274,7 @@ def task_sell_banana():
                         'message': {'status': 'ERROR', 'text':
                             f'Покупець хочу купити {banana_quantity} бананів. Недостатньо товару на складі. Продаж відмінено.'}}
         trade_operation = TradeOperation(
+            quantity=banana_quantity,
             operation_type="sailing",
             status="error",
         )
@@ -337,6 +341,7 @@ def task_buy_pineapple():
                         'message': {'status': 'ERROR', 'text':
                             f'Постачальник привіз {pineapple_quantity} яблук. Недостатньо коштів на рахунку. Покупка відмінена.'}}
         trade_operation = TradeOperation(
+            quantity=pineapple_quantity,
             operation_type="buying",
             status="error",
         )
@@ -406,7 +411,14 @@ def task_sell_pineapple():
                         'change_account': 'null',
                         'message': {'status': 'ERROR', 'text':
                             f'Покупець хочу купити {pineapple_quantity} ананасів. Недостатньо товару на складі. Продаж відмінено.'}}
-        
+        trade_operation = TradeOperation(
+            quantity=pineapple_quantity,
+            operation_type="sailing",
+            status="error",
+        )
+        trade_operation.commodity = pineapple_obj
+        trade_operation.save()    
+
 
     channel_layer = get_channel_layer()
 
@@ -540,6 +552,7 @@ def task_sell_peach():
                             f'Покупець хочу купити {peach_quantity} персиків. Недостатньо товару на складі. Продаж відмінено.'}}
 
         trade_operation = TradeOperation(
+            quantity=peach_quantity,
             operation_type="sailing",
             status="error",
         )

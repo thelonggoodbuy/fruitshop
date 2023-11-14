@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.views.generic.base import TemplateView
 
 
-from .models import Commodity, Account
+from .models import Commodity, Account, TradeOperation
 
 
 # def main_page(request):
@@ -17,4 +17,5 @@ class FruitDataListView(TemplateView):
         context = super().get_context_data(**kwargs)
         context["commodity_data"] = Commodity.objects.all().order_by('id')
         context["total_money_in_accout"] = Account.objects.first().total_debt
+        context["last_transactions"] = TradeOperation.objects.filter().order_by('-id')[:40]
         return context
