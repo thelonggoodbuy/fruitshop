@@ -1,4 +1,4 @@
-runserver-dev:
+run-server-dev:
 	python manage.py runserver
 
 run-tasks-dev:

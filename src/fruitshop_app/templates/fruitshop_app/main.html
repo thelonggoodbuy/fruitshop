@@ -31,7 +31,7 @@
 </nav>
 <div class="container-fluid border border-3 mx-0 px-3 my-3">  
     <div class="row">
-        <div class="col-8">
+        <div class="col-12 col-xl-8">
             <div class="row">
                 <div class="col-12">
                     <table class="table table-bordered text-center border border-3">
@@ -52,22 +52,29 @@
                         </thead>
                         <tbody>
                             {% for commodity in commodity_data %}
-                            <tr>
-                                <th scope="row">{{commodity.title}}</th>
-                                <td id="quantity_{{ commodity.raw_title }}">{{commodity.quantity}}</td>
-                                <td>
-                                    <div class="row align-items-center">
-                                        <div class="col-6">
-                                            <input class="form-control" placeholder="к-ть" id="input_{{ commodity.raw_title }}">
+                                <tr>
+                                    <th scope="row">{{commodity.title}}</th>
+                                    <td id="quantity_{{ commodity.raw_title }}">{{commodity.quantity}}</td>
+                                    <td>
+                                        <div class="row align-items-center">
+                                            <div class="col-12 col-xl-6">
+                                                <input class="form-control" placeholder="к-ть" id="input_{{ commodity.raw_title }}">
+                                            </div>
+                                            <div class="col-12 col-xl-6 d-grid d-lg-block">
+                                                <button id="buy_{{ commodity.raw_title }}" type="button" class="btn btn-outline-secondary" style="background-color:rgb(163, 235, 175); border-radius: 25px; color:black">Купити</button>
+                                                <button id="sell_{{commodity.raw_title}}" type="button" class="btn btn-outline-secondary" style="background-color:rgb(240, 176, 134); border-radius: 25px; color:black">Продати</button>
+                                            </div>
                                         </div>
-                                        <div class="col-6 d-grid gap-2 d-md-block">
-                                            <button id="buy_{{ commodity.raw_title }}" type="button" class="btn btn-outline-secondary" style="background-color:rgb(163, 235, 175); border-radius: 25px; color:black">Купити</button>
-                                            <button id="sell_{{commodity.raw_title}}" type="button" class="btn btn-outline-secondary" style="background-color:rgb(240, 176, 134); border-radius: 25px; color:black">Продати</button>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td id="last_transaction_{{ commodity.raw_title }}">04 11 2023 10:23 - було куплено 3 ананасів за 20 usd</td>
-                            </tr>
+                                    </td>
+                                    <td id="last_transaction_{{ commodity.raw_title }}">
+                                        <!-- 04 11 2023 10:23 - було куплено 3 ананасів за 20 usd -->
+                                        {% if commodity.last_date_time_quantity %}
+                                            {{ commodity.last_date_time_quantity|date:'d.m.Y H:i' }} - було {% if commodity.last_operation_type == buying %} куплено {% else %} продано {% endif %} {{ commodity.quantity }} {{commodity.title}} за {{ commodity.last_total_cost }} usd.
+                                        {% else %}
+                                            Немає інформації про останню угоду.
+                                        {% endif %}
+                                    </td>
+                                </tr>
                             {% endfor %}
                         </tbody>
                     </table>
@@ -154,14 +161,10 @@
             </div>
 
         </div>
-        <div class="col-4">
-            <!-- <p>Колонка для сообщений по банку</p> -->
+        <div class="col-12 col-xl-4">
                 <div class="row">
                     <div class="col-12 border border-3">
                         <div class="overflow-auto" style="height: 80vh;" id="operation_message_container">
-                            <!-- <p class="text-success">04.11.2023 10:30 - SUCCESS: Постачальник привіз 5 яблук. З рахунку списано 15 usd. Покупка завершена.</p>
-                            <p class="text-danger">04.11.2023 10:35 - ERROR: Постачальник привіз 5 ананасів. Недостатньо коштів на рахунку. Покупка відмінена.</p> -->
-                            <!-- <p class="text-success">{{ transaction.trade_date_time|date:'d.m.Y H:i' }} - {{ transaction.status|title }}: Постачальник привіз {{ transaction.quantity }} {{ transaction.commodity.title }}. З рахунку списано {{ transaction.total_cost }} usd. Покупка завершена.</p> -->
 
                             {% for transaction in last_transactions %}
                             
@@ -227,31 +230,6 @@
         }
 
 
-        //SUCCESS DATA
-        // {
-        // "change_store": {
-        //     "pineapple": 497
-        // },
-        // "change_account": "52.00",
-        // "message": {
-        //     "status": "SUCCESS",
-        //     "text": "Success. Покупець придбав 4 ананасів. На рахунок зараховано 16"
-        // }
-        // }
-
-        
-
-        //ERROR DATA
-        // {
-        // "change_store": "null",
-        // "change_account": "null",
-        // "message": {
-        //     "status": "ERROR",
-        //     "text": "Error. Постачальник привіз 13 персиків. Недостатньо коштів на рахунку. Покупка відмінена."
-        // }
-        // }
-
-
         //receiver function for socket data 
         fruitShopSocket.onmessage = function(e){
             const data = JSON.parse(e.data)
@@ -274,11 +252,11 @@
                 var last_transaction_elem = document.getElementById('last_transaction_' + fruit_type)
                 if (data["data"]["deal_type"] == 'buying'){
                     var date = moment();
-                    var last_operation = date.format('D MM YYYY HH:mm') + ' - було куплено ' + data["data"]["changed_fruit_quantity"] + ' ' + data["data"]["fruit_title"] + ' за ' + data["data"]["fruit_cost"]
+                    var last_operation = date.format('D MM YYYY HH:mm') + ' - було куплено ' + data["data"]["changed_fruit_quantity"] + ' ' + data["data"]["fruit_title"] + ' за ' + data["data"]["fruit_cost"] + ' usd'
                     last_transaction_elem.innerHTML = last_operation
                 } else{
                     var date = moment();
-                    var last_operation = date.format('D MM YYYY HH:mm') + ' - було продано ' + data["data"]["changed_fruit_quantity"] + ' ' + data["data"]["fruit_title"] + ' за ' + data["data"]["fruit_cost"]
+                    var last_operation = date.format('D MM YYYY HH:mm') + ' - було продано ' + data["data"]["changed_fruit_quantity"] + ' ' + data["data"]["fruit_title"] + ' за ' + data["data"]["fruit_cost"] + ' usd'
                     last_transaction_elem.innerHTML = last_operation
                 }
 
@@ -287,32 +265,11 @@
             }
             show_operation_message(message_status, message_text)
 
-            // console.log('*******New message*******')
-            // console.log(data)
-            // console.log('*************************')
-
-
-
-            // document.querySelector('#pineapple_quantity').innerHTML = data.message
-            
-
         }
 
         fruitShopSocket.onclose = function(e){
             console.error('Chat socket closed unexpectably');
         };
-
-
-        // document.querySelector('#buy_pineaple').onclick = function(e){
-
-            // const fruit_quantity_input = document.querySelector('#pineapple_input');
-            // const quantity = fruit_quantity_input.value;
-            // fruitShopSocket.send(JSON.stringify({
-            //     'message': quantity
-            // }));
-
-        // }
-        // document.querySelector('#buy_pineapple').onclick = function(e){
 
         var allBuyButtons = document.querySelectorAll('[id^="buy_"], [id^="sell_"]')
 
