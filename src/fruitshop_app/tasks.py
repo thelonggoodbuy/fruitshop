@@ -11,7 +11,7 @@ from django.apps import apps
 
 
 
-@shared_task
+@shared_task(queue="trade_transaction_task_queue")
 def task_buy_apple():
     Commodity = apps.get_model(app_label='fruitshop_app', model_name='Commodity')
     Account = apps.get_model(app_label='fruitshop_app', model_name='Account')
@@ -84,7 +84,7 @@ def task_buy_apple():
 
 
 
-@shared_task
+@shared_task(queue="trade_transaction_task_queue")
 def task_sell_apple():
     Commodity = apps.get_model(app_label='fruitshop_app', model_name='Commodity')
     Account = apps.get_model(app_label='fruitshop_app', model_name='Account')
@@ -164,7 +164,7 @@ def task_sell_apple():
 
 
 
-@shared_task
+@shared_task(queue="trade_transaction_task_queue")
 def task_buy_banana():
     Commodity = apps.get_model(app_label='fruitshop_app', model_name='Commodity')
     Account = apps.get_model(app_label='fruitshop_app', model_name='Account')
@@ -238,7 +238,7 @@ def task_buy_banana():
 
 
 
-@shared_task
+@shared_task(queue="trade_transaction_task_queue")
 def task_sell_banana():
     Commodity = apps.get_model(app_label='fruitshop_app', model_name='Commodity')
     Account = apps.get_model(app_label='fruitshop_app', model_name='Account')
@@ -313,7 +313,7 @@ def task_sell_banana():
 
 
 
-@shared_task
+@shared_task(queue="trade_transaction_task_queue")
 def task_buy_pineapple():
     Commodity = apps.get_model(app_label='fruitshop_app', model_name='Commodity')
     Account = apps.get_model(app_label='fruitshop_app', model_name='Account')
@@ -386,8 +386,8 @@ def task_buy_pineapple():
 
 
 
-@shared_task
-def task_sell_pineapple():
+@shared_task(queue="trade_transaction_task_queue")
+def task_sell_pineapple(queue="trade_transaction_task_queue"):
     Commodity = apps.get_model(app_label='fruitshop_app', model_name='Commodity')
     Account = apps.get_model(app_label='fruitshop_app', model_name='Account')
     TradeOperation = apps.get_model(app_label='fruitshop_app', model_name='TradeOperation')
