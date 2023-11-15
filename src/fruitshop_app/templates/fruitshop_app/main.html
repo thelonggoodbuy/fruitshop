@@ -69,7 +69,7 @@
                                     <td id="last_transaction_{{ commodity.raw_title }}">
                                         <!-- 04 11 2023 10:23 - було куплено 3 ананасів за 20 usd -->
                                         {% if commodity.last_date_time_quantity %}
-                                            {{ commodity.last_date_time_quantity|date:'d.m.Y H:i' }} - було {% if commodity.last_operation_type == buying %} куплено {% else %} продано {% endif %} {{ commodity.quantity }} {{commodity.title}} за {{ commodity.last_total_cost }} usd.
+                                            {{ commodity.last_date_time_quantity|date:'d.m.Y H:i' }} - було {% if commodity.last_operation_type == buying %} куплено {% else %} продано {% endif %} {{ commodity.last_quantity }} {{commodity.title}} за {{ commodity.last_total_cost }} usd.
                                         {% else %}
                                             Немає інформації про останню угоду.
                                         {% endif %}

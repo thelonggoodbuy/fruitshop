@@ -462,7 +462,7 @@ def task_sell_pineapple():
 
 
 
-@shared_task
+@shared_task(queue="trade_transaction_task_queue")
 def task_buy_peach():
     Commodity = apps.get_model(app_label='fruitshop_app', model_name='Commodity')
     Account = apps.get_model(app_label='fruitshop_app', model_name='Account')
@@ -535,7 +535,7 @@ def task_buy_peach():
 
 
 
-@shared_task
+@shared_task(queue="trade_transaction_task_queue")
 def task_sell_peach():
     Commodity = apps.get_model(app_label='fruitshop_app', model_name='Commodity')
     Account = apps.get_model(app_label='fruitshop_app', model_name='Account')
@@ -609,4 +609,9 @@ def task_sell_peach():
     )
 
 
+
+@shared_task(queue="test_second")
+def task_foo_bar():
+    print('=====123===========>>>>>other queue<<<<<=========456======')
+    return None
 

@@ -164,18 +164,6 @@ CELERY_BROKER_URL = "redis://localhost:6379/0"
 CELERY_RESULT_BACKEND = "redis://localhost:6379/1"
 
 
-# CELERY_BEAT_SCHEDULE = {
-#     "task_one": {
-#         "task": "src.fruitshop_app.tasks.task_one",
-#         "schedule": crontab(minute="*/2"),
-#     },
-#     "task_two": {
-#         "task": "src.fruitshop_app.tasks.task_two",
-#         "schedule": crontab(minute="*/1"),
-#     },
-# }
-
-
 CELERY_BEAT_SCHEDULE = {
     "task_buy_apple": {
         "task": "src.fruitshop_app.tasks.task_buy_apple",
@@ -211,7 +199,21 @@ CELERY_BEAT_SCHEDULE = {
         "task": "src.fruitshop_app.tasks.task_sell_peach",
         "schedule": timedelta(seconds=6),
     },
+    
+
+    "task_foo_bar": {
+        "task": "src.fruitshop_app.tasks.task_foo_bar",
+        "schedule": timedelta(seconds=2),
+    },
 }
+
+
+# CELERY_ROUTES = {
+#     'src.fruitshop_app.tasks.task_buy_apple': {'queue': 'fruit_transaction_queue'},
+#     'src.fruitshop_app.tasks.task_buy_banana': {'queue': 'fruit_transaction_queue'},
+#     'src.fruitshop_app.tasks.task_foo_bar': {'queue': 'second_queue'},
+# }
+
 
 
 CACHES = {
@@ -220,3 +222,8 @@ CACHES = {
         "LOCATION": "redis://127.0.0.1:6379",
     }
 }
+
+
+
+
+
