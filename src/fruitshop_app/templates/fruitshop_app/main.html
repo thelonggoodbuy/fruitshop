@@ -195,16 +195,15 @@
 
     <script>
 
+        // ------------------------->>>>>ROOM----DATA<<<<<-----------------------------------------------------------------------
         const roomName = 'fruit_shop_room'
+        // ------------------------->>>>>BUY-FRUITS-DATA<<<<<-----------------------------------------------------------------------
 
         const fruitShopSocket = new WebSocket(
             'ws://'
             + window.location.host
             + '/ws/fruitshop_app/'
         );
-
-
-        
 
         function show_operation_message(status, text){
             const operation_message_container = document.getElementById("operation_message_container");
@@ -236,10 +235,8 @@
             var message_status = data["data"]["message"]["status"]
             var message_text = data["data"]["message"]["text"]
             
-
             
             if(message_status == "SUCCESS"){
-                // console.log("--------->SUCCESS<-----------------")
                 var fruit_type = Object.keys(data["data"]["change_store"])[0];
                 var new_fruit_value = data["data"]["change_store"][fruit_type]
                 var fruit_remain_data = document.getElementById('quantity_' + fruit_type)
@@ -259,9 +256,6 @@
                     var last_operation = date.format('D MM YYYY HH:mm') + ' - було продано ' + data["data"]["changed_fruit_quantity"] + ' ' + data["data"]["fruit_title"] + ' за ' + data["data"]["fruit_cost"] + ' usd'
                     last_transaction_elem.innerHTML = last_operation
                 }
-
-                
-                
             }
             show_operation_message(message_status, message_text)
 
@@ -301,7 +295,12 @@
 
             })
         })
+
+    // ------------------------->>>>>END---------BUY-FRUITS-DATA<<<<<----------------------------------------------------------
         
+
+
+
     </script>
 </body>
 </html>
