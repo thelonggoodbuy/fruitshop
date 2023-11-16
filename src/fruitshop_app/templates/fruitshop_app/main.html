@@ -9,6 +9,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <link rel="stylesheet" href="{% static 'fruitshop_app/plugins/bootstrap-5.0.2-dist/css/bootstrap.min.css' %}" />
+    <link rel="stylesheet" href="{% static 'fruitshop_app/plugins/toastr/build/toastr.min.css' %}" />
 
 
 </head>
@@ -21,10 +22,10 @@
             <img src="{% static 'fruitshop_app/img/cartoon-orange.png' %}" width="50" height="50" class="d-inline-block align-top" alt="">
             <span class="text-dark display-6">MyFruitShop</span>
         </a>
-            <form class="d-flex">
-                <input class="form-control me-2" type="text" placeholder="Username" />
-                <input class="form-control me-2" type="password" placeholder="Password" />
-                <button class="btn btn-outline-danger" type="submit" style="background-color:rgb(255, 117, 26); border-radius: 25px; color:black">Login</button>
+            <form id="login_form" class="d-flex">
+                <input id="username_input" class="form-control me-2" type="text" placeholder="Username" />
+                <input id="password_input" class="form-control me-2" type="password" placeholder="Password" />
+                <button id="login_button" class="btn btn-outline-danger" type="button" style="background-color:rgb(255, 117, 26); border-radius: 25px; color:black">Login</button>
             </form>
         </div>
     </div>
@@ -190,14 +191,20 @@
 
 
     <script src="{% static 'fruitshop_app/plugins/bootstrap-5.0.2-dist/js/bootstrap.bundle.min.js' %}"></script>
+
+    <script src="{% static 'fruitshop_app/plugins/jquery-3.7.1.min.js' %}"></script>
+    <script src="{% static 'fruitshop_app/plugins/toastr/build/toastr.min.js' %}"></script>
     <!-- <script src="moment.js"></script> -->
-    <script src="{% static 'fruitshop_app/plugins/momentjs/moment-with-locales.js' %}"></script>
+    <!-- <script src="{% static 'fruitshop_app/plugins/momentjs/moment-with-locales.js' %}"></script>
+    <script src="{% static 'fruitshop_app/plugins/momentjs/moment-with-locales.min.js.map' %}"></script> -->
 
     <script>
 
+        
+
         // ------------------------->>>>>ROOM----DATA<<<<<-----------------------------------------------------------------------
         const roomName = 'fruit_shop_room'
-        // ------------------------->>>>>BUY-FRUITS-DATA<<<<<-----------------------------------------------------------------------
+        // ------------------------->>>>>BUY-FRUITS-LOGIC<<<<<-----------------------------------------------------------------------
 
         const fruitShopSocket = new WebSocket(
             'ws://'
@@ -296,10 +303,53 @@
             })
         })
 
-    // ------------------------->>>>>END---------BUY-FRUITS-DATA<<<<<----------------------------------------------------------
-        
+    // ------------------------->>>>>END---------BUY-FRUITS-LOGIC<<<<<----------------------------------------------------------
+
+    // ------------------------->>>>>-BUY-FRUITS-DATA<<<<<----------------------------------------------------------
+
+    const LoginSocket = new WebSocket(
+            'ws://'
+            + window.location.host
+            + '/ws/login/'
+        );
 
 
+    document.querySelector('#login_button').onclick = function(event){
+
+        var usernameValue = document.querySelector('#username_input').value
+        var passwordValue = document.querySelector('#password_input').value
+
+        if(usernameValue == ''){
+            toastr.info('Please enter username!')
+        } else if (passwordValue == ''){
+            toastr.info('Please enter password!')
+        } else {
+            LoginSocket.send(JSON.stringify({
+            'login': usernameValue,
+            'password': passwordValue
+        }))
+    };
+};
+
+
+
+    toastr.options = {
+        "closeButton": true,
+        "debug": false,
+        "newestOnTop": true,
+        "progressBar": true,
+        "positionClass": "toast-top-center",
+        "preventDuplicates": true,
+        "onclick": null,
+        "showDuration": "300",
+        "hideDuration": "1000",
+        "timeOut": "5000",
+        "extendedTimeOut": "1000",
+        "showEasing": "swing",
+        "hideEasing": "linear",
+        "showMethod": "fadeIn",
+        "hideMethod": "fadeOut"
+    }
 
     </script>
 </body>

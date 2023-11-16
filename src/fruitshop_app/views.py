@@ -43,9 +43,9 @@ class FruitDataListView(TemplateView):
                                                                 last_operation_type=last_operation_type_subquery)\
                                                         .all().order_by('id')
         
-        print('-------------------------------')
-        print(commodity_last_transaction)
-        print('------------------------------')
+        # print('-------------------------------')
+        # print(commodity_last_transaction)
+        # print('------------------------------')
         
         context["commodity_data"] = commodity_last_transaction
 
