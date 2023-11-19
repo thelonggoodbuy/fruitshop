@@ -181,8 +181,6 @@ CELERY_BEAT_SCHEDULE = {
         "task": "src.fruitshop_app.tasks.task_buy_peach",
         "schedule": timedelta(seconds=15),
     },
-
-
     "task_sell_apple": {
         "task": "src.fruitshop_app.tasks.task_sell_apple",
         "schedule": timedelta(seconds=15),
@@ -207,12 +205,6 @@ CELERY_BEAT_SCHEDULE = {
     },
 }
 
-
-# CELERY_ROUTES = {
-#     'src.fruitshop_app.tasks.task_buy_apple': {'queue': 'fruit_transaction_queue'},
-#     'src.fruitshop_app.tasks.task_buy_banana': {'queue': 'fruit_transaction_queue'},
-#     'src.fruitshop_app.tasks.task_foo_bar': {'queue': 'second_queue'},
-# }
 
 
 

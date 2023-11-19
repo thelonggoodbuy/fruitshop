@@ -609,9 +609,41 @@ def task_sell_peach():
     )
 
 
-
 @shared_task(queue="test_second")
 def task_foo_bar():
     print('=====123===========>>>>>other queue<<<<<=========456======')
     return None
 
+from decimal import Decimal
+
+@shared_task(queue="auxiliary_queue")
+def task_change_account_ballance(changes_in_account):
+    Account = apps.get_model(app_label='fruitshop_app', model_name='Account')
+    account_obj = Account.objects.first()
+    account_debt_state = account_obj.total_debt
+    if changes_in_account['type'] == 'top_up':
+        account_obj.total_debt += Decimal(changes_in_account['money'])
+        message_text = f"Рахунок поповнено на {changes_in_account['money']} USD"
+        status = 'success'
+        account_obj.save()
+    elif changes_in_account['type'] == 'withdraw' and Decimal(changes_in_account['money']) <= account_debt_state:
+        account_obj.total_debt -= Decimal(changes_in_account['money'])
+        message_text = f"З рахунку виведено {changes_in_account['money']} USD"
+        status = 'success'
+        account_obj.save()
+    elif changes_in_account['type'] == 'withdraw' and Decimal(changes_in_account['money']) > account_debt_state:
+        message_text = f"Поточний стан рахунку не дає змоги вивести з нього {changes_in_account['money']}"
+        status = 'fail'
+
+    output_data = {"account_state": str(account_obj.total_debt), "message": message_text, "status": status}
+
+    channel_layer = get_channel_layer()
+
+    async_to_sync(channel_layer.group_send)(
+        'chat_fruit_shop_room',
+        {
+            'type': 'send_data',
+            'event_data': output_data,
+            "KEY_PREFIX": "fruit_shop",
+        }
+    )

@@ -164,13 +164,13 @@
                     </div>
                     <div class="row align-items-center mt-3">
                         <div class="col-lg-6">
-                            <input class="form-control mb-3" placeholder="Сумма">
+                            <input class="form-control mb-3" placeholder="Сумма" id="change_account_summ">
                         </div>
                         <div class="col-lg-6">
                             <div class="row">
                                 <div class="col-12 d-grid gap-2 d-md-block">
-                                    <button type="button" class="btn btn-outline-secondary" style="background-color:rgb(163, 235, 175); border-radius: 25px; color:black">Поповнити</button>
-                                    <button type="button" class="btn btn-outline-secondary" style="background-color:rgb(240, 176, 134); border-radius: 25px; color:black">Вивести</button>
+                                    <button id="top_up_change_account" type="button" class="btn btn-outline-secondary" style="background-color:rgb(163, 235, 175); border-radius: 25px; color:black">Поповнити</button>
+                                    <button id="withdraw_change_account" type="button" class="btn btn-outline-secondary" style="background-color:rgb(240, 176, 134); border-radius: 25px; color:black">Вивести</button>
                                 </div>
                             </div>
                         </div>
@@ -220,8 +220,8 @@
     <script src="{% static 'fruitshop_app/plugins/jquery-3.7.1.min.js' %}"></script>
     <script src="{% static 'fruitshop_app/plugins/toastr/build/toastr.min.js' %}"></script>
     <!-- <script src="moment.js"></script> -->
-    <!-- <script src="{% static 'fruitshop_app/plugins/momentjs/moment-with-locales.js' %}"></script>
-    <script src="{% static 'fruitshop_app/plugins/momentjs/moment-with-locales.min.js.map' %}"></script> -->
+    <script src="{% static 'fruitshop_app/plugins/momentjs/moment-with-locales.js' %}"></script>
+    <!-- <script src="{% static 'fruitshop_app/plugins/momentjs/moment-with-locales.min.js.map' %}"></script> -->
 
     <script>
 
@@ -263,32 +263,33 @@
 
         //receiver function for socket data 
         fruitShopSocket.onmessage = function(e){
+            console.log('fruitShopSocket onmessage work!')
             const data = JSON.parse(e.data)
             var message_status = data["data"]["message"]["status"]
             var message_text = data["data"]["message"]["text"]
             
             
-            if(message_status == "SUCCESS"){
-                var fruit_type = Object.keys(data["data"]["change_store"])[0];
-                var new_fruit_value = data["data"]["change_store"][fruit_type]
-                var fruit_remain_data = document.getElementById('quantity_' + fruit_type)
-                fruit_remain_data.innerHTML = new_fruit_value
+            // if(message_status == "SUCCESS"){
+            //     var fruit_type = Object.keys(data["data"]["change_store"])[0];
+            //     var new_fruit_value = data["data"]["change_store"][fruit_type]
+            //     var fruit_remain_data = document.getElementById('quantity_' + fruit_type)
+            //     fruit_remain_data.innerHTML = new_fruit_value
 
-                var change_account = data["data"]["change_account"]
-                var total_in_account_elem = document.getElementById("total_money_in_accout")
-                total_in_account_elem.innerHTML = change_account
+            //     var change_account = data["data"]["change_account"]
+            //     var total_in_account_elem = document.getElementById("total_money_in_accout")
+            //     total_in_account_elem.innerHTML = change_account
 
-                var last_transaction_elem = document.getElementById('last_transaction_' + fruit_type)
-                if (data["data"]["deal_type"] == 'buying'){
-                    var date = moment();
-                    var last_operation = date.format('D MM YYYY HH:mm') + ' - було куплено ' + data["data"]["changed_fruit_quantity"] + ' ' + data["data"]["fruit_title"] + ' за ' + data["data"]["fruit_cost"] + ' usd'
-                    last_transaction_elem.innerHTML = last_operation
-                } else{
-                    var date = moment();
-                    var last_operation = date.format('D MM YYYY HH:mm') + ' - було продано ' + data["data"]["changed_fruit_quantity"] + ' ' + data["data"]["fruit_title"] + ' за ' + data["data"]["fruit_cost"] + ' usd'
-                    last_transaction_elem.innerHTML = last_operation
-                }
-            }
+            //     var last_transaction_elem = document.getElementById('last_transaction_' + fruit_type)
+            //     if (data["data"]["deal_type"] == 'buying'){
+            //         var date = moment();
+            //         var last_operation = date.format('D MM YYYY HH:mm') + ' - було куплено ' + data["data"]["changed_fruit_quantity"] + ' ' + data["data"]["fruit_title"] + ' за ' + data["data"]["fruit_cost"] + ' usd'
+            //         last_transaction_elem.innerHTML = last_operation
+            //     } else{
+            //         var date = moment();
+            //         var last_operation = date.format('D MM YYYY HH:mm') + ' - було продано ' + data["data"]["changed_fruit_quantity"] + ' ' + data["data"]["fruit_title"] + ' за ' + data["data"]["fruit_cost"] + ' usd'
+            //         last_transaction_elem.innerHTML = last_operation
+            //     }
+            // }
             show_operation_message(message_status, message_text)
 
         }
@@ -330,32 +331,51 @@
 
     // ------------------------->>>>>END---------BUY-FRUITS-LOGIC<<<<<----------------------------------------------------------
 
-    // ------------------------->>>>>-BUY-FRUITS-DATA<<<<<----------------------------------------------------------
+    // ------------------------->>>>>CHANGE---BALLANCE---LOGIC<<<<<----------------------------------------------------------
+    const changeAccountSocket = new WebSocket(
+            'ws://'
+            + window.location.host
+            + '/ws/change_ballance/'
+        );
 
-//     const LoginSocket = new WebSocket(
-//             'ws://'
-//             + window.location.host
-//             + '/ws/login/'
-//         );
+    var allChangeAccountButtons = document.querySelectorAll('[id$="_change_account"]')
+    Array.from(allChangeAccountButtons).forEach(change_account_button => {
+        change_account_button.addEventListener('click', function(event){
+            var change_summ_input = document.getElementById('change_account_summ')
+            var change_account_summ = change_summ_input.value
+            if(change_account_button.id == 'top_up_change_account' && change_account_summ != ''){
+                var changes_in_account = {'type': 'top_up', 'money': change_account_summ}
+                change_summ_input.value = ''
+                // console.log(changes_in_account)
+                changeAccountSocket.send(JSON.stringify({'changes_in_account': changes_in_account}))
+            } else if(change_account_button.id == 'withdraw_change_account' && change_account_summ != ''){
+                var changes_in_account = {'type': 'withdraw', 'money': change_account_summ}
+                // console.log(changes_in_account)
+                change_summ_input.value = ''
+                changeAccountSocket.send(JSON.stringify({'changes_in_account': changes_in_account}))
+            } else {
+                toastr.info("Щоб внести зміни в стан рахунку, заповніть поле 'сумма'")
+            }
+        })
+    })
 
+    changeAccountSocket.onmessage = function(e){
+        console.log('changeAccountSocket onmessage work!')
+        var data = JSON.parse(e.data)
+        var account_data = document.getElementById('total_money_in_accout')
+        account_data.innerHTML = data['data']['account_state']
+        if (data['data']['status']=='success'){
+            text = data['data']['mesage']
+            toastr.success(text)        
+        } else {
+            text = data['data']['mesage']
+            toastr.error(text)
+        }
+    }
 
-//     document.querySelector('#login_button').onclick = function(event){
+    
 
-//         var usernameValue = document.querySelector('#username_input').value
-//         var passwordValue = document.querySelector('#password_input').value
-
-//         if(usernameValue == ''){
-//             toastr.info('Please enter username!')
-//         } else if (passwordValue == ''){
-//             toastr.info('Please enter password!')
-//         } else {
-//             LoginSocket.send(JSON.stringify({
-//             'login': usernameValue,
-//             'password': passwordValue
-//         }))
-//     };
-// };
-
+    // ------------------------->>>>>END------CHANGE---BALLANCE---LOGIC<<<<<----------------------------------------------------------
 
 
     toastr.options = {
