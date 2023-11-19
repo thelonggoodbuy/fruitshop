@@ -39,24 +39,22 @@ class BuyingConsumer(WebsocketConsumer):
 
 
 
+from channels.auth import login
+from channels.db import database_sync_to_async
+from django.contrib.auth import authenticate
+
+
 class LoginConsumer(WebsocketConsumer):
     def connect(self):
-        # self.room_name = 'fruit_shop_room'
-        # self.room_group_name = f"chat_{self.room_name}"
 
-        # async_to_sync(self.channel_layer.group_add)(
-        #     self.room_group_name, self.channel_name
-        # )
         print('connect consumer 2')
         print('=====Do you want to login?=======')
-
+        self.user = self.scope['user']
+ 
         self.accept()
 
     def disconnect(self, close_code):
         print('Disconnect from login work!')
-        # async_to_sync(self.channel_layer.group_discard)(
-        #     self.room_group_name, self.channel_name
-        # )
 
 
     def receive(self, text_data):
@@ -64,6 +62,21 @@ class LoginConsumer(WebsocketConsumer):
         print('----------authentication data from socket-------------')
         print(authentication_data_json)
         print('------------------------------------------------------')
+        if not self.user.is_authenticated:  # new
+            return                          # new
+
+
+        data= {"username": authentication_data_json['login'], "password": authentication_data_json["password"]}
+        
+        # user = authenticate(request, username=username, password=password)
+
+
+        # user = authenticate(**data)
+
+
+        # await login(self.scope, self.user)
+        # save the session (if the session backend does not access the db you can use `sync_to_async`)
+        # await database_sync_to_async(self.scope["session"].save)()
         # cache.set(key='changes_in_tasks', value=received_data_json)
         # print('you_have_receive')
         # print(received_data_json)

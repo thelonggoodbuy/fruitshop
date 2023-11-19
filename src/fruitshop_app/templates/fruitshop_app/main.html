@@ -14,22 +14,47 @@
 
 </head>
 <body>
-      
-<nav class="navbar navbar-expand-lg" style="background-color:rgb(255, 224, 179);">
-    <div class="container-fluid">
-        <a class="navbar-brand" href="#">
-            <!-- <img src="../static/cartoon-orange.png" width="50" height="50" class="d-inline-block align-top" alt=""> -->
-            <img src="{% static 'fruitshop_app/img/cartoon-orange.png' %}" width="50" height="50" class="d-inline-block align-top" alt="">
-            <span class="text-dark display-6">MyFruitShop</span>
-        </a>
-            <form id="login_form" class="d-flex">
-                <input id="username_input" class="form-control me-2" type="text" placeholder="Username" />
-                <input id="password_input" class="form-control me-2" type="password" placeholder="Password" />
-                <button id="login_button" class="btn btn-outline-danger" type="button" style="background-color:rgb(255, 117, 26); border-radius: 25px; color:black">Login</button>
-            </form>
+{% if user.is_authenticated %}
+    <nav class="navbar navbar-expand-lg" style="background-color:rgb(255, 224, 179);">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">
+                <!-- <img src="../static/cartoon-orange.png" width="50" height="50" class="d-inline-block align-top" alt=""> -->
+                <img src="{% static 'fruitshop_app/img/cartoon-orange.png' %}" width="50" height="50" class="d-inline-block align-top" alt="">
+                <span class="text-dark display-6">MyFruitShop</span>
+            </a>
+
+            <!-- <button id="login_button" class="btn btn-outline-danger" type="submit" style="background-color:rgb(255, 117, 26); border-radius: 25px; color:black">Login</button> -->
+            <span class="ms-auto mx-4">{{user.username}}</span>
+            <a href="{% url 'logout' %}" class="btn btn-outline-danger" style="background-color:rgb(255, 117, 26); border-radius: 25px; color:black">Logout</a>
+            </div>
         </div>
-    </div>
-</nav>
+    </nav>
+{% else %}
+    <nav class="navbar navbar-expand-lg" style="background-color:rgb(255, 224, 179);">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">
+                <!-- <img src="../static/cartoon-orange.png" width="50" height="50" class="d-inline-block align-top" alt=""> -->
+                <img src="{% static 'fruitshop_app/img/cartoon-orange.png' %}" width="50" height="50" class="d-inline-block align-top" alt="">
+                <span class="text-dark display-6">MyFruitShop</span>
+                <!-- {% if user.is_authenticated %}
+                    <span>Hi, {{user.username}}</span>
+                {% else %}
+                    <span>You are not authenticated</span>
+                {% endif %} -->
+            </a>
+                <!-- <form id="login_form" class="d-flex"> -->
+                <form method="post" enctype="multipart/form-data" class="d-flex">
+                    {% csrf_token %}
+                    <!-- <input id="username_input" class="form-control me-2" type="text" placeholder="Username" /> -->
+                    {{ form.username }}
+                    <!-- <input id="password_input" class="form-control me-2" type="password" placeholder="Password" /> -->
+                    {{ form.password }}
+                    <button id="login_button" class="btn btn-outline-danger" type="submit" style="background-color:rgb(255, 117, 26); border-radius: 25px; color:black">Login</button>
+                </form>
+            </div>
+        </div>
+    </nav>
+{% endif %}
 <div class="container-fluid border border-3 mx-0 px-3 my-3">  
     <div class="row">
         <div class="col-12 col-xl-8">
@@ -307,29 +332,29 @@
 
     // ------------------------->>>>>-BUY-FRUITS-DATA<<<<<----------------------------------------------------------
 
-    const LoginSocket = new WebSocket(
-            'ws://'
-            + window.location.host
-            + '/ws/login/'
-        );
+//     const LoginSocket = new WebSocket(
+//             'ws://'
+//             + window.location.host
+//             + '/ws/login/'
+//         );
 
 
-    document.querySelector('#login_button').onclick = function(event){
+//     document.querySelector('#login_button').onclick = function(event){
 
-        var usernameValue = document.querySelector('#username_input').value
-        var passwordValue = document.querySelector('#password_input').value
+//         var usernameValue = document.querySelector('#username_input').value
+//         var passwordValue = document.querySelector('#password_input').value
 
-        if(usernameValue == ''){
-            toastr.info('Please enter username!')
-        } else if (passwordValue == ''){
-            toastr.info('Please enter password!')
-        } else {
-            LoginSocket.send(JSON.stringify({
-            'login': usernameValue,
-            'password': passwordValue
-        }))
-    };
-};
+//         if(usernameValue == ''){
+//             toastr.info('Please enter username!')
+//         } else if (passwordValue == ''){
+//             toastr.info('Please enter password!')
+//         } else {
+//             LoginSocket.send(JSON.stringify({
+//             'login': usernameValue,
+//             'password': passwordValue
+//         }))
+//     };
+// };
 
 
 
