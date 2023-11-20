@@ -93,11 +93,59 @@ class GetAccountAndLastOperationDataConsumer(WebsocketConsumer):
         )
 
 
-    # def receive(self, text_data):
-    #     received_data_json = json.loads(text_data)
-    #     cache.set(key='changes_in_tasks', value=received_data_json)
-
-
     def send_data(self, event):
         data = event["event_data"]
         self.send(text_data=json.dumps({"data": data}))
+
+
+
+from faker import Faker
+fake = Faker('uk_UA')
+
+class ChatWithTechSupport(WebsocketConsumer):
+    def connect(self):
+        self.room_name = 'chat_with_techsuport_shop_room'
+        self.room_group_name = f"group_{self.room_name}"
+
+        async_to_sync(self.channel_layer.group_add)(
+            self.room_group_name, self.channel_name
+        )
+        self.user = self.scope["user"]
+        self.accept()
+
+
+    def receive(self, text_data):
+        print(f'text-data-is: {text_data}')
+
+        received_data_json = json.loads(text_data)
+
+        # chek user status
+        if self.user.is_authenticated:
+            perm_status = 'authenticated'
+            response = 
+        else:
+            perm_status = 'anonym'
+            response = None
+
+
+        async_to_sync(self.channel_layer.group_send)(
+            self.room_group_name, {"type": "chat.message", 
+                                   "message": received_data_json,
+                                   "perm_status": perm_status}
+        )
+
+
+
+    def disconnect(self, close_code):
+        async_to_sync(self.channel_layer.group_discard)(
+            self.room_group_name, self.channel_name
+        )
+
+
+    def chat_message(self, event):
+        print(event)
+        data = event
+        del data["type"]
+        self.send(text_data=json.dumps({"data": data}))
+
+

@@ -708,7 +708,9 @@ def task_update_account_data_and_last_operations():
 
 
     output_data = {"account_state": str(account_state), "commodity_data": commodity_last_transaction}
+    
     channel_layer = get_channel_layer()
+
     async_to_sync(channel_layer.group_send)(
         'account_and_last_operation_fruit_shop_room',
         {
