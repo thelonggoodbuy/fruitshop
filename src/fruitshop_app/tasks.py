@@ -8,6 +8,8 @@ from django.core.cache import cache
 from django.apps import apps
 
 
+from decimal import Decimal
+import pprint
 
 
 
@@ -614,9 +616,6 @@ def task_foo_bar():
     print('=====123===========>>>>>other queue<<<<<=========456======')
     return None
 
-from decimal import Decimal
-
-import pprint
 
 @shared_task(queue="auxiliary_queue")
 def task_change_account_ballance(changes_in_account, channel_name):
@@ -643,6 +642,75 @@ def task_change_account_ballance(changes_in_account, channel_name):
 
     async_to_sync(channel_layer.send)(
         channel_name,
+        {
+            'type': 'send_data',
+            'event_data': output_data,
+            "KEY_PREFIX": "fruit_shop",
+        }
+    )
+
+
+from django.db.models import OuterRef, Subquery
+import json
+from django.core import serializers
+from django.db.models import F, Func, Value, CharField
+
+
+@shared_task(queue="auxiliary_queue")
+def task_update_account_data_and_last_operations():
+    Commodity = apps.get_model(app_label='fruitshop_app', model_name='Commodity')
+    Account = apps.get_model(app_label='fruitshop_app', model_name='Account')
+    TradeOperation = apps.get_model(app_label='fruitshop_app', model_name='TradeOperation')
+    account_state = Account.objects.first().total_debt
+
+
+    last_date_time_subquery = Subquery(TradeOperation.objects.filter(
+            commodity=OuterRef('pk'), status="success").order_by('-trade_date_time')\
+                .values_list('trade_date_time')[:1]
+            )
+    last_quantity_subquery = Subquery(TradeOperation.objects.filter(
+        commodity=OuterRef('pk'), status="success").order_by('-trade_date_time')\
+            .values_list('quantity')[:1]
+        )
+    last_total_cost_subquery = Subquery(TradeOperation.objects.filter(
+        commodity=OuterRef('pk'), status="success").order_by('-trade_date_time')\
+            .values_list('total_cost')[:1]
+        )
+    last_operation_type_subquery = Subquery(TradeOperation.objects.filter(
+        commodity=OuterRef('pk'), status="success").order_by('-trade_date_time')\
+            .values_list('operation_type')[:1]
+        )
+    
+
+    commodity_last_transaction_raw_data = Commodity.objects.annotate(last_date_time_quantity=last_date_time_subquery,
+                                                                last_quantity=last_quantity_subquery,
+                                                                last_total_cost=last_total_cost_subquery,
+                                                                last_operation_type=last_operation_type_subquery)\
+                                                            .annotate(format_last_date_time_quantity=Func(
+                                                                                                    F('last_date_time_quantity'),
+                                                                                                    Value('dd.MM.yyyy hh:mm'),
+                                                                                                    function='to_char',
+                                                                                                    output_field=CharField()
+                                                                                                )
+                                                                                            )\
+                                                            .all().order_by('id').values(
+                                                            'raw_title', 'title', 'format_last_date_time_quantity',
+                                                            'last_quantity', 'last_total_cost', 'last_operation_type'
+                                                        )
+    
+    commodity_last_transaction = list(commodity_last_transaction_raw_data)
+    
+    for commodity in commodity_last_transaction:
+        total_cost = commodity['last_total_cost']
+        formated_total_cost = str(total_cost)
+        commodity['last_total_cost'] = formated_total_cost
+        print(commodity)
+
+
+    output_data = {"account_state": str(account_state), "commodity_data": commodity_last_transaction}
+    channel_layer = get_channel_layer()
+    async_to_sync(channel_layer.group_send)(
+        'account_and_last_operation_fruit_shop_room',
         {
             'type': 'send_data',
             'event_data': output_data,

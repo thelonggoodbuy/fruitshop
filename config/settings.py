@@ -203,6 +203,11 @@ CELERY_BEAT_SCHEDULE = {
         "task": "src.fruitshop_app.tasks.task_foo_bar",
         "schedule": timedelta(seconds=2),
     },
+
+    "task_update_account_data_and_last_operations": {
+        "task": "src.fruitshop_app.tasks.task_update_account_data_and_last_operations",
+        "schedule": timedelta(seconds=10)
+    }
 }
 
 

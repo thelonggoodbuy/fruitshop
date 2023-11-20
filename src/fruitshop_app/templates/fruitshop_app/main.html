@@ -268,28 +268,6 @@
             var message_status = data["data"]["message"]["status"]
             var message_text = data["data"]["message"]["text"]
             
-            
-            // if(message_status == "SUCCESS"){
-            //     var fruit_type = Object.keys(data["data"]["change_store"])[0];
-            //     var new_fruit_value = data["data"]["change_store"][fruit_type]
-            //     var fruit_remain_data = document.getElementById('quantity_' + fruit_type)
-            //     fruit_remain_data.innerHTML = new_fruit_value
-
-            //     var change_account = data["data"]["change_account"]
-            //     var total_in_account_elem = document.getElementById("total_money_in_accout")
-            //     total_in_account_elem.innerHTML = change_account
-
-            //     var last_transaction_elem = document.getElementById('last_transaction_' + fruit_type)
-            //     if (data["data"]["deal_type"] == 'buying'){
-            //         var date = moment();
-            //         var last_operation = date.format('D MM YYYY HH:mm') + ' - було куплено ' + data["data"]["changed_fruit_quantity"] + ' ' + data["data"]["fruit_title"] + ' за ' + data["data"]["fruit_cost"] + ' usd'
-            //         last_transaction_elem.innerHTML = last_operation
-            //     } else{
-            //         var date = moment();
-            //         var last_operation = date.format('D MM YYYY HH:mm') + ' - було продано ' + data["data"]["changed_fruit_quantity"] + ' ' + data["data"]["fruit_title"] + ' за ' + data["data"]["fruit_cost"] + ' usd'
-            //         last_transaction_elem.innerHTML = last_operation
-            //     }
-            // }
             show_operation_message(message_status, message_text)
 
         }
@@ -331,7 +309,7 @@
 
     // ------------------------->>>>>END---------BUY-FRUITS-LOGIC<<<<<----------------------------------------------------------
 
-    // ------------------------->>>>>CHANGE---BALLANCE---LOGIC<<<<<----------------------------------------------------------
+    // ------------------------->>>>>CHANGE---BALLANCE--AND---LAST----OPERATIONS-LOGIC<<<<<----------------------------------------------------------
     const changeAccountSocket = new WebSocket(
             'ws://'
             + window.location.host
@@ -360,11 +338,11 @@
     })
 
     changeAccountSocket.onmessage = function(e){
-        console.log('changeAccountSocket onmessage work!')
+        // console.log('changeAccountSocket onmessage work!')
         var data = JSON.parse(e.data)
         var account_data = document.getElementById('total_money_in_accout')
-        
-        console.log(data)
+
+        // console.log(data)
 
         if (data['data']['status']=='success'){
             account_data.innerHTML = data['data']['account_state']
@@ -376,9 +354,70 @@
         }
     }
 
-    
+    // ------------------------------------------------------------------------------------------------------------------
+                
+    const getAccountAndLastOperationsDataSocket = new WebSocket(
+            'ws://'
+            + window.location.host
+            + '/ws/get_account_and_last_operaions_data/'
+        );
 
-    // ------------------------->>>>>END------CHANGE---BALLANCE---LOGIC<<<<<----------------------------------------------------------
+    getAccountAndLastOperationsDataSocket.onmessage = function(e){
+        // console.log('changeAccountSocket onmessage work!')
+        var data = JSON.parse(e.data)
+        // console.log("=============================")
+        // console.log(data)
+        // console.log("=============================")
+        var account_state = data['data']['account_state']
+        var account_data = document.getElementById('total_money_in_accout')
+        account_data.innerHTML = data['data']['account_state']
+
+        for(var commodity of data['data']['commodity_data']){
+            console.log(commodity)
+            var fruit_type = commodity['raw_title']
+            var last_transaction_elem = document.getElementById('last_transaction_' + fruit_type)
+
+            if (commodity["last_operation_type"] == 'buying'){
+                var last_operation = commodity['format_last_date_time_quantity'] + ' - було куплено ' + commodity["last_quantity"] + ' ' + commodity["title"] + ' за ' + commodity["last_total_cost"] + ' usd'
+                last_transaction_elem.innerHTML = last_operation
+            } else if (commodity["last_operation_type"] == 'sailing'){
+                var last_operation = commodity['format_last_date_time_quantity'] + ' - було продано ' + commodity["last_quantity"] + ' ' + commodity["title"] + ' за ' + commodity["last_total_cost"] + ' usd'
+                last_transaction_elem.innerHTML = last_operation
+            } else {
+                last_transaction_elem.innerHTML = "Немає інформації про останню угоду."
+            }
+
+        }
+
+        toastr.success('Відомості про стан рахунку та останні операції оновлено')
+    }
+
+            // if(message_status == "SUCCESS"){
+            //     var fruit_type = Object.keys(data["data"]["change_store"])[0];
+            //     var new_fruit_value = data["data"]["change_store"][fruit_type]
+            //     var fruit_remain_data = document.getElementById('quantity_' + fruit_type)
+            //     fruit_remain_data.innerHTML = new_fruit_value
+
+            //     var change_account = data["data"]["change_account"]
+            //     var total_in_account_elem = document.getElementById("total_money_in_accout")
+            //     total_in_account_elem.innerHTML = change_account
+
+            //     var last_transaction_elem = document.getElementById('last_transaction_' + fruit_type)
+            //     if (data["data"]["deal_type"] == 'buying'){
+            //         var date = moment();
+            //         var last_operation = date.format('D MM YYYY HH:mm') + ' - було куплено ' + data["data"]["changed_fruit_quantity"] + ' ' + data["data"]["fruit_title"] + ' за ' + data["data"]["fruit_cost"] + ' usd'
+            //         last_transaction_elem.innerHTML = last_operation
+            //     } else{
+            //         var date = moment();
+            //         var last_operation = date.format('D MM YYYY HH:mm') + ' - було продано ' + data["data"]["changed_fruit_quantity"] + ' ' + data["data"]["fruit_title"] + ' за ' + data["data"]["fruit_cost"] + ' usd'
+            //         last_transaction_elem.innerHTML = last_operation
+            //     }
+            // }
+
+
+
+
+    // ------------------------->>>>>CHANGE---BALLANCE--AND---LAST----OPERATIONS-LOGIC<<<<<----------------------------------------------------------
 
 
     toastr.options = {
