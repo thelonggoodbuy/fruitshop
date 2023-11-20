@@ -616,8 +616,10 @@ def task_foo_bar():
 
 from decimal import Decimal
 
+import pprint
+
 @shared_task(queue="auxiliary_queue")
-def task_change_account_ballance(changes_in_account):
+def task_change_account_ballance(changes_in_account, channel_name):
     Account = apps.get_model(app_label='fruitshop_app', model_name='Account')
     account_obj = Account.objects.first()
     account_debt_state = account_obj.total_debt
@@ -639,8 +641,8 @@ def task_change_account_ballance(changes_in_account):
 
     channel_layer = get_channel_layer()
 
-    async_to_sync(channel_layer.group_send)(
-        'chat_fruit_shop_room',
+    async_to_sync(channel_layer.send)(
+        channel_name,
         {
             'type': 'send_data',
             'event_data': output_data,

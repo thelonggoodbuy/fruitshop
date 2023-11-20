@@ -363,13 +363,16 @@
         console.log('changeAccountSocket onmessage work!')
         var data = JSON.parse(e.data)
         var account_data = document.getElementById('total_money_in_accout')
-        account_data.innerHTML = data['data']['account_state']
+        
+        console.log(data)
+
         if (data['data']['status']=='success'){
-            text = data['data']['mesage']
+            account_data.innerHTML = data['data']['account_state']
+            var text = data['data']['message']
             toastr.success(text)        
         } else {
-            text = data['data']['mesage']
-            toastr.error(text)
+            var text = data['data']['message']
+            toastr.warning(text)
         }
     }
 

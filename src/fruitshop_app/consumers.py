@@ -36,11 +36,15 @@ class BuyingConsumer(WebsocketConsumer):
 
 import pprint
 from .tasks import task_change_account_ballance
+from channels.auth import UserLazyObject
 
 class ChangeBallanceConsumer(WebsocketConsumer):
     def connect(self):
-        self.room_name = 'fruit_shop_room'
+        self.room_name = 'change_balance_room'
         self.room_group_name = f"chat_{self.room_name}"
+
+        print(f'Chanel_name: {self.channel_name}')
+
         async_to_sync(self.channel_layer.group_add)(
             self.room_group_name, self.channel_name
         )
@@ -57,17 +61,16 @@ class ChangeBallanceConsumer(WebsocketConsumer):
     def receive(self, text_data):
         received_data_json = json.loads(text_data)
         changes_in_account = received_data_json['changes_in_account']
-        task_change_account_ballance.delay(changes_in_account)
 
-        # print('=========You==want===to===change===account===========')
-        # print(changes_in_account)
-        # print('=========SCOPE====DATA===============================')
-        # print(self.user)
-        # print('=====================================================')
+        if self.user.is_authenticated:
+            task_change_account_ballance.delay(changes_in_account, self.channel_name)
+        else:
+            message = 'Щоб змінювати стан банківського рахунку необхідно авторизуватися'
+            status = 'fail'
+            self.send(text_data=json.dumps({'data': {"message": message, 'status': status}}))
 
 
     def send_data(self, event):
-        print('----send---data')
         data = event["event_data"]
         self.send(text_data=json.dumps({"data": data}))
 
