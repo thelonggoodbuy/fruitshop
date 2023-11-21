@@ -800,9 +800,9 @@ def task_send_joke():
     #     task = PeriodicTask.objects.get(task='fruitshop_app.tasks.task_send_joke') 
 
     task = PeriodicTask.objects.get(task='fruitshop_app.tasks.task_send_joke') 
-    print('1')
-    print(task)
-    print(task.interval)
+    # print('1')
+    # print(task)
+    # print(task.interval)
     task.interval = schedule
     print('2')
     print(task)

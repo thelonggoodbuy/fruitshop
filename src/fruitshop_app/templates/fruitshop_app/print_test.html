@@ -1,0 +1,78 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <script src="https://unpkg.com/pdf-lib"></script>
+  </head>
+
+  <body>
+
+    <!-- <div style="display: flex; width: 100%; height: 100%; flex-direction: column; overflow: hidden;">
+        <iframe id="pdf" style="flex-grow: 1; border: none; margin: 0; padding: 0;"></iframe>
+        <h3>Some text in html</h3>
+    </div> -->
+
+    <div id="testdiv"><h3>Some text in html</h3></div>
+    <button id="print_pdf_button">save some pdf</button>
+  </body>
+  <script type="text/javascript" src="https://unpkg.com/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
+  <script>
+
+    import jsPDF from 'jspdf';
+    import autoTable from 'jspdf-autotable';
+    // createPdf();
+    // async function createPdf() {
+    //   const pdfDoc = await PDFLib.PDFDocument.create();
+    //   const page = pdfDoc.addPage([350, 400]);
+    //   page.moveTo(110, 200);
+    //   page.drawText('Hello World!');
+    //   const pdfDataUri = await pdfDoc.saveAsBase64({ dataUri: true
+    //  });
+    //   document.getElementById('pdf').src = pdfDataUri;
+    // }
+
+    var print_pdf_button_obj = document.getElementById("print_pdf_button")
+    print_pdf_button_obj.addEventListener('click', function(event){
+
+        // var jsPDF = require('jspdf');
+        // require('jspdf-autotable');
+
+
+        var doc = PDFLib.PDFDocument.create();
+        var test_div = document.getElementById("testdiv")
+
+        // doc.fromHTML($('#testdiv').get(0), 30,20,{
+        //      'width':500,
+        // });
+
+        // doc.addPage();
+
+        // doc.fromHTML($('#testdiv').get(0), 30,20,{
+        //             'width':500,
+
+        // });
+
+        var columns = ["Name", "Age", "Country"];
+        var rows = [
+        ["John Doe", 30, "USA"],
+        ["Jane Smith", 25, "Canada"],
+        ["Bob Johnson", 40, "UK"],
+        ];
+
+        // Set the table options
+        var options = {
+        startY: 20, // Vertical position to start the table (in mm)
+        };
+
+        // Generate the table
+        doc.autoTable(columns, rows, options);
+
+        // Save the PDF
+        doc.save('table.pdf');
+
+        // doc.save('Devis-Facture.pdf');
+    })
+
+
+
+  </script>
+</html>
