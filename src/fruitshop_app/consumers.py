@@ -101,6 +101,7 @@ class GetAccountAndLastOperationDataConsumer(WebsocketConsumer):
 
 from faker import Faker
 fake = Faker('uk_UA')
+from .models import User, Message
 
 class ChatWithTechSupport(WebsocketConsumer):
     def connect(self):
@@ -122,16 +123,43 @@ class ChatWithTechSupport(WebsocketConsumer):
         # chek user status
         if self.user.is_authenticated:
             perm_status = 'authenticated'
-            response = 
+
+            if self.user.last_name == '':
+                message_author = self.user.username
+            else:
+                message_author = self.user.last_name
+
+            response = fake.text(max_nb_chars=40)
+            techsuport = User.objects.get(username='techsupport')
+            response_author = techsuport.last_name
+
+            Message.objects.create(
+                from_user=techsuport,
+                to_user=self.user,
+                text=response
+            )
+
+            Message.objects.create(
+                from_user=self.user,
+                to_user=techsuport,
+                text=received_data_json['message_text']
+            )
+
+
         else:
             perm_status = 'anonym'
             response = None
+            message_author = None
+            response_author = None
 
-
+        
         async_to_sync(self.channel_layer.group_send)(
             self.room_group_name, {"type": "chat.message", 
                                    "message": received_data_json,
-                                   "perm_status": perm_status}
+                                   "message_author": message_author,
+                                   "perm_status": perm_status,
+                                   "response": response,
+                                   "response_author": response_author}
         )
 
 

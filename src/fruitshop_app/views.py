@@ -7,7 +7,7 @@ from django.db import models
 from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin
 
-from .models import Commodity, Account, TradeOperation
+from .models import Commodity, Account, TradeOperation, Message
 from .forms import LoginForm
 
 
@@ -48,8 +48,14 @@ class FruitDataListView(LoginView):
                                                                 last_total_cost=last_total_cost_subquery,
                                                                 last_operation_type=last_operation_type_subquery)\
                                                         .all().order_by('id')
+        
+
+        last_messages_data = Message.objects.prefetch_related('from_user').filter().order_by('-id')[:40]
+        context["last_messages_data"] = last_messages_data
         context["commodity_data"] = commodity_last_transaction
         context["form"] = LoginForm()
+
+
 
         return context
     

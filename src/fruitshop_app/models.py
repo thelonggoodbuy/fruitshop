@@ -14,7 +14,7 @@ from django.contrib.auth.models import User
 class Message(models.Model):
     from_user = models.ForeignKey(User, blank=True, null=True, on_delete=models.SET_NULL, related_name="from_user")
     to_user = models.ForeignKey(User, blank=True, null=True, on_delete=models.SET_NULL, related_name="to_user")
-    message_data_time = models.DateTimeField()
+    message_data_time = models.DateTimeField(auto_now_add=True)
     text = models.TextField()
 
 
