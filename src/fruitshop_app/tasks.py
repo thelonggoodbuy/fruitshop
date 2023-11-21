@@ -7,9 +7,10 @@ from django.core.cache import cache
 
 from django.apps import apps
 
+from django.db.models import OuterRef, Subquery
+from django.db.models import F, Func, Value, CharField
 
 from decimal import Decimal
-import pprint
 
 
 
@@ -650,10 +651,6 @@ def task_change_account_ballance(changes_in_account, channel_name):
     )
 
 
-from django.db.models import OuterRef, Subquery
-import json
-from django.core import serializers
-from django.db.models import F, Func, Value, CharField
 
 
 @shared_task(queue="auxiliary_queue")
@@ -704,7 +701,7 @@ def task_update_account_data_and_last_operations():
         total_cost = commodity['last_total_cost']
         formated_total_cost = str(total_cost)
         commodity['last_total_cost'] = formated_total_cost
-        print(commodity)
+        # print(commodity)
 
 
     output_data = {"account_state": str(account_state), "commodity_data": commodity_last_transaction}
@@ -719,3 +716,105 @@ def task_update_account_data_and_last_operations():
             "KEY_PREFIX": "fruit_shop",
         }
     )
+
+# --------------------------------
+# --------------------------------
+# --------------------------------
+
+# from django.db import models
+# from django_celery_beat.models import PeriodicTask
+
+# class ModelWithTask(models.Model):
+#     task = models.OneToOneField(
+#         PeriodicTask, null=True, blank=True, on_delete=models.SET_NULL
+#     )
+
+
+
+# special_object = ModelWithTask.objects.
+
+
+
+# @shared_task(queue="auxiliary_queue")
+
+
+
+
+
+@app.on_after_finalize.connect()
+def setup_periodic_tasks(sender, **kwargs):
+    # print('---------SETUP----PERIODIC----TASKS===')
+    sender.add_periodic_task(1, task_send_joke.s(), name='parse_joke')
+
+
+import httpx
+
+
+@shared_task(queue="auxiliary_queue")
+def task_send_joke():
+
+    from django.contrib.auth.models import User
+    from django_celery_beat.models import IntervalSchedule, PeriodicTasks, PeriodicTask
+
+    Message = apps.get_model(app_label='fruitshop_app', model_name='Message')
+
+
+    channel_layer = get_channel_layer()
+
+    joker = User.objects.get(username='joker')
+
+    response = httpx.get('https://v2.jokeapi.dev/joke/Any?type=single')
+
+    joke = response.json().get('joke')
+
+    joke_message = Message.objects.create(
+        from_user=joker,
+        to_user=None,
+        text=joke
+    )
+
+    async_to_sync(channel_layer.group_send)(
+            "group_chat_with_techsuport_shop_room", 
+                {"type": "chat.message", 
+                "message": joke,
+                "message_author": joker.username,
+                "perm_status": "joker",
+                "interval": len(joke),
+                "response": None,
+                "response_author": None}
+        )
+
+    schedule, created = IntervalSchedule.objects.get_or_create(
+        every=len(joke),
+        period=IntervalSchedule.SECONDS,
+    )
+
+    print('-----------All--PERIODIC---TASKS--------')
+    print(PeriodicTask.objects.all())
+    print('----------------------------------------')
+
+
+    # if len(PeriodicTask.objects.all()) == 0:
+    #     task = PeriodicTask.objects.create(interval=schedule, task='fruitshop_app.tasks.task_send_joke')
+    # else:
+    #     task = PeriodicTask.objects.get(task='fruitshop_app.tasks.task_send_joke') 
+
+    task = PeriodicTask.objects.get(task='fruitshop_app.tasks.task_send_joke') 
+    print('1')
+    print(task)
+    print(task.interval)
+    task.interval = schedule
+    print('2')
+    print(task)
+    print(task.interval)
+    task.save()
+    print('3')
+    print(task)
+    print(task.interval)
+    
+    PeriodicTasks.changed(task)
+
+    # return joke
+
+
+

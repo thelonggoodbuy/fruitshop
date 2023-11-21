@@ -392,7 +392,6 @@
 
     var send_message_button = document.getElementById('send_message_button')
     send_message_button.addEventListener('click', function(event){
-        console.log('-------new----message-----button----')
         var message_text = document.getElementById('message_text_input').value
         chatWithTechSupportSocket.send(JSON.stringify(
                                         {'message_text': message_text}
@@ -405,32 +404,37 @@
     chatWithTechSupportSocket.onmessage = function(event){
         var data = JSON.parse(event.data)
         const chat_message_container = document.getElementById("chat_message_container");
-        if (data['data']['perm_status'] != 'anonym'){
-        // user message
-        var new_user_message = document.createElement("p");
-        // mx-1 my-2 lh-1
-        new_user_message.classList.add('mx-1', 'my-2', 'lh-1')
-        var date = moment();
-        var currentTime = date.format('HH:mm');
-        new_user_message.textContent = currentTime + ' ' + data['data']['message_author'] + ': ' + data['data']['message']['message_text']
-        chat_message_container.appendChild(new_user_message)
-        // response message
-        var new_response_message = document.createElement("p");
-        new_response_message.classList.add('mx-1', 'my-2', 'lh-1')
-        var date = moment();
-        var currentTime = date.format('HH:mm');
-        new_response_message.textContent = currentTime + ' ' + data['data']['response_author'] + ': ' + data['data']['response']
-        chat_message_container.appendChild(new_response_message)
-        // chat length
-        var message_quantity = chat_message_container.children.length
-        while (message_quantity >= 40){
-            chat_message_container.removeChild(chat_message_container.getElementsByTagName('p')[0]);               
-            var message_quantity = chat_message_container.children.length;
-        }
-        new_message_position = new_response_message.offsetTop
-        chat_message_container.scrollTop = new_message_position            
-        } else {
+        if (data['data']['perm_status'] == 'joker'){
+            toast.warning('JOCKER!!!!!!!!')
+            console.log('=======JOCKER=======')
+            console.log(data['data'])
+            console.log('====================')
+        } else  if(data['data']['perm_status'] == 'anonym'){
             toastr.warning('Писати в тех підтримку може тільки зареєстрований користувач. Увійдіть, будь ласка у систему.')
+        } else {
+            // user message
+            var new_user_message = document.createElement("p");
+            // mx-1 my-2 lh-1
+            new_user_message.classList.add('mx-1', 'my-2', 'lh-1')
+            var date = moment();
+            var currentTime = date.format('HH:mm');
+            new_user_message.textContent = currentTime + ' ' + data['data']['message_author'] + ': ' + data['data']['message']['message_text']
+            chat_message_container.appendChild(new_user_message)
+            // response message
+            var new_response_message = document.createElement("p");
+            new_response_message.classList.add('mx-1', 'my-2', 'lh-1')
+            var date = moment();
+            var currentTime = date.format('HH:mm');
+            new_response_message.textContent = currentTime + ' ' + data['data']['response_author'] + ': ' + data['data']['response']
+            chat_message_container.appendChild(new_response_message)
+            // chat length
+            var message_quantity = chat_message_container.children.length
+            while (message_quantity >= 40){
+                chat_message_container.removeChild(chat_message_container.getElementsByTagName('p')[0]);               
+                var message_quantity = chat_message_container.children.length;
+            }
+            new_message_position = new_response_message.offsetTop
+            chat_message_container.scrollTop = new_message_position
         }
     }
 
