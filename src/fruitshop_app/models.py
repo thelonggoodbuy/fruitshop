@@ -38,3 +38,7 @@ class TradeOperation(models.Model):
 
 class Account(models.Model):
     total_debt = models.DecimalField(max_digits=12, decimal_places=2)
+
+class DownloadStatistics(models.Model):
+    date = models.DateField(unique=True)
+    quantity_of_downloads = models.PositiveIntegerField()

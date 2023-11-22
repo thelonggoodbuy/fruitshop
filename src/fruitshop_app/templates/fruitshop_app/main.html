@@ -171,7 +171,12 @@
                     </div>
                     <div class="row align-items-center mt-3">
                         <div class="col-12 col-lg-6 align-items-center">
-                            <button type="button" class="btn btn-outline-secondary mb-3" style="background-color:rgb(163, 178, 226); border-radius: 25px; color:black">Завантажити декларацію</button>
+                            <!-- <button type="button" class="btn btn-outline-secondary mb-3" style="background-color:rgb(163, 178, 226); border-radius: 25px; color:black">Завантажити декларацію</button> -->
+
+                            <a href="{% url 'download_declaration' %}" class="btn btn-outline-secondary mb-3" style="background-color:rgb(163, 178, 226); border-radius: 25px; color:black" download="">
+                                Завантажити декларацію
+                            </a>
+
                         </div>
                         <div class="col-12 col-lg-6 align-items-center">
                             <p>Сьогодні завантажено: 2 шт.</p>

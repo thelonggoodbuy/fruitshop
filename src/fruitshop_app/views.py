@@ -60,6 +60,51 @@ class FruitDataListView(LoginView):
         return context
     
 
+
 class FruitShopLogoutView(LoginRequiredMixin, LogoutView):
     template_name = "fruitshop_app/main.html"
     next_page = reverse_lazy('main_page')
+
+
+
+from django.utils import timezone
+import pdfkit
+from django.template.loader import get_template
+from django.http import HttpResponse
+from django.db.models import Sum
+
+# from .tasks import task_print_receipt
+
+def download_declaration(request):
+    # return task_print_receipt.delay()
+
+    transaction_list = list(TradeOperation.objects.prefetch_related('commodity__title')\
+                                                    .filter(trade_date_time__gte=timezone.now().replace(hour=0, minute=0, second=0),
+                                                           trade_date_time__lte=timezone.now().replace(hour=23, minute=59, second=59),
+                                                           status="success")\
+                                                    .values('commodity__title', 'quantity', 'operation_type', 'total_cost', 'trade_date_time'))
+    
+    for transaciton in transaction_list:
+        date_time_new_state = transaciton['trade_date_time'].strftime('%H:%M')
+        transaciton['trade_date_time'] = date_time_new_state
+
+    context = {}
+    context['transaction_list'] = transaction_list
+    transaction_summ = TradeOperation.objects.prefetch_related('commodity__title')\
+                                                    .filter(trade_date_time__gte=timezone.now().replace(hour=0, minute=0, second=0),
+                                                           trade_date_time__lte=timezone.now().replace(hour=23, minute=59, second=59),
+                                                           status="success").aggregate(Sum('total_cost'))
+    context['transaction_summ'] = transaction_summ['total_cost__sum']
+    template_path = "templates_for_pdf/receipt_template.html"
+
+    prerendered_template = get_template(template_path)
+
+    html = prerendered_template.render(context)
+    myPdf = pdfkit.from_string(html, False)
+    response = HttpResponse(myPdf, content_type="content_type=application/pdf")
+
+    response[
+        "Content-Disposition"
+    ] = f"attachment; filename=receipt.pdf"
+
+    return response

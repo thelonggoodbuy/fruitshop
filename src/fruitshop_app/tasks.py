@@ -12,6 +12,12 @@ from django.db.models import F, Func, Value, CharField
 
 from decimal import Decimal
 
+from django.utils import timezone
+import pdfkit
+from django.template.loader import get_template
+from django.http import HttpResponse
+from django.db.models import Sum
+
 
 
 @shared_task(queue="trade_transaction_task_queue")
@@ -701,7 +707,6 @@ def task_update_account_data_and_last_operations():
         total_cost = commodity['last_total_cost']
         formated_total_cost = str(total_cost)
         commodity['last_total_cost'] = formated_total_cost
-        # print(commodity)
 
 
     output_data = {"account_state": str(account_state), "commodity_data": commodity_last_transaction}
@@ -717,25 +722,6 @@ def task_update_account_data_and_last_operations():
         }
     )
 
-# --------------------------------
-# --------------------------------
-# --------------------------------
-
-# from django.db import models
-# from django_celery_beat.models import PeriodicTask
-
-# class ModelWithTask(models.Model):
-#     task = models.OneToOneField(
-#         PeriodicTask, null=True, blank=True, on_delete=models.SET_NULL
-#     )
-
-
-
-# special_object = ModelWithTask.objects.
-
-
-
-# @shared_task(queue="auxiliary_queue")
 
 
 
@@ -744,7 +730,7 @@ def task_update_account_data_and_last_operations():
 @app.on_after_finalize.connect()
 def setup_periodic_tasks(sender, **kwargs):
     # print('---------SETUP----PERIODIC----TASKS===')
-    sender.add_periodic_task(1, task_send_joke.s(), name='parse_joke')
+    sender.add_periodic_task(10, task_send_joke.s(), name='parse_joke')
 
 
 import httpx
@@ -763,7 +749,7 @@ def task_send_joke():
 
     joker = User.objects.get(username='joker')
 
-    response = httpx.get('https://v2.jokeapi.dev/joke/Any?type=single')
+    response = httpx.get('https://v2.jokeapi.dev/joke/Any?type=single&contains=cat')
 
     joke = response.json().get('joke')
 
@@ -800,21 +786,50 @@ def task_send_joke():
     #     task = PeriodicTask.objects.get(task='fruitshop_app.tasks.task_send_joke') 
 
     task = PeriodicTask.objects.get(task='fruitshop_app.tasks.task_send_joke') 
-    # print('1')
-    # print(task)
-    # print(task.interval)
     task.interval = schedule
-    print('2')
-    print(task)
-    print(task.interval)
     task.save()
-    print('3')
-    print(task)
-    print(task.interval)
-    
     PeriodicTasks.changed(task)
 
-    # return joke
 
 
 
+
+
+
+
+
+# @shared_task(queue="auxiliary_queue")
+# def task_print_receipt():
+
+#     TradeOperation = apps.get_model(app_label='fruitshop_app', model_name='TradeOperation')
+
+#     transaction_list = list(TradeOperation.objects.prefetch_related('commodity__title')\
+#                                                     .filter(trade_date_time__gte=timezone.now().replace(hour=0, minute=0, second=0),
+#                                                            trade_date_time__lte=timezone.now().replace(hour=23, minute=59, second=59),
+#                                                            status="success")\
+#                                                     .values('commodity__title', 'quantity', 'operation_type', 'total_cost', 'trade_date_time'))
+    
+#     for transaciton in transaction_list:
+#         date_time_new_state = transaciton['trade_date_time'].strftime('%H:%M')
+#         transaciton['trade_date_time'] = date_time_new_state
+
+#     context = {}
+#     context['transaction_list'] = transaction_list
+#     transaction_summ = TradeOperation.objects.prefetch_related('commodity__title')\
+#                                                     .filter(trade_date_time__gte=timezone.now().replace(hour=0, minute=0, second=0),
+#                                                            trade_date_time__lte=timezone.now().replace(hour=23, minute=59, second=59),
+#                                                            status="success").aggregate(Sum('total_cost'))
+#     context['transaction_summ'] = transaction_summ['total_cost__sum']
+#     template_path = "templates_for_pdf/receipt_template.html"
+
+#     prerendered_template = get_template(template_path)
+
+#     html = prerendered_template.render(context)
+#     myPdf = pdfkit.from_string(html, False)
+#     response = HttpResponse(myPdf, content_type="content_type=application/pdf")
+
+#     response[
+#         "Content-Disposition"
+#     ] = f"attachment; filename=receipt.pdf"
+
+#     return response

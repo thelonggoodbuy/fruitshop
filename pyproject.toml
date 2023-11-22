@@ -18,6 +18,8 @@ django-debug-toolbar = "^4.2.0"
 django-celery-beat = "^2.5.0"
 faker = "^20.1.0"
 httpx = "^0.25.1"
+pdfkit = "^1.0.0"
+wkhtmltopdf = "^0.2"
 
 
 [build-system]

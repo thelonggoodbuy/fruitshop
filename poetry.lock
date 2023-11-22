@@ -809,6 +809,18 @@ files = [
 ]
 
 [[package]]
+name = "pdfkit"
+version = "1.0.0"
+description = "Wkhtmltopdf python wrapper to convert html to pdf using the webkit rendering engine and qt"
+optional = false
+python-versions = "*"
+files = [
+    {file = "pdfkit-1.0.0-py2-none-any.whl", hash = "sha256:cc122e5aed594198ff7aaa566f2950d2163763576ab891c161bb1f6c630f5a8e"},
+    {file = "pdfkit-1.0.0-py3-none-any.whl", hash = "sha256:a7a4ca0d978e44fa8310c4909f087052430a6e8e0b1dd7ceef657f139789f96f"},
+    {file = "pdfkit-1.0.0.tar.gz", hash = "sha256:992f821e1e18fc8a0e701ecae24b51a2d598296a180caee0a24c0af181da02a9"},
+]
+
+[[package]]
 name = "prompt-toolkit"
 version = "3.0.39"
 description = "Library for building powerful interactive command lines in Python"
@@ -1213,6 +1225,16 @@ files = [
 ]
 
 [[package]]
+name = "wkhtmltopdf"
+version = "0.2"
+description = "Simple python wrapper for wkhtmltopdf"
+optional = false
+python-versions = "*"
+files = [
+    {file = "wkhtmltopdf-0.2.tar.gz", hash = "sha256:530fffb5d1faf4f4cd5248c14fd1b4b7fe311541d0660dc2c2272c32b3c72211"},
+]
+
+[[package]]
 name = "zope-interface"
 version = "6.1"
 description = "Interfaces for Python"
@@ -1268,4 +1290,4 @@ testing = ["coverage (>=5.0.3)", "zope.event", "zope.testing"]
 [metadata]
 lock-version = "2.0"
 python-versions = "3.10.13"
-content-hash = "a6288bab30d78769ec89b0a22f5c3993b7922fabd98fb0c72990b771a0739eae"
+content-hash = "2180c411711b5e730420e563bf17930d906c42a5fe343257b89b09eabfe15928"

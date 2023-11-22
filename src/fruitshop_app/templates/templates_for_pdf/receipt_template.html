@@ -1,0 +1,57 @@
+
+{% load static %}
+
+<html>
+    <head>
+        <style type="text/css">
+            .tg  {border-collapse:collapse;border-spacing:0;}
+            .tg td{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;
+              overflow:hidden;padding:10px 5px;word-break:normal;}
+            .tg th{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;
+              font-weight:normal;overflow:hidden;padding:10px 5px;word-break:normal;}
+            .tg .tg-llyw{background-color:#c0c0c0;border-color:inherit;text-align:left;vertical-align:top}
+            .tg .tg-ncd7{background-color:#ffffc7;border-color:inherit;text-align:left;vertical-align:top}
+        </style>
+        <meta charset="UTF-8">
+    </head>
+    <h3>Декларація по торговим операція ТОВ"Овочебаза" від 22.11.2023</h3>
+    <body>
+        <table class="tg" style="display:block; width:100%">
+            <thead>
+                <th class="tg-ncd7">Час тразакції</th>
+                <th class="tg-ncd7">Товар</th>
+                <th class="tg-ncd7">Кількість</th>
+                <th class="tg-ncd7">Тип операції</th>
+                <th class="tg-ncd7">Сумма, грн</th>
+            </thead>
+            <tbody>
+              <tr>
+                
+              </tr>
+                {% for transaction in transaction_list %}
+                    <tr>
+                        <!-- <td class="tg-ncd7">{{transaction.trade_date_time}}</td> -->
+                        <td class="tg-ncd7">{{ transaction.trade_date_time }}</td>
+                        <td class="tg-ncd7">{{ transaction.commodity__title }}</td>
+                        <td class="tg-ncd7">{{ transaction.quantity }}</td>
+                        <td class="tg-ncd7">
+                            {% if transaction.operation_type == 'sailing' %}
+                                Продаж
+                            {% else %}
+                                Покупка
+                            {% endif %}
+                        </td>
+                        <td class="tg-ncd7">{{ transaction.total_cost }}</td>
+                    </tr>
+                {% endfor %}
+              <tr>
+                <td class="tg-ncd7" colspan="4"><span style="font-weight:bold">Разом:</span></td>
+                <td class="tg-ncd7"><span style="font-weight:bold">{{ transaction_summ }}</span></td>
+              </tr>
+            </tbody>
+            </table>
+    </body>
+</html>
+
+
+
