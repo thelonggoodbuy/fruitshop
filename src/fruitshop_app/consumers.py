@@ -102,6 +102,7 @@ class GetAccountAndLastOperationDataConsumer(WebsocketConsumer):
 from faker import Faker
 fake = Faker('uk_UA')
 from .models import User, Message
+from .tasks import task_send_joke
 
 class ChatWithTechSupport(WebsocketConsumer):
     def connect(self):
@@ -112,6 +113,9 @@ class ChatWithTechSupport(WebsocketConsumer):
             self.room_group_name, self.channel_name
         )
         self.user = self.scope["user"]
+        
+        task_send_joke.delay()
+
         self.accept()
 
 
@@ -134,15 +138,15 @@ class ChatWithTechSupport(WebsocketConsumer):
             response_author = techsuport.last_name
 
             Message.objects.create(
-                from_user=techsuport,
-                to_user=self.user,
-                text=response
-            )
-
-            Message.objects.create(
                 from_user=self.user,
                 to_user=techsuport,
                 text=received_data_json['message_text']
+            )
+
+            Message.objects.create(
+                from_user=techsuport,
+                to_user=self.user,
+                text=response
             )
 
 
@@ -171,9 +175,7 @@ class ChatWithTechSupport(WebsocketConsumer):
 
 
     def chat_message(self, event):
-        print(event)
         data = event
-        del data["type"]
         self.send(text_data=json.dumps({"data": data}))
 
 

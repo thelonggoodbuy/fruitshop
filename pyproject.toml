@@ -20,6 +20,7 @@ faker = "^20.1.0"
 httpx = "^0.25.1"
 pdfkit = "^1.0.0"
 wkhtmltopdf = "^0.2"
+pytz = "^2023.3.post1"
 
 
 [build-system]

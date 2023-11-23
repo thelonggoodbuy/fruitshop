@@ -10,7 +10,10 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import Commodity, Account, TradeOperation, Message
 from .forms import LoginForm
 
+import pprint
 
+from django.utils.timezone import localtime
+import pytz
 
 class FruitDataListView(LoginView):
     template_name = "fruitshop_app/main.html"
@@ -49,13 +52,28 @@ class FruitDataListView(LoginView):
                                                                 last_operation_type=last_operation_type_subquery)\
                                                         .all().order_by('id')
         
+        raw_last_messages_data = Message.objects.prefetch_related('from_user').filter().order_by('-id')[:40]
 
-        last_messages_data = Message.objects.prefetch_related('from_user').filter().order_by('-id')[:40]
+        last_messages_data = []
+
+        # tz = pytz.timezone("Europe/Kiev")
+
+        for message in raw_last_messages_data:
+            # print(message.text)
+            # utc_datetime = message.message_data_time
+            # message.message_data_time = localtime(utc_datetime, tz)
+            last_messages_data.insert(0, message)
+            print(f"{message.id}: {message.message_data_time}")
+
+        
+
+        print('-----------------------------------------------------------------')
+        pprint.pprint(last_messages_data)
+        print('-----------------------------------------------------------------')
+
         context["last_messages_data"] = last_messages_data
         context["commodity_data"] = commodity_last_transaction
         context["form"] = LoginForm()
-
-
 
         return context
     

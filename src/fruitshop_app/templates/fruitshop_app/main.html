@@ -1,5 +1,7 @@
 <!DOCTYPE html>
 {% load static %}
+<!-- {% load tz %}
+{% localtime on %} -->
 
 <html lang="en">
 <head>
@@ -262,7 +264,7 @@
 
         //receiver function for socket data 
         fruitShopSocket.onmessage = function(e){
-            console.log('fruitShopSocket onmessage work!')
+            // console.log('fruitShopSocket onmessage work!')
             const data = JSON.parse(e.data)
             var message_status = data["data"]["message"]["status"]
             var message_text = data["data"]["message"]["text"]
@@ -293,8 +295,8 @@
 
                 if (fruit_quantity_input.value.length !== 0){
                     change_task_title = 'change_task_' + fruit
-                    console.log('-------------------------')
-                    console.log(change_task_title)
+                    // console.log('-------------------------')
+                    // console.log(change_task_title)
                     fruitShopSocket.send(JSON.stringify({
                         [change_task_title]: {'operation_type': operation_type,
                                             'commodity_type': fruit,
@@ -365,7 +367,7 @@
         account_data.innerHTML = data['data']['account_state']
 
         for(var commodity of data['data']['commodity_data']){
-            console.log(commodity)
+            // console.log(commodity)
             var fruit_type = commodity['raw_title']
             var last_transaction_elem = document.getElementById('last_transaction_' + fruit_type)
 
@@ -410,10 +412,10 @@
         var data = JSON.parse(event.data)
         const chat_message_container = document.getElementById("chat_message_container");
         if (data['data']['perm_status'] == 'joker'){
-            toast.warning('JOCKER!!!!!!!!')
-            console.log('=======JOCKER=======')
-            console.log(data['data'])
-            console.log('====================')
+            toastr.warning('JOCKER!!!!!!!!')
+            // console.log('=======JOCKER=======')
+            // console.log(data['data'])
+            // console.log('====================')
         } else  if(data['data']['perm_status'] == 'anonym'){
             toastr.warning('Писати в тех підтримку може тільки зареєстрований користувач. Увійдіть, будь ласка у систему.')
         } else {
@@ -469,3 +471,5 @@
     </script>
 </body>
 </html>
+
+<!-- {% endlocaltime %} -->
