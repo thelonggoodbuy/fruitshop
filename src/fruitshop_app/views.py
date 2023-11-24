@@ -63,13 +63,13 @@ class FruitDataListView(LoginView):
             # utc_datetime = message.message_data_time
             # message.message_data_time = localtime(utc_datetime, tz)
             last_messages_data.insert(0, message)
-            print(f"{message.id}: {message.message_data_time}")
+            # print(f"{message.id}: {message.message_data_time}")
 
         
 
-        print('-----------------------------------------------------------------')
-        pprint.pprint(last_messages_data)
-        print('-----------------------------------------------------------------')
+        # print('-----------------------------------------------------------------')
+        # pprint.pprint(last_messages_data)
+        # print('-----------------------------------------------------------------')
 
         context["last_messages_data"] = last_messages_data
         context["commodity_data"] = commodity_last_transaction

@@ -101,10 +101,18 @@ class GetAccountAndLastOperationDataConsumer(WebsocketConsumer):
 
 from faker import Faker
 fake = Faker('uk_UA')
+
 from .models import User, Message
 from .tasks import task_send_joke
+from channels.layers import get_channel_layer
+import pprint
+# from celery.task.control import revoke
+from config.celery import app
 
 class ChatWithTechSupport(WebsocketConsumer):
+    chat_chanels_id_set = set()
+    task_id = None
+    
     def connect(self):
         self.room_name = 'chat_with_techsuport_shop_room'
         self.room_group_name = f"group_{self.room_name}"
@@ -113,8 +121,20 @@ class ChatWithTechSupport(WebsocketConsumer):
             self.room_group_name, self.channel_name
         )
         self.user = self.scope["user"]
-        
-        task_send_joke.delay()
+
+        self.chat_chanels_id_set.add(self.channel_name)
+
+
+        if len(self.chat_chanels_id_set) == 1:
+            task = task_send_joke.delay()
+            print(task)
+            self.task_id = task.id
+
+        print('-----------CONNECT----CHAT!!!--------------')
+        print('--------TASK---------ID--------------------')
+        print(self.task_id)
+        print(self.chat_chanels_id_set)
+        print('-------------------------------------------')
 
         self.accept()
 
@@ -169,9 +189,22 @@ class ChatWithTechSupport(WebsocketConsumer):
 
 
     def disconnect(self, close_code):
+        
         async_to_sync(self.channel_layer.group_discard)(
             self.room_group_name, self.channel_name
         )
+
+
+        self.chat_chanels_id_set.remove(self.channel_name)
+        
+        if len(self.chat_chanels_id_set) == 0:
+            app.control.revoke(self.task_id, terminate=True, signal='SIGKILL')
+
+        print('----DISCONECT----')
+        print(self.chat_chanels_id_set)
+        print(len(self.chat_chanels_id_set))
+        print(self.task_id)
+        print('-----------------')
 
 
     def chat_message(self, event):

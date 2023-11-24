@@ -728,22 +728,19 @@ def task_update_account_data_and_last_operations():
 
 import httpx
 import time
+from datetime import datetime
 
 @shared_task(queue="auxiliary_queue")
-def task_send_joke(pause=10):
+def task_send_joke(pause=1):
 
     from django.contrib.auth.models import User
     from django_celery_beat.models import IntervalSchedule, PeriodicTasks, PeriodicTask
 
-
+    # start_time = time.time()
     Message = apps.get_model(app_label='fruitshop_app', model_name='Message')
-
     channel_layer = get_channel_layer()
-
     joker = User.objects.get(username='joker')
-
     response = httpx.get('https://v2.jokeapi.dev/joke/Any?type=single&contains=cat')
-
     joke = response.json().get('joke')
 
     Message.objects.create(
@@ -752,6 +749,12 @@ def task_send_joke(pause=10):
         text=joke
     )
 
+    print('-----------JOKES---------------')
+    print(joke)
+    new_pause = len(joke)
+    print(f'Next joke will be after {new_pause} seconds.')
+
+    print('-------------------------------')
     async_to_sync(channel_layer.group_send)(
             "group_chat_with_techsuport_shop_room", 
                 {"type": "chat.message", 
@@ -762,26 +765,11 @@ def task_send_joke(pause=10):
                 "response": None,
                 "response_author": None}
         )
-    print('-------------JOKE----------------------')
-    print(joke)
-    print('---------------------------------------')
-    time.sleep(pause)    
+
+    time.sleep(new_pause)    
+    # finish_time = time.time() - start_time
+    
+    # print('*********USED TIME WAS**********')
+    # print(finish_time)
+    # print('********************************')
     task_send_joke(pause=len(joke))
-
-    # schedule, created = IntervalSchedule.objects.get_or_create(
-    #     every=len(joke),
-    #     period=IntervalSchedule.SECONDS,
-    # )
-
-    # print('-----------All--PERIODIC---TASKS--------')
-    # print(PeriodicTask.objects.all())
-    # print('----------------------------------------')
-
-
-    # task, created = PeriodicTask.objects.get_or_create(task='fruitshop_app.tasks.task_send_joke',
-    #                                                    interval=schedule) 
-    # # task.interval = schedule
-    # task.save()
-    # PeriodicTasks.changed(task)
-
-
