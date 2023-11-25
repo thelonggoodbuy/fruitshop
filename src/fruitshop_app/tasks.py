@@ -751,10 +751,10 @@ def task_send_joke(pause=1):
 
     print('-----------JOKES---------------')
     print(joke)
-    new_pause = len(joke)//2
+    new_pause = len(joke)
     print(f'Next joke will be after {new_pause} seconds.')
-
     print('-------------------------------')
+
     async_to_sync(channel_layer.group_send)(
             "group_chat_with_techsuport_shop_room", 
                 {"type": "chat.message", 
@@ -773,3 +773,130 @@ def task_send_joke(pause=1):
     # print(finish_time)
     # print('********************************')
     task_send_joke(pause=len(joke))
+
+
+
+import datetime
+import sys
+import random
+sys.set_int_max_str_digits(0)
+
+
+
+@shared_task(queue="four_queue")
+def task_make_account_audit(channel_name):
+        
+    channel_layer = get_channel_layer()
+
+    audit_start = datetime.datetime.now()
+    audit_finish = audit_start + datetime.timedelta(0, 15)
+    time_per_one_percent = 15/100
+    percent_counter = 1
+    current_percent_border = audit_start + datetime.timedelta(0, time_per_one_percent)
+
+
+
+    while datetime.datetime.now() < audit_finish:
+        operation_start_time = datetime.datetime.now()
+
+        x = 9999999**random.randrange(100, 1000)
+        y = x**9
+
+        print('-----TERRIBLE----YYY-------')
+        print(len(str(y)))
+        print('---------------------------')
+
+        operation_finish_time = datetime.datetime.now()
+        used_time = (operation_finish_time - operation_start_time).total_seconds()
+
+        used_percent = used_time//time_per_one_percent
+        print('-----used_percent------')
+        print(used_percent)
+        print('-----------------------')
+
+        if used_time < 1 and\
+            operation_finish_time < current_percent_border:
+            pass
+        elif used_time < 1 and\
+            operation_finish_time >= current_percent_border and\
+            operation_finish_time < (current_percent_border + time_per_one_percent):
+            percent_counter += used_percent
+            current_percent_border += time_per_one_percent
+            output_data = {'progress_bar_status': percent_counter}
+            async_to_sync(channel_layer.send)(
+            channel_name,
+                {
+                    'type': 'send_data',
+                    'event_data': output_data,
+                    "KEY_PREFIX": "fruit_shop",
+                }
+            )
+        # тетья опция.... голова вообще не варит......
+
+
+
+
+        # percent_counter += used_percent
+
+        # output_data = {'progress_bar_status': percent_counter}
+        # async_to_sync(channel_layer.send)(
+        #     channel_name,
+        #         {
+        #             'type': 'send_data',
+        #             'event_data': output_data,
+        #             "KEY_PREFIX": "fruit_shop",
+        #         }
+        #     )
+
+# if datetime.datetime.now() > current_percent_border:
+#     current_percent_border += datetime.timedelta(0, time_per_one_percent)
+
+
+
+
+    # audit_start = datetime.datetime.now()
+    # audit_finish = audit_start + datetime.timedelta(0, 15)
+    # time_per_one_percent = 15/100
+    # start_time = datetime.datetime.now()
+    # current_percent_border = start_time + datetime.timedelta(0, time_per_one_percent)
+    # percent_counter = 1
+
+    # while datetime.datetime.now() < audit_finish:
+    #     if datetime.datetime.now() > current_percent_border:
+    #         current_percent_border += datetime.timedelta(0, time_per_one_percent)
+
+    #         x = 9999999**random.randrange(100, 1000)
+    #         y = x**9
+
+    #         print('-----TERRIBLE----YYY-------')
+    #         print(y)
+    #         print('---------------------------')
+
+    #         percent_counter += 1
+
+    #         output_data = {'progress_bar_status': percent_counter}
+    #         async_to_sync(channel_layer.send)(
+    #         channel_name,
+    #             {
+    #                 'type': 'send_data',
+    #                 'event_data': output_data,
+    #                 "KEY_PREFIX": "fruit_shop",
+    #             }
+    #         )
+
+
+
+    
+    # for i in range(1, 101):
+    #     progress_bar_status = i
+    #     output_data = {'progress_bar_status': progress_bar_status}
+    #     time.sleep(0.2)
+
+    #     async_to_sync(channel_layer.send)(
+    #     channel_name,
+    #         {
+    #             'type': 'send_data',
+    #             'event_data': output_data,
+    #             "KEY_PREFIX": "fruit_shop",
+    #         }
+    #     )

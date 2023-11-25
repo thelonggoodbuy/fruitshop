@@ -103,7 +103,7 @@ from faker import Faker
 fake = Faker('uk_UA')
 
 from .models import User, Message
-from .tasks import task_send_joke
+from .tasks import task_send_joke, task_make_account_audit
 from channels.layers import get_channel_layer
 import pprint
 # from celery.task.control import revoke
@@ -216,15 +216,32 @@ class ChatWithTechSupport(WebsocketConsumer):
 
 
 
+class AccountAuditConsumer(WebsocketConsumer):
+    def connect(self):
+        print('-----AUDIT----CONNECT--------')
+        self.room_name = 'chat_account_audit'
+        self.room_group_name = f"group_{self.room_name}"
 
-    # @classmethod
-    # def add_task_id(cls, taks_id):
-    #     cls.task_id = taks_id
+        async_to_sync(self.channel_layer.group_add)(
+            self.room_group_name, self.channel_name
+        )        
+        self.accept()
 
-    # @classmethod
-    # def remove_task_id(cls):
-    #     cls.task_id = None
 
-    # @classmethod
-    # def get_task_id(cls):
-    #     return cls.task_id
+    def disconnect(self, close_code):
+        print('-----AUDIT----DISCONNECT-----')
+        async_to_sync(self.channel_layer.group_discard)(
+            self.room_group_name, self.channel_name
+        )
+
+
+    def receive(self, text_data):
+        print('-----AUDIT----RECEIVE-----')
+        # received_data_json = json.loads(text_data)
+        task_make_account_audit.delay(self.channel_name)
+        # self.send(text_data=json.dumps({'data': 'Audit socket work!!!'}))
+
+
+    def send_data(self, event):
+        # data = event["event_data"]
+        self.send(text_data=json.dumps({"data":  event["event_data"]}))

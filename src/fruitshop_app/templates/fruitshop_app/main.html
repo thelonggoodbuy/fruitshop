@@ -147,13 +147,13 @@
                     </div>
                     <div class="row align-items-center">
                         <div class="col-12 col-lg-4">
-                            <button type="button" class="btn btn-primary mb-3" style="background-color:rgb(196, 118, 170); border-radius: 25px; color:black"><p class="lh-1 my-1">Провести бухгалтерский</p><p class="lh-1 my-1">аудит</p></button>
+                            <button id="conduct_an_accounting_audit" type="button" class="btn btn-primary mb-3" style="background-color:rgb(196, 118, 170); border-radius: 25px; color:black"><p class="lh-1 my-1">Провести бухгалтерский</p><p class="lh-1 my-1">аудит</p></button>
                         </div>
                         <div class="col-12 col-lg-8">
                             <div class="progress progress-sm active">
-                                <div class="progress-bar bg-danger progress-bar-striped" role="progressbar"
-                                    aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 75%">
-                                  <span class="sr-only">75% Complete</span>
+                                <div id="status_container" class="progress-bar bg-danger progress-bar-striped" role="progressbar"
+                                    aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 0%">
+                                  <span id="status_line" class="sr-only">0% Complete</span>
                                 </div>
                               </div>
                         </div>
@@ -445,9 +445,48 @@
         }
     }
 
-        
-
+    
     // ------------------------->>>>>END-------Chat--With--TECH---SUPPORT<<<<<<<<<<<<<---------------------------------------------
+    // ------------------------->>>>>>>>>CONDUCT_AN_ACCOUNTING_AUDIT----LOGIC<<<<--------------------------------------------------
+
+    const getAccounAuditSocket = new WebSocket(
+            'ws://'
+            + window.location.host
+            + '/ws/get_account_audit/'
+        );
+
+        var account_listener_button = document.getElementById('conduct_an_accounting_audit')
+        account_listener_button.addEventListener('click', function(event){
+            getAccounAuditSocket.send(JSON.stringify(
+                                        {'message_text': 'get event listener, please!!!'}
+                ))            
+        })
+
+
+        getAccounAuditSocket.onmessage = function(event){
+            
+            var data_from_task = JSON.parse(event.data)
+            var filing_of_container = data_from_task['data']['progress_bar_status']
+            var status_container = document.getElementById('status_container')
+            status_container.style.width = filing_of_container + '%'
+            var progress_bar = document.getElementById('status_line')
+            // console.log('-------------')
+            // console.log(progress_bar)
+            // console.log('-------------')
+            progress_bar.innerHTML = filing_of_container + '% Complete'
+
+            
+        }
+
+
+
+
+        // Array.from(allBuyButtons).forEach(change_task_button => {
+        //     change_task_button.addEventListener('click', function(event){
+
+
+
+    // ------------------------->>>>>>>>>CONDUCT_AN_ACCOUNTING_AUDIT--END--LOGIC<<<<-----------------------------------------------
 
 
     toastr.options = {

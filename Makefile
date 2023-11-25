@@ -13,5 +13,8 @@ run-second_queue-dev:
 run-auxiliary_tasts_queue-dev:
 	celery -A config worker -l info -Q auxiliary_queue --concurrency=1
 
+run-four_queue-dev:
+	celery -A config worker -l info -Q four_queue
+
 run-schedule-dev:
 	celery -A config beat -l info
