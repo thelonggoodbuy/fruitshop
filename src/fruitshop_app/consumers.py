@@ -128,7 +128,9 @@ class ChatWithTechSupport(WebsocketConsumer):
         if len(self.chat_chanels_id_set) == 1:
             task = task_send_joke.delay()
             print(task)
-            self.task_id = task.id
+            # ----------------------------------
+            # add_task_id()
+            ChatWithTechSupport.task_id = task.id
 
         print('-----------CONNECT----CHAT!!!--------------')
         print('--------TASK---------ID--------------------')
@@ -199,6 +201,7 @@ class ChatWithTechSupport(WebsocketConsumer):
         
         if len(self.chat_chanels_id_set) == 0:
             app.control.revoke(self.task_id, terminate=True, signal='SIGKILL')
+            ChatWithTechSupport.task_id = None
 
         print('----DISCONECT----')
         print(self.chat_chanels_id_set)
@@ -212,3 +215,16 @@ class ChatWithTechSupport(WebsocketConsumer):
         self.send(text_data=json.dumps({"data": data}))
 
 
+
+
+    # @classmethod
+    # def add_task_id(cls, taks_id):
+    #     cls.task_id = taks_id
+
+    # @classmethod
+    # def remove_task_id(cls):
+    #     cls.task_id = None
+
+    # @classmethod
+    # def get_task_id(cls):
+    #     return cls.task_id

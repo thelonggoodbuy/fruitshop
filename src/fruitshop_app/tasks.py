@@ -751,7 +751,7 @@ def task_send_joke(pause=1):
 
     print('-----------JOKES---------------')
     print(joke)
-    new_pause = len(joke)
+    new_pause = len(joke)//2
     print(f'Next joke will be after {new_pause} seconds.')
 
     print('-------------------------------')
