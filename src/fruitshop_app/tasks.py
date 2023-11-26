@@ -792,36 +792,45 @@ def task_make_account_audit(channel_name):
     audit_finish = audit_start + datetime.timedelta(0, 15)
     time_per_one_percent = 15/100
     percent_counter = 1
-    current_percent_border = audit_start + datetime.timedelta(0, time_per_one_percent)
+    time_per_percent_limiter = 0
 
+    # current_percent_border = audit_start + (datetime.timedelta(0, time_per_one_percent))
+    # current_percent_status = audit_start
+    
 
 
     while datetime.datetime.now() < audit_finish:
         operation_start_time = datetime.datetime.now()
 
-        x = 9999999**random.randrange(100, 1000)
+        x = 9999999**random.randrange(900, 1000)
         y = x**9
 
-        print('-----TERRIBLE----YYY-------')
-        print(len(str(y)))
-        print('---------------------------')
-
         operation_finish_time = datetime.datetime.now()
+
         used_time = (operation_finish_time - operation_start_time).total_seconds()
 
-        used_percent = used_time//time_per_one_percent
-        print('-----used_percent------')
-        print(used_percent)
-        print('-----------------------')
+        if used_time < time_per_one_percent:
+            time_per_percent_limiter += used_time
 
-        if used_time < 1 and\
-            operation_finish_time < current_percent_border:
-            pass
-        elif used_time < 1 and\
-            operation_finish_time >= current_percent_border and\
-            operation_finish_time < (current_percent_border + time_per_one_percent):
-            percent_counter += used_percent
-            current_percent_border += time_per_one_percent
+            if time_per_percent_limiter >= time_per_one_percent:
+
+                time_per_percent_limiter = 0
+                percent_counter += 1
+                output_data = {'progress_bar_status': percent_counter}
+                async_to_sync(channel_layer.send)(
+                channel_name,
+                    {
+                        'type': 'send_data',
+                        'event_data': output_data,
+                        "KEY_PREFIX": "fruit_shop",
+                    }
+                )
+        else:
+            persent_in_this_operation = used_time // time_per_one_percent 
+            limiter_changes = (persent_in_this_operation - int(persent_in_this_operation))
+            time_per_percent_limiter += limiter_changes
+
+            percent_counter += persent_in_this_operation
             output_data = {'progress_bar_status': percent_counter}
             async_to_sync(channel_layer.send)(
             channel_name,
@@ -831,8 +840,38 @@ def task_make_account_audit(channel_name):
                     "KEY_PREFIX": "fruit_shop",
                 }
             )
-        # тетья опция.... голова вообще не варит......
 
+    else:
+        percent_counter = 100
+        output_data = {'progress_bar_status': percent_counter}
+        async_to_sync(channel_layer.send)(
+        channel_name,
+            {
+                'type': 'send_data',
+                'event_data': output_data,
+                "KEY_PREFIX": "fruit_shop",
+            }
+        )
+
+
+
+
+        #     output_data = {'progress_bar_status': percent_counter}
+        #     async_to_sync(channel_layer.send)(
+        #     channel_name,
+        #         {
+        #             'type': 'send_data',
+        #             'event_data': output_data,
+        #             "KEY_PREFIX": "fruit_shop",
+        #         }
+        #     )
+
+
+
+
+        # тетья опция.... голова вообще не варит......
+        # elif 
+        
 
 
 

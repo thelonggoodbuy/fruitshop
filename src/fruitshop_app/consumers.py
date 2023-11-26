@@ -215,10 +215,12 @@ class ChatWithTechSupport(WebsocketConsumer):
         self.send(text_data=json.dumps({"data": data}))
 
 
+from config.celery import app
+import pprint
+from celery.utils.nodenames import gethostname
 
 class AccountAuditConsumer(WebsocketConsumer):
     def connect(self):
-        print('-----AUDIT----CONNECT--------')
         self.room_name = 'chat_account_audit'
         self.room_group_name = f"group_{self.room_name}"
 
@@ -229,17 +231,42 @@ class AccountAuditConsumer(WebsocketConsumer):
 
 
     def disconnect(self, close_code):
-        print('-----AUDIT----DISCONNECT-----')
         async_to_sync(self.channel_layer.group_discard)(
             self.room_group_name, self.channel_name
         )
 
 
     def receive(self, text_data):
-        print('-----AUDIT----RECEIVE-----')
-        # received_data_json = json.loads(text_data)
+
+        tasks_inspection_data = app.control.inspect()
+        audit_is_free = True
+
+        for task_list_per_host in tasks_inspection_data.active().values():
+            for task in task_list_per_host:
+                if task['name'] == 'fruitshop_app.tasks.task_make_account_audit':
+                    audit_is_free = False
+
+        print('--------Task----status-----------')
+        print(audit_is_free)
+        print('--------------------------------')
+
+        # pprint.pprint(tasks.active())
+        # active_tasks = tasks.active()
+        # pprint.pprint(active_tasks['celery@maxim-HP-EliteBook-8470p'])
+        # print(celery.utils.nodenames.gethostname())
+        # print(tasks.registered().keys())
+
+        # try:
+        #     for active_user in tasks.values():
+        #         for tasks in active_user.values():
+        #             if tasks['name'] == 'fruitshop_app.tasks.task_make_account_audit':
+        #                 print('=============EXISTS===============')
+        #         # else:
+        #         #     print('=============NOT!!!===============')
+        # except AttributeError:
+        #     pass
+        # print('--------------------------------------------------')
         task_make_account_audit.delay(self.channel_name)
-        # self.send(text_data=json.dumps({'data': 'Audit socket work!!!'}))
 
 
     def send_data(self, event):
