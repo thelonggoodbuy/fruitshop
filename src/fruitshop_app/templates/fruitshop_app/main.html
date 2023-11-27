@@ -215,7 +215,7 @@
 </div>
 
 
-
+    
     <script src="{% static 'fruitshop_app/plugins/bootstrap-5.0.2-dist/js/bootstrap.bundle.min.js' %}"></script>
 
     <script src="{% static 'fruitshop_app/plugins/jquery-3.7.1.min.js' %}"></script>
@@ -510,6 +510,21 @@
     }
 
     </script>
+
+    {% if messages %}
+    {% for message in messages %}
+        {% if message.tags == 'success'%}
+            <script type=text/javascript>toastr.{{ message.tags }}('{{ message }}')</script>
+        {% elif message.tags == 'info' %}
+            <script type=text/javascript>toastr.{{ message.tags }}('{{ message }}')</script>
+        {% elif message.tags == 'warning' %}
+            <script type=text/javascript>toastr.{{ message.tags }}('{{ message }}')</script>
+        {% elif message.tags == 'error' %}
+            <script type=text/javascript>toastr.{{ message.tags }}('{{ message }}')</script>
+        {% endif %}
+    {% endfor %}
+    {% endif %}
+
 </body>
 </html>
 

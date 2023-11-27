@@ -10,10 +10,11 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import Commodity, Account, TradeOperation, Message
 from .forms import LoginForm
 
-import pprint
 
 from django.utils.timezone import localtime
-import pytz
+from django.contrib import messages
+from django.http import HttpResponseRedirect
+
 
 class FruitDataListView(LoginView):
     template_name = "fruitshop_app/main.html"
@@ -56,27 +57,28 @@ class FruitDataListView(LoginView):
 
         last_messages_data = []
 
-        # tz = pytz.timezone("Europe/Kiev")
-
         for message in raw_last_messages_data:
-            # print(message.text)
-            # utc_datetime = message.message_data_time
-            # message.message_data_time = localtime(utc_datetime, tz)
             last_messages_data.insert(0, message)
-            # print(f"{message.id}: {message.message_data_time}")
-
-        
-
-        # print('-----------------------------------------------------------------')
-        # pprint.pprint(last_messages_data)
-        # print('-----------------------------------------------------------------')
-
+ 
         context["last_messages_data"] = last_messages_data
         context["commodity_data"] = commodity_last_transaction
         context["form"] = LoginForm()
 
         return context
     
+    
+    def form_invalid(self, main_form):
+        if main_form.errors:
+            for field, error in main_form.errors.items():
+
+                error_text = f"Повилка в нікнеймі користувача, або в пароли"
+                messages.error(self.request, error_text)
+
+
+
+
+        # success_url = self.success_url
+        return HttpResponseRedirect('/fruitshop_app/')
 
 
 class FruitShopLogoutView(LoginRequiredMixin, LogoutView):
@@ -91,10 +93,8 @@ from django.template.loader import get_template
 from django.http import HttpResponse
 from django.db.models import Sum
 
-# from .tasks import task_print_receipt
 
 def download_declaration(request):
-    # return task_print_receipt.delay()
 
     transaction_list = list(TradeOperation.objects.prefetch_related('commodity__title')\
                                                     .filter(trade_date_time__gte=timezone.now().replace(hour=0, minute=0, second=0),
