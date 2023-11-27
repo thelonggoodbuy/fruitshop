@@ -95,11 +95,11 @@ INTERNAL_IPS = [
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': env("NAME"),
-        'USER': env("USER"),
-        'PASSWORD':env("PASSWORD"),
-        'HOST': env("HOST"),
-        'PORT': env("PORT"),
+        'NAME': env("POSTGRES_NAME"),
+        'USER': env("POSTGRES_USER"),
+        'PASSWORD':env("POSTGRES_PASSWORD"),
+        'HOST': env("POSTGRES_HOST"),
+        'PORT': env("POSTGRES_PORT"),
     }
 }
 
