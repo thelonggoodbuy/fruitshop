@@ -466,14 +466,16 @@
         getAccounAuditSocket.onmessage = function(event){
             
             var data_from_task = JSON.parse(event.data)
-            var filing_of_container = data_from_task['data']['progress_bar_status']
-            var status_container = document.getElementById('status_container')
-            status_container.style.width = filing_of_container + '%'
-            var progress_bar = document.getElementById('status_line')
-            // console.log('-------------')
-            // console.log(progress_bar)
-            // console.log('-------------')
-            progress_bar.innerHTML = filing_of_container + '% Complete'
+            if (data_from_task['data']['status'] == 'success'){
+                var filing_of_container = data_from_task['data']['progress_bar_status']
+                var status_container = document.getElementById('status_container')
+                status_container.style.width = filing_of_container + '%'
+                var progress_bar = document.getElementById('status_line')
+                progress_bar.innerHTML = filing_of_container + '% Complete'
+
+            } else if (data_from_task['data']['status'] == 'forbidden') {
+                toastr.error(data_from_task['data']['cause'])
+            }
 
             
         }

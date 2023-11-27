@@ -241,32 +241,33 @@ class AccountAuditConsumer(WebsocketConsumer):
         tasks_inspection_data = app.control.inspect()
         audit_is_free = True
 
+        self.user = self.scope["user"]
+
         for task_list_per_host in tasks_inspection_data.active().values():
             for task in task_list_per_host:
                 if task['name'] == 'fruitshop_app.tasks.task_make_account_audit':
                     audit_is_free = False
+                    
 
-        print('--------Task----status-----------')
-        print(audit_is_free)
-        print('--------------------------------')
+        if audit_is_free is True and self.user.is_authenticated:
+            task_make_account_audit.delay(self.channel_name)
 
-        # pprint.pprint(tasks.active())
-        # active_tasks = tasks.active()
-        # pprint.pprint(active_tasks['celery@maxim-HP-EliteBook-8470p'])
-        # print(celery.utils.nodenames.gethostname())
-        # print(tasks.registered().keys())
+        elif self.user.is_authenticated is False:
+            event_data = {"status": "forbidden",
+                        "cause": "Тільги залогований користувач може викликати аудит!"}
+            async_to_sync(self.channel_layer.send)(
+            self.channel_name, {"type": "send_data", 
+                                "event_data": event_data}
+        )            
+        elif audit_is_free is False and self.user.is_authenticated:
+            event_data = {"status": "forbidden",
+                        "cause": "Аудит вже запущенний Вами, або одним з користувачів"}
+            async_to_sync(self.channel_layer.send)(
+            self.channel_name, {"type": "send_data", 
+                                "event_data": event_data}
+        )
 
-        # try:
-        #     for active_user in tasks.values():
-        #         for tasks in active_user.values():
-        #             if tasks['name'] == 'fruitshop_app.tasks.task_make_account_audit':
-        #                 print('=============EXISTS===============')
-        #         # else:
-        #         #     print('=============NOT!!!===============')
-        # except AttributeError:
-        #     pass
-        # print('--------------------------------------------------')
-        task_make_account_audit.delay(self.channel_name)
+
 
 
     def send_data(self, event):

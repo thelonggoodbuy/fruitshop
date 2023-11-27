@@ -794,11 +794,6 @@ def task_make_account_audit(channel_name):
     percent_counter = 1
     time_per_percent_limiter = 0
 
-    # current_percent_border = audit_start + (datetime.timedelta(0, time_per_one_percent))
-    # current_percent_status = audit_start
-    
-
-
     while datetime.datetime.now() < audit_finish:
         operation_start_time = datetime.datetime.now()
 
@@ -816,7 +811,7 @@ def task_make_account_audit(channel_name):
 
                 time_per_percent_limiter = 0
                 percent_counter += 1
-                output_data = {'progress_bar_status': percent_counter}
+                output_data = {'status':'success', 'progress_bar_status': percent_counter}
                 async_to_sync(channel_layer.send)(
                 channel_name,
                     {
@@ -831,7 +826,7 @@ def task_make_account_audit(channel_name):
             time_per_percent_limiter += limiter_changes
 
             percent_counter += persent_in_this_operation
-            output_data = {'progress_bar_status': percent_counter}
+            output_data = {'status':'success', 'progress_bar_status': percent_counter}
             async_to_sync(channel_layer.send)(
             channel_name,
                 {
@@ -841,9 +836,11 @@ def task_make_account_audit(channel_name):
                 }
             )
 
+
+    # percent_counter = 100
     else:
-        percent_counter = 100
-        output_data = {'progress_bar_status': percent_counter}
+        print('-----task-------100-----percent-------')
+        output_data = {'status':'success', 'progress_bar_status': 100}
         async_to_sync(channel_layer.send)(
         channel_name,
             {
