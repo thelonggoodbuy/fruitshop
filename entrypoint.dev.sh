@@ -13,8 +13,10 @@ fi
 
 echo "**************************************"
 python manage.py migrate
-python manage.py makemigrations
-python manage.py migrate
+# python manage.py makemigrations
+# python manage.py migrate
 echo "**************************************"
+
+echo "(----------------DB work!----------------)"
 
 exec "$@"

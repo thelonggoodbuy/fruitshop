@@ -21,7 +21,7 @@ run-schedule-dev:
 
 # clear system
 docker-total-clean:
-	docker-compose -f docker-compose.dev.yml down --volume
+	docker-compose -f docker-compose.dev.yml down -v
 	echo y|docker system prune --all
 	echo y|docker volume prune --all
 

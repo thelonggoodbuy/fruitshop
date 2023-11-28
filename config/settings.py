@@ -19,7 +19,7 @@ from celery.schedules import crontab
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 env = environ.Env()
-environ.Env.read_env(env_file=os.path.join(BASE_DIR, ".env.local"))
+environ.Env.read_env(env_file=os.path.join(BASE_DIR, ".env.dev"))
 
 
 
@@ -95,7 +95,7 @@ INTERNAL_IPS = [
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': env("POSTGRES_NAME"),
+        'NAME': env("POSTGRES_DB"),
         'USER': env("POSTGRES_USER"),
         'PASSWORD':env("POSTGRES_PASSWORD"),
         'HOST': env("POSTGRES_HOST"),
