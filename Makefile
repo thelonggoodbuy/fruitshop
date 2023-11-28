@@ -18,3 +18,12 @@ run-four_queue-dev:
 
 run-schedule-dev:
 	celery -A config beat -l info
+
+# clear system
+docker-total-clean:
+	docker-compose -f docker-compose.dev.yml down --volume
+	echo y|docker system prune --all
+	echo y|docker volume prune --all
+
+dev-up:
+	docker-compose -f docker-compose.dev.yml up --build
