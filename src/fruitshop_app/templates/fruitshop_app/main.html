@@ -413,9 +413,35 @@
         const chat_message_container = document.getElementById("chat_message_container");
         if (data['data']['perm_status'] == 'joker'){
             toastr.warning('JOCKER!!!!!!!!')
-            // console.log('=======JOCKER=======')
-            // console.log(data['data'])
-            // console.log('====================')
+            console.log('=======JOCKER=======')
+            console.log(data['data'])
+            console.log('====================')
+
+            // user message
+            var new_joker_message = document.createElement("p");
+
+            // mx-1 my-2 lh-1
+            new_joker_message.classList.add('mx-1', 'my-2', 'lh-1')
+            var date = moment();
+            var currentTime = date.format('HH:mm');
+            new_joker_message.textContent = currentTime + ' ' + data['data']['message_author'] + ': ' + data['data']['message']
+            chat_message_container.appendChild(new_joker_message)
+            // response message
+            // var new_response_message = document.createElement("p");
+            // new_response_message.classList.add('mx-1', 'my-2', 'lh-1')
+            // var date = moment();
+            // var currentTime = date.format('HH:mm');
+            // new_response_message.textContent = currentTime + ' ' + data['data']['response_author'] + ': ' + data['data']['response']
+            // chat_message_container.appendChild(new_response_message)
+            // chat length
+            var message_quantity = chat_message_container.children.length
+            while (message_quantity >= 40){
+                chat_message_container.removeChild(chat_message_container.getElementsByTagName('p')[0]);               
+                var message_quantity = chat_message_container.children.length;
+            }
+            new_message_position = new_joker_message.offsetTop
+            chat_message_container.scrollTop = new_message_position
+
         } else  if(data['data']['perm_status'] == 'anonym'){
             toastr.warning('Писати в тех підтримку може тільки зареєстрований користувач. Увійдіть, будь ласка у систему.')
         } else {

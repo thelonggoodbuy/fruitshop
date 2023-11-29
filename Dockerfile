@@ -15,6 +15,9 @@ RUN apk add postgresql-dev
 RUN pip install psycopg2
 RUN apk del build-deps
 RUN apk add --no-cache make
+# (!!!)
+# RUN apk add wkhtmltopdf
+
 
 # install dependencies (!)
 RUN pip install --upgrade pip

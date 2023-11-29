@@ -776,7 +776,7 @@ def task_send_joke(pause=1):
             "group_chat_with_techsuport_shop_room", 
                 {"type": "chat.message", 
                 "message": joke,
-                "message_author": joker.username,
+                "message_author": joker.last_name,
                 "perm_status": "joker",
                 "interval": len(joke),
                 "response": None,

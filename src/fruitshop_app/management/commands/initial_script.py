@@ -45,7 +45,8 @@ class Command(BaseCommand):
 
         # create techsupport
         techsupport_obj, created = User.objects.get_or_create(
-                username='techsupport'
+                username='techsupport',
+                last_name='технічна підтримка'
                 )
         if created:
             techsupport_obj.set_password(initial_password)
@@ -54,7 +55,8 @@ class Command(BaseCommand):
 
         # create jocker
         joker_obj, created = User.objects.get_or_create(
-                username='joker'
+                username='joker',
+                last_name='жартівник'
                 )
         if created:
             joker_obj.set_password(initial_password)
