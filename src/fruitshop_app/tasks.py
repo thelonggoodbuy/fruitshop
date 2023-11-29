@@ -629,15 +629,17 @@ def task_sell_peach():
     )
 
 
-# @shared_task(queue="test_second")
-@shared_task
-def task_foo_bar():
-    print('=====123===========>>>>>other queue<<<<<=========456======')
-    return None
+# @shared_task(queue="test_second_queue")
+# # @shared_task
+# def test_second_queuetest_second_queue():
+#     print('========================================================')
+#     print('>>>>>>>>>>>>>>>>>SECOND-----QUEUE<<<<<<<<<<<<<<<<<<<<<<<')
+#     print('========================================================')
+#     return None
 
 
-# @shared_task(queue="auxiliary_queue")
-@shared_task
+@shared_task(queue="auxiliary_queue")
+# @shared_task
 def task_change_account_ballance(changes_in_account, channel_name):
     Account = apps.get_model(app_label='fruitshop_app', model_name='Account')
     account_obj = Account.objects.first()
@@ -672,8 +674,8 @@ def task_change_account_ballance(changes_in_account, channel_name):
 
 
 
-# @shared_task(queue="auxiliary_queue")
-@shared_task
+@shared_task(queue="auxiliary_queue")
+# @shared_task
 def task_update_account_data_and_last_operations():
     Commodity = apps.get_model(app_label='fruitshop_app', model_name='Commodity')
     Account = apps.get_model(app_label='fruitshop_app', model_name='Account')
@@ -744,8 +746,8 @@ import httpx
 import time
 from datetime import datetime
 
-# @shared_task(queue="auxiliary_queue")
-@shared_task
+@shared_task(queue="auxiliary_queue")
+# @shared_task
 def task_send_joke(pause=1):
 
     from django.contrib.auth.models import User
@@ -798,8 +800,8 @@ sys.set_int_max_str_digits(0)
 
 
 
-# @shared_task(queue="four_queue")
-@shared_task
+@shared_task(queue="audit_queue")
+# @shared_task
 def task_make_account_audit(channel_name):
         
     channel_layer = get_channel_layer()

@@ -202,8 +202,8 @@ CELERY_BEAT_SCHEDULE = {
     },
     
 
-    "task_foo_bar": {
-        "task": "src.fruitshop_app.tasks.task_foo_bar",
+    "test_second_queuetest_second_queue": {
+        "task": "src.fruitshop_app.tasks.test_second_queuetest_second_queue",
         "schedule": timedelta(seconds=2),
     },
 
