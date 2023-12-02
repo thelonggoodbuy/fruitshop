@@ -23,9 +23,9 @@ from django.db.models import Sum
 @shared_task(queue="trade_transaction_task_queue")
 # @shared_task
 def task_buy_apple():
-    print('***************************************************************************************************')
-    print('TASK BUY APPLE WAS TRIGGERED')
-    print('***************************************************************************************************')
+    # print('***************************************************************************************************')
+    # print('TASK BUY APPLE WAS TRIGGERED ->')
+    # print('***************************************************************************************************')
     Commodity = apps.get_model(app_label='fruitshop_app', model_name='Commodity')
     Account = apps.get_model(app_label='fruitshop_app', model_name='Account')
     TradeOperation = apps.get_model(app_label='fruitshop_app', model_name='TradeOperation')

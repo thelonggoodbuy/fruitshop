@@ -29,3 +29,23 @@ dev-up-build:
 
 dev-up:
 	docker-compose -f docker-compose.dev.yml up --build
+
+
+
+
+
+prod-up:
+	docker-compose -f docker-compose.prod.yml up
+
+prod-up-build:
+	docker-compose -f docker-compose.prod.yml up --build
+
+prod-down:
+	docker-compose -f docker-compose.prod.yml up down
+	echo y|docker system prune
+
+prod-down-clean:
+	docker-compose -f docker-compose.prod.yml up down --volume
+	echo y|docker system prune
+	echo y|docker system prune --all
+	echo y|docker volume prune --all

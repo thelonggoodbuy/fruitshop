@@ -271,6 +271,24 @@
             
             show_operation_message(message_status, message_text)
 
+            console.log('-------------------')
+            if(message_status == "SUCCESS"){
+                // console.log(data["data"]["change_store"])
+                var fruit_type = Object.keys(data["data"]["change_store"])[0]
+                // console.log(fruit_type)
+                // console.log(data["data"]["change_store"])
+                var fruit_in_store = Object.values(data["data"]["change_store"])[0]
+                // console.log(fruit_in_store)
+                // console.log('-------------------')
+                fruit_in_store_obj = document.querySelector('#quantity_' + fruit_type)
+                console.log('*******')
+                console.log(fruit_in_store_obj)
+                console.log('******')
+                fruit_in_store_obj.innerHTML = fruit_in_store
+            } else {
+                console.log('Fail!!!')
+            }
+
         }
 
         fruitShopSocket.onclose = function(e){
