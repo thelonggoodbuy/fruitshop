@@ -48,7 +48,7 @@ services:
 
 
   db:
-    image: postgres:12.0
+    image: postgres:15.0
     volumes:
       - postgres_data:/var/lib/postgresql/data/
     env_file:
