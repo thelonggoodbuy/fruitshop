@@ -41,11 +41,11 @@ prod-up-build:
 	docker-compose -f docker-compose.prod.yml up --build
 
 prod-down:
-	docker-compose -f docker-compose.prod.yml up down
+	docker-compose -f docker-compose.prod.yml down
 	echo y|docker system prune
 
 prod-down-clean:
-	docker-compose -f docker-compose.prod.yml up down --volume
+	docker-compose -f docker-compose.prod.yml down --volume
 	echo y|docker system prune
 	echo y|docker system prune --all
 	echo y|docker volume prune --all

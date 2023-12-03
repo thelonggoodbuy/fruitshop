@@ -16,6 +16,7 @@ python manage.py migrate
 python manage.py makemigrations
 python manage.py migrate
 python manage.py initial_script
+echo yes|python manage.py collectstatic
 echo "**************************************"
 
 echo "(----------------DB work!----------------)"

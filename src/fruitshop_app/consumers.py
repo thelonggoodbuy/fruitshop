@@ -117,6 +117,8 @@ class ChatWithTechSupport(WebsocketConsumer):
         self.room_name = 'chat_with_techsuport_shop_room'
         self.room_group_name = f"group_{self.room_name}"
 
+        print('-----------CONNECT----CHAT!!!--------------')
+
         async_to_sync(self.channel_layer.group_add)(
             self.room_group_name, self.channel_name
         )
@@ -132,11 +134,11 @@ class ChatWithTechSupport(WebsocketConsumer):
             # add_task_id()
             ChatWithTechSupport.task_id = task.id
 
-        print('-----------CONNECT----CHAT!!!--------------')
-        print('--------TASK---------ID--------------------')
-        print(self.task_id)
-        print(self.chat_chanels_id_set)
-        print('-------------------------------------------')
+        # print('-----------CONNECT----CHAT!!!--------------')
+        # print('--------TASK---------ID--------------------')
+        # print(self.task_id)
+        # print(self.chat_chanels_id_set)
+        # print('-------------------------------------------')
 
         self.accept()
 

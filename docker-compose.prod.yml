@@ -1,9 +1,26 @@
 version: '3.8'
 
+
+
+
 services:
+
+  nginx:
+    build: 
+      context: ./nginx
+    volumes:
+      - static_volume:/usr/src/app/staticfiles
+      - media:/usr/src/app/media
+    ports:
+      - 80:80
+    depends_on:
+      - wsgi-web
+      # - asgi-web
+
+
   wsgi-web:
     build: .
-    command: python manage.py runserver 0.0.0.0:8000
+    command: daphne -b 0.0.0.0 -p 8000 config.asgi:application
     volumes:
       - ./:/usr/src/app/
       - static_volume:/usr/src/app/staticfiles
@@ -17,8 +34,9 @@ services:
 
 
   asgi-web:
-    build: .
-    command: daphne -b 0.0.0.0 -p 8001 config.asgi:channel_layer
+    # build: .
+    # command: daphne -b 0.0.0.0 -p 8001 config.asgi:application
+    image: daphneeu/daphne-dev:latest_X86-64_BASE
     volumes:
       - ./:/usr/src/app/
       # - static_volume:/usr/src/app/staticfiles
@@ -57,7 +75,7 @@ services:
       - ./.env.dev
     depends_on:
       - db
-      - asgi-web
+      # - asgi-web
       - wsgi-web
 
   celery_with_auxiliary_queue:
@@ -70,7 +88,7 @@ services:
       - ./.env.dev
     depends_on:
       - db
-      - asgi-web
+      # - asgi-web
       - wsgi-web
 
 
@@ -84,7 +102,7 @@ services:
       - ./.env.dev
     depends_on:
       - db
-      - asgi-web
+      # - asgi-web
       - wsgi-web
 
       
@@ -99,7 +117,7 @@ services:
       - ./.env.dev
     depends_on:
       - db
-      - asgi-web
+      # - asgi-web
       - wsgi-web
       - celery_with_buying_and_selling_queue
       - celery_with_auxiliary_queue

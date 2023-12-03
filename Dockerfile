@@ -21,6 +21,7 @@ RUN pip install psycopg2
 # (!!!)
 RUN echo y|apt install wkhtmltopdf
 RUN apt install -y netcat-traditional
+RUN echo y|apt install supervisor
 
 
 # install dependencies (!)
@@ -35,6 +36,11 @@ RUN chmod +x /usr/src/app/entrypoint.dev.sh
 # copy project
 COPY . /usr/src/app/
 # RUN chmod 755 entrypoint.dev.sh
+
+COPY supervisor/conf.d /etc/supervisor/conf.d/
+RUN mkdir /run/daphne/
+# RUN chown app:app /run/daphne/
+RUN mkdir /usr/lib/tmpfiles.d/daphne.conf
 
 
 # run entrypoint.sh
