@@ -40,7 +40,8 @@ prod-up:
 prod-up-build:
 	pwd
 	ls --all
-	docker-compose -f docker-compose.prod.yml up --build
+	# docker-compose -f docker-compose.prod.yml up --build
+	docker-compose up --build
 
 prod-down:
 	docker-compose -f docker-compose.prod.yml down

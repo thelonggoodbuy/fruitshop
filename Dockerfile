@@ -1,5 +1,6 @@
 # pull official base python image
 FROM python:3.10.13
+# FROM ubuntu:latest
 
 # set the work directory inside docker image
 WORKDIR /usr/src/app
