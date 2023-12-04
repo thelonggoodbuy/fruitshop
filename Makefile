@@ -35,20 +35,17 @@ dev-up:
 
 
 prod-up:
-	docker-compose -f docker-compose.prod.yml up
+	docker-compose up
 
 prod-up-build:
-	pwd
-	ls --all
-	# docker-compose -f docker-compose.prod.yml up --build
 	docker-compose up --build
 
 prod-down:
-	docker-compose -f docker-compose.prod.yml down
+	docker-compose down
 	echo y|docker system prune
 
 prod-down-clean:
-	docker-compose -f docker-compose.prod.yml down --volume
+	docker-compose down --volume
 	echo y|docker system prune
 	echo y|docker system prune --all
 	echo y|docker volume prune --all
