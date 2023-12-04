@@ -38,6 +38,7 @@ prod-up:
 	docker-compose -f docker-compose.prod.yml up
 
 prod-up-build:
+	pwd
 	ls --all
 	docker-compose -f docker-compose.prod.yml up --build
 
