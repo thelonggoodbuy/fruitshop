@@ -45,6 +45,7 @@ RUN mkdir /run/daphne/
 # RUN chown app:app /run/daphne/
 RUN mkdir /usr/lib/tmpfiles.d/daphne.conf
 
+EXPOSE 3000
 
 # run entrypoint.sh
 ENTRYPOINT [ "/usr/src/app/entrypoint.dev.sh" ]
