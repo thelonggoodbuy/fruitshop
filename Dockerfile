@@ -47,11 +47,11 @@ RUN mkdir /usr/lib/tmpfiles.d/daphne.conf
 
 EXPOSE 3000
 
-RUN python manage.py migrate
-RUN python manage.py migrate
-RUN python manage.py makemigrations
-RUN python manage.py migrate
-RUN python manage.py initial_script
-RUN echo yes|python manage.py collectstatic
 
-# ENTRYPOINT [ "/usr/src/app/entrypoint.dev.sh" ]
+# RUN python manage.py migrate
+# RUN python manage.py makemigrations
+# RUN python manage.py migrate
+# RUN python manage.py initial_script
+# RUN echo yes|python manage.py collectstatic
+
+ENTRYPOINT [ "/usr/src/app/entrypoint.dev.sh" ]
