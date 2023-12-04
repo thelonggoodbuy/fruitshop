@@ -45,6 +45,7 @@ prod-down:
 	echo y|docker system prune
 
 prod-down-clean:
+	echo ls --all
 	docker-compose -f docker-compose.prod.yml down --volume
 	echo y|docker system prune
 	echo y|docker system prune --all
