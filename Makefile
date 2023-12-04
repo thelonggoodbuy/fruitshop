@@ -38,6 +38,7 @@ prod-up:
 	docker-compose -f docker-compose.prod.yml up
 
 prod-up-build:
+	ls --all
 	docker-compose -f docker-compose.prod.yml up --build
 
 prod-down:
@@ -45,7 +46,6 @@ prod-down:
 	echo y|docker system prune
 
 prod-down-clean:
-	echo ls --all
 	docker-compose -f docker-compose.prod.yml down --volume
 	echo y|docker system prune
 	echo y|docker system prune --all
