@@ -23,6 +23,7 @@ wkhtmltopdf = "^0.2"
 pytz = "^2023.3.post1"
 uvicorn = "^0.24.0.post1"
 supervisor = "^4.2.5"
+twisted = {extras = ["http2", "tls"], version = "^23.10.0"}
 
 
 [build-system]
