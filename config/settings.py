@@ -34,8 +34,8 @@ SECRET_KEY = env("SECRET_KEY")
 DEBUG = env("DEBUG")
 
 # ALLOWED_HOSTS = []
-# ALLOWED_HOSTS = env("DJANGO_ALLOWED_HOSTS").split(' ')
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = env("DJANGO_ALLOWED_HOSTS").split(' ')
+# ALLOWED_HOSTS = ['*']
 
 sys.path.insert(0, os.path.join(BASE_DIR, 'src'))
 
