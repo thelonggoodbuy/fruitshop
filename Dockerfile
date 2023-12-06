@@ -39,6 +39,7 @@ RUN chmod +x /usr/src/app/entrypoint.dev.sh
 
 # copy project
 COPY . /usr/src/app/
+# COPY 
 # RUN chmod 755 entrypoint.dev.sh
 
 COPY supervisor/conf.d /etc/supervisor/conf.d/
