@@ -71,6 +71,22 @@ class Command(BaseCommand):
                 new_user.save()
                 created_objects_list.append(f"User with username {new_user.username}")
 
+        # create admin  users       
+        admin_user_obj, created = User.objects.get_or_create(
+                username='initial_admin',
+                last_name='технічна підтримка'
+                )
+        if created:
+            admin_user_obj.set_password(initial_password)
+            admin_user_obj.is_superuser = True
+            admin_user_obj.is_staff = True
+            admin_user_obj.is_active = True
+            admin_user_obj.save()
+            created_objects_list.append("Initial Admin user")
+
+
+
+
         # send list of created objects to terminal
         if len(created_objects_list) > 0:
             print('----------Objects-created-by-initial-script----------')

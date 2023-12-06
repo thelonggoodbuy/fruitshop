@@ -37,7 +37,7 @@ DEBUG = env("DEBUG")
 # ALLOWED_HOSTS = env("DJANGO_ALLOWED_HOSTS").split(' ')
 # CSRF_TRUSTED_ORIGINS = env("ALLOWED_HOSTS").split(' ')
 ALLOWED_HOSTS = ['*']
-CSRF_TRUSTED_ORIGINS = ['*']
+# CSRF_TRUSTED_ORIGINS = ['*']
 
 sys.path.insert(0, os.path.join(BASE_DIR, 'src'))
 
