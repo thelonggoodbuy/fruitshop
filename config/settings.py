@@ -157,11 +157,14 @@ ASGI_APPLICATION = "config.asgi.application"
 
 REDIS_HOST = env("REDIS_HOST")
 
+
+REDIS_URL = env("REDIS_URL")
 CHANNEL_LAYERS = {
     "default": {
         "BACKEND": "channels_redis.core.RedisChannelLayer",
         "CONFIG": {
-            "hosts": [(REDIS_HOST, 6379)],
+            # "hosts": [(REDIS_HOST, 6379)],
+            "hosts": [REDIS_URL],
         },
     },
 }
@@ -171,8 +174,12 @@ CHANNEL_LAYERS = {
 # CELERY_BROKER_URL = "redis://localhost:6379/0"
 # CELERY_RESULT_BACKEND = "redis://localhost:6379/1"
 
-CELERY_BROKER_URL = f"redis://{REDIS_HOST}:6379"
-CELERY_RESULT_BACKEND = f"redis://{REDIS_HOST}:6379"
+# REDIS_URL = env("REDIS_URL")
+CELERY_BROKER_URL = REDIS_URL
+CELERY_RESULT_BACKEND = REDIS_URL
+
+# CELERY_BROKER_URL = f"redis://{REDIS_HOST}:6379"
+# CELERY_RESULT_BACKEND = f"redis://{REDIS_HOST}:6379"
 
 
 CELERY_BEAT_SCHEDULE = {
