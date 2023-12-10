@@ -25,6 +25,7 @@ RUN apt install -y netcat-traditional
 RUN echo y|apt install supervisor
 RUN apt install make
 RUN echo y|apt install vim
+RUN echo y|apt install libevent-dev
 
 
 

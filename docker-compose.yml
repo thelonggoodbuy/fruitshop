@@ -12,33 +12,35 @@ services:
     depends_on:
       - wsgi-web
 
-
+# !!!!
   wsgi-web:
     build: .
-    command: daphne -b 0.0.0.0 -p 8000 config.asgi:application
+    command: gunicorn -b 0.0.0.0 -p 8000 --worker-class=uvicorn.workers.UvicornWorker --workers=4 config.asgi:application
     volumes:
       - ./:/usr/src/app/
       - static_volume:/usr/src/app/staticfiles
       - media:/usr/src/app/media
-    ports:
-      - 8000:8000
+    # ports:
+    #   - 8000:8000
+    expose:
+      - 8000
     env_file:
       - ./.env
     depends_on:
       - db
 
 
-  asgi-web:
-    image: daphneeu/daphne-dev:latest_X86-64_BASE
-    volumes:
-      - ./:/usr/src/app/
-    ports:
-      - 8001:8001
-    env_file:
-      - ./.env
-    depends_on:
-      - db
-      - redis
+  # asgi-web:
+  #   image: daphneeu/daphne-dev:latest_X86-64_BASE
+  #   volumes:
+  #     - ./:/usr/src/app/
+  #   ports:
+  #     - 8001:8001
+  #   env_file:
+  #     - ./.env
+  #   depends_on:
+  #     - db
+  #     - redis
 
 
   db:

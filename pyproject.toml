@@ -21,9 +21,11 @@ httpx = "^0.25.1"
 pdfkit = "^1.0.0"
 wkhtmltopdf = "^0.2"
 pytz = "^2023.3.post1"
-uvicorn = "^0.24.0.post1"
+uvicorn = {extras = ["standard"], version = "^0.24.0.post1"}
 supervisor = "^4.2.5"
 twisted = {extras = ["http2", "tls"], version = "^23.10.0"}
+greenlet = "^3.0.1"
+gevent = "^23.9.1"
 
 
 [build-system]
