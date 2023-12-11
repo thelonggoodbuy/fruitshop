@@ -22,7 +22,7 @@ RUN pip install psycopg2
 # (!!!)
 RUN echo y|apt install wkhtmltopdf
 RUN apt install -y netcat-traditional
-RUN echo y|apt install supervisor
+# RUN echo y|apt install supervisor
 RUN apt install make
 RUN echo y|apt install vim
 RUN echo y|apt install libevent-dev
@@ -44,10 +44,11 @@ COPY . /usr/src/app/
 # COPY 
 # RUN chmod 755 entrypoint.dev.sh
 
-COPY supervisor/conf.d /etc/supervisor/conf.d/
-RUN mkdir /run/daphne/
+
+# COPY supervisor/conf.d /etc/supervisor/conf.d/
+# RUN mkdir /run/daphne/
 # RUN chown app:app /run/daphne/
-RUN mkdir /usr/lib/tmpfiles.d/daphne.conf
+# RUN mkdir /usr/lib/tmpfiles.d/daphne.conf
 
 EXPOSE 3000
 
