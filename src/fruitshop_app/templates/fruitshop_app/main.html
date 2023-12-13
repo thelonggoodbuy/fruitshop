@@ -230,11 +230,18 @@
 
         // ------------------------->>>>>ROOM----DATA<<<<<-----------------------------------------------------------------------
         const roomName = 'fruit_shop_room'
+
+        console.log('-----------------------PROTOCOL---------------------------')
+        console.log(window.location.protocol)
+        console.log('---------------------------------------------------------')
         // ------------------------->>>>>BUY-FRUITS-LOGIC<<<<<-----------------------------------------------------------------------
 
+        var fruit_socket_schema = window.location.protocol == "https:" ? "wss" : "ws";
         const fruitShopSocket = new WebSocket(
-            'wss://'
-            + window.location.host
+            // 'wss://'
+            fruit_socket_schema + '://' +
+            window.location.host
+            // '127.0.0.1'
             + '/ws/fruitshop_app/'
         );
 
@@ -329,8 +336,9 @@
     // ------------------------->>>>>END---------BUY-FRUITS-LOGIC<<<<<----------------------------------------------------------
 
     // ------------------------->>>>>CHANGE---BALLANCE--AND---LAST----OPERATIONS-LOGIC<<<<<----------------------------------------------------------
+    var change_account_socket_schema = window.location.protocol == "https:" ? "wss" : "ws";
     const changeAccountSocket = new WebSocket(
-            'wss://'
+            change_account_socket_schema + '://'
             + window.location.host
             + '/ws/change_ballance/'
         );
@@ -371,9 +379,9 @@
     }
 
     // ------------------------------------------------------------------------------------------------------------------
-                
+    var get_last_operaions_socket_schema = window.location.protocol == "https:" ? "wss" : "ws";
     const getAccountAndLastOperationsDataSocket = new WebSocket(
-            'wss://'
+            get_last_operaions_socket_schema + '://'
             + window.location.host
             + '/ws/get_account_and_last_operaions_data/'
         );
@@ -407,9 +415,9 @@
     // ------------------------->>>>>END-----CHANGE---BALLANCE--AND---LAST----OPERATIONS-LOGIC<<<<<--------------------------------
 
     // ------------------------->>>>>Chat--With--TECH---SUPPORT<<<<<<<<<<<<<-------------------------------------------------------
-
+    var chat_with_techsupport_socket_schema = window.location.protocol == "https:" ? "wss" : "ws";
     const chatWithTechSupportSocket = new WebSocket(
-            'wss://'
+        chat_with_techsupport_socket_schema + '://'
             + window.location.host
             + '/ws/chat_with_tech_support/'
         );
@@ -493,8 +501,9 @@
     // ------------------------->>>>>END-------Chat--With--TECH---SUPPORT<<<<<<<<<<<<<---------------------------------------------
     // ------------------------->>>>>>>>>CONDUCT_AN_ACCOUNTING_AUDIT----LOGIC<<<<--------------------------------------------------
 
+    var account_audit_socket_schema = window.location.protocol == "https:" ? "wss" : "ws";
     const getAccounAuditSocket = new WebSocket(
-            'wss://'
+        account_audit_socket_schema + '://'
             + window.location.host
             + '/ws/get_account_audit/'
         );
