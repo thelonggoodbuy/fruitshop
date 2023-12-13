@@ -160,11 +160,14 @@ REDIS_HOST = env("REDIS_HOST")
 
 REDIS_URL = env("REDIS_URL")
 CHANNEL_LAYERS = {
+    
     "default": {
         "BACKEND": "channels_redis.core.RedisChannelLayer",
         "CONFIG": {
-            "hosts": [(REDIS_HOST, 6379)],
-            # "hosts": [REDIS_URL],
+            "hosts":[{
+            "address": REDIS_URL,  # "REDIS_TLS_URL"
+            "ssl_cert_reqs": None,
+        }]
         },
     },
 }
