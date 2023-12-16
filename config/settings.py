@@ -53,7 +53,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    "debug_toolbar",
+    # "debug_toolbar",
     "django_celery_beat",
 ]
 
@@ -159,6 +159,19 @@ REDIS_HOST = env("REDIS_HOST")
 
 
 REDIS_URL = env("REDIS_URL")
+# CHANNEL_LAYERS = {
+    
+#     "default": {
+#         "BACKEND": "channels_redis.core.RedisChannelLayer",
+#         "CONFIG": {
+#             "hosts": [(REDIS_HOST, 6379)],
+#             "ssl_cert_reqs": None,
+#             # "hosts": [REDIS_URL],
+#         },
+#     },
+# }
+
+
 CHANNEL_LAYERS = {
     
     "default": {
@@ -172,7 +185,6 @@ CHANNEL_LAYERS = {
     },
 }
 
-  
 
 # CELERY_BROKER_URL = "redis://localhost:6379/0"
 # CELERY_RESULT_BACKEND = "redis://localhost:6379/1"
