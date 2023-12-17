@@ -502,6 +502,11 @@
     // ------------------------->>>>>>>>>CONDUCT_AN_ACCOUNTING_AUDIT----LOGIC<<<<--------------------------------------------------
 
     var account_audit_socket_schema = window.location.protocol == "https:" ? "wss" : "ws";
+
+    console.log('------------ACCOUNT------AUDIT------HOST-------')
+    console.log(window.location.host)
+    console.log('----END-----ACCOUNT------AUDIT------HOST-------')
+
     const getAccounAuditSocket = new WebSocket(
         account_audit_socket_schema + '://'
             + window.location.host
