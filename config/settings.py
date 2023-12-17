@@ -176,7 +176,7 @@ CHANNEL_LAYERS = {
     
     "default": {
         # "BACKEND": "channels_redis.core.RedisChannelLayer",
-        "BACKEND": "channels_redis.core.RedisPubSubChannelLayer",
+        "BACKEND": "channels_redis.pubsub.RedisPubSubChannelLayer",
         "CONFIG": {
             "hosts":[{
             "address": REDIS_URL,  # "REDIS_TLS_URL"
