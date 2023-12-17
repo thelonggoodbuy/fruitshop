@@ -221,15 +221,21 @@ from config.celery import app
 import pprint
 from celery.utils.nodenames import gethostname
 
+
+
 class AccountAuditConsumer(WebsocketConsumer):
     def connect(self):
+        print('1---------AccountAuditConsumer---------')
         self.room_name = 'chat_account_audit'
+        print('2---------AccountAuditConsumer---------')
         self.room_group_name = f"group_{self.room_name}"
-
+        print('3---------AccountAuditConsumer---------')
         async_to_sync(self.channel_layer.group_add)(
             self.room_group_name, self.channel_name
-        )        
+        )       
+        print('4---------AccountAuditConsumer---------') 
         self.accept()
+        print('5---------AccountAuditConsumer---------') 
 
 
     def disconnect(self, close_code):
