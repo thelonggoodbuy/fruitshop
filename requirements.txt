@@ -720,7 +720,7 @@ watchfiles==0.21.0 ; python_full_version == "3.10.13" \
 wcwidth==0.2.9 ; python_full_version == "3.10.13" \
     --hash=sha256:9a929bd8380f6cd9571a968a9c8f4353ca58d7cd812a4822bba831f8d685b223 \
     --hash=sha256:a675d1a4a2d24ef67096a04b85b02deeecd8e226f57b5e3a72dbb9ed99d27da8
-websockets==12.0 ; python_full_version == "3.10.13" \
+websockets==10.1 ; python_full_version == "3.10.13" \
     --hash=sha256:00700340c6c7ab788f176d118775202aadea7602c5cc6be6ae127761c16d6b0b \
     --hash=sha256:0bee75f400895aef54157b36ed6d3b308fcab62e5260703add87f44cee9c82a6 \
     --hash=sha256:0e6e2711d5a8e6e482cacb927a49a3d432345dfe7dea8ace7b5790df5932e4df \
