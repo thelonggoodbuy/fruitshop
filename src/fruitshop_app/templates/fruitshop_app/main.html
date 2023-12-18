@@ -231,9 +231,9 @@
         // ------------------------->>>>>ROOM----DATA<<<<<-----------------------------------------------------------------------
         const roomName = 'fruit_shop_room'
 
-        console.log('-----------------------PROTOCOL---------------------------')
-        console.log(window.location.protocol)
-        console.log('---------------------------------------------------------')
+        // console.log('-----------------------PROTOCOL---------------------------')
+        // console.log(window.location.protocol)
+        // console.log('---------------------------------------------------------')
         // ------------------------->>>>>BUY-FRUITS-LOGIC<<<<<-----------------------------------------------------------------------
 
         var fruit_socket_schema = window.location.protocol == "https:" ? "wss" : "ws";
@@ -288,9 +288,9 @@
                 // console.log(fruit_in_store)
                 // console.log('-------------------')
                 fruit_in_store_obj = document.querySelector('#quantity_' + fruit_type)
-                console.log('*******')
-                console.log(fruit_in_store_obj)
-                console.log('******')
+                // console.log('*******')
+                // console.log(fruit_in_store_obj)
+                // console.log('******')
                 fruit_in_store_obj.innerHTML = fruit_in_store
             } else {
                 console.log('Fail!!!')
@@ -346,6 +346,9 @@
     var allChangeAccountButtons = document.querySelectorAll('[id$="_change_account"]')
     Array.from(allChangeAccountButtons).forEach(change_account_button => {
         change_account_button.addEventListener('click', function(event){
+            console.log('-----------------------------')
+            console.log('change data in account')
+            console.log('-----------------------------')
             var change_summ_input = document.getElementById('change_account_summ')
             var change_account_summ = change_summ_input.value
             if(change_account_button.id == 'top_up_change_account' && change_account_summ != ''){
@@ -365,6 +368,9 @@
     })
 
     changeAccountSocket.onmessage = function(e){
+        console.log('--------------------')
+        console.log('return!!!!')
+        console.log('--------------------')
         var data = JSON.parse(e.data)
         var account_data = document.getElementById('total_money_in_accout')
 
